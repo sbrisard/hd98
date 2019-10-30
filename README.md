@@ -13,3 +13,13 @@ Halm, D., & Dragon, A. (1998). An anisotropic model of damage and frictional sli
 Two components need to be installed: the C library itself, and the
 python bindings (wich are based on ctypes, since performance is not
 critical – only one function is called to update the whole grid).
+
+For the C library, the [Meson build system](https://mesonbuild.com/)
+is used
+
+```
+cd src
+meson build
+cd build
+ninja
+```
