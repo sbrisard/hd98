@@ -1,0 +1,2 @@
+# hd98
+Implementation of the damage model of Halm and Dragon (1998)
