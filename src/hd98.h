@@ -18,13 +18,13 @@
 
 /* General material model. */
 
-typedef struct Material Material;
+typedef struct Material_ Material;
 
 typedef void material_free_t(Material *);
 typedef void material_update_t(Material *, double *, double *, double *,
                                double *, double *, double *);
 
-struct Material {
+struct Material_ {
   material_free_t *free;
   material_update_t *update;
 };
@@ -32,7 +32,7 @@ struct Material {
 /* Hooke's model. */
 
 typedef struct Hooke {
-  struct Material;
+  struct Material_;
   double lambda;
   double mu;
   double *C;
@@ -43,7 +43,7 @@ DllExport Hooke *hooke_new(double, double);
 /* Model of Halm and Dragon (1998). */
 
 typedef struct HalmDragon1998 {
-  struct Material;
+  struct Material_;
   double lambda;
   double mu;
   double alpha; /* Should be > 0 (opposite convention to Xianda's paper. */

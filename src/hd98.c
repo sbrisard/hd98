@@ -1,4 +1,4 @@
-#include <hd98.h>
+#include "hd98.h"
 
 void hooke_free(Hooke* mat) {
   free(mat->C);
