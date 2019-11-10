@@ -1,3 +1,9 @@
+#include <math.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "hd98.h"
 
 void hooke_free(Hooke* mat) {
