@@ -1,6 +1,6 @@
 #include <hd98.h>
 
-void hd98_test_hydrostatic_strain() {
+void test_hd98_proportional_strain() {
   FILE* f = fopen("test.csv", "w");
   HalmDragon1998* mat = halm_dragon_1998_new_default();
   double eps_max = 2.5e-3;
@@ -98,6 +98,6 @@ void test_global_update() {
 }
 
 int main(int argc, char** argv) {
-  hd98_test_hydrostatic_strain();
+  test_hd98_proportional_strain();
   test_global_update();
 }
