@@ -9,8 +9,8 @@
 
 #include <stdint.h>
 
-#define DIM 3
-#define SYM 6
+#define HD98_DIM 3
+#define HD98_SYM 6
 
 /* General material model. */
 
