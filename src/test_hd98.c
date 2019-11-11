@@ -43,7 +43,7 @@ void test_hd98_proportional_strain(double const *eps_dot) {
     eps_dot_H_eps_dot += eps_dot[i] * H_eps_dot[i];
   }
 
-  double t_damage = sqrt(2. * k0*M_SQRT2 / eps_dot_H_eps_dot);
+  double t_damage = sqrt(2. * k0 * M_SQRT2 / eps_dot_H_eps_dot);
   double t_max = 2.0 * t_damage;
   size_t num_increments = 10;
 
@@ -113,7 +113,7 @@ void test_hd98_setup_tests() {
 }
 
 void test_global_update() {
-  MaterialType **mat = malloc(2 * sizeof(MaterialType *));
+  Material **mat = malloc(2 * sizeof(Material *));
   mat[0] = halm_dragon_1998_new_default();
   double kappa1 = 76700.;
   double mu1 = 41600.;

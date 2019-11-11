@@ -75,8 +75,8 @@ typedef struct HD98_HalmDragon1998Data_ {
 } HD98_HalmDragon1998Data;
 
 void hd98_halm_dragon_1998_free(Material *mat) {
-    free(mat->data);
-    free(mat);
+  free(mat->data);
+  free(mat);
 }
 
 void halm_dragon_1998_update(Material *mat, double *delta_eps, double *eps1,
@@ -177,19 +177,20 @@ Material *halm_dragon_1998_new_default() {
 }
 
 void global_update(size_t n, double *delta_eps, double *eps1, double *omega1,
-                   uint8_t *phase, MaterialType **mat, double *sig2,
-                   double *omega2, double *C2) {
+                   uint8_t *phase, Material **mat, double *sig2, double *omega2,
+                   double *C2) {
   double *delta_eps_i = delta_eps;
   double *eps1_i = eps1;
   double *omega1_i = omega1;
-  MaterialType *mat_i;
+  Material *mat_i;
   double *sig2_i = sig2;
   double *omega2_i = omega2;
   double *C2_i = C2;
 
   for (size_t i = 0; i < n; i++) {
     mat_i = mat[phase[i]];
-    mat_i->update(mat_i, delta_eps_i, eps1_i, omega1_i, sig2_i, omega2_i, C2_i);
+    mat_i->type->update(mat_i, delta_eps_i, eps1_i, omega1_i, sig2_i, omega2_i,
+                        C2_i);
 
     delta_eps_i += HD98_SYM;
     eps1_i += HD98_SYM;
