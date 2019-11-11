@@ -13,7 +13,8 @@ void assert_array_equal(size_t size, double *actual, double *expected,
   }
 }
 
-void test_hd98_proportional_strain(double const *eps_dot) {
+void test_hd98_proportional_strain(gconstpointer data) {
+  double const *eps_dot = data;
   double atol = 1e-15;
   double rtol = 1e-15;
 
