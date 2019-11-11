@@ -12,14 +12,14 @@ typedef struct HD98_HookeData_ {
   double *C;
 } HD98_HookeData;
 
-void hooke_free(Hooke *mat) {
+void hooke_free(Material *mat) {
   HD98_HookeData *data = mat->data;
   free(data->C);
   free(data);
   free(mat);
 }
 
-void hooke_update(Hooke *mat, double *delta_eps, double *eps1, double *unused1,
+void hooke_update(Material *mat, double *delta_eps, double *eps1, double *unused1,
                   double *sig2, double *unused2, double *C2) {
   double eps2[HD98_SYM];
   HD98_HookeData *data = mat->data;
@@ -41,7 +41,9 @@ void hooke_update(Hooke *mat, double *delta_eps, double *eps1, double *unused1,
   }
 }
 
-Hooke *hooke_new(double lambda, double mu) {
+MaterialType const Hooke = {.free = hooke_free, .update = hooke_update};
+
+Material *hooke_new(double lambda, double mu) {
   HD98_HookeData *data = malloc(sizeof(HD98_HookeData));
   data->lambda = lambda;
   data->mu = mu;
@@ -57,9 +59,8 @@ Hooke *hooke_new(double lambda, double mu) {
       ++C_ij;
     }
   }
-  Hooke *hooke = malloc(sizeof(Hooke));
-  hooke->free = hooke_free;
-  hooke->update = hooke_update;
+  Material *hooke = malloc(sizeof(Material));
+  hooke->type = &Hooke;
   hooke->data = data;
   return hooke;
 }

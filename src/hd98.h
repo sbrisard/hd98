@@ -27,12 +27,12 @@ struct MaterialType_ {
 
 /* Hooke's model. */
 
-typedef struct Hooke {
-  struct MaterialType_;
+typedef struct Material_ {
+  MaterialType const *type;
   void *data;
-} Hooke;
+} Material;
 
-DllExport Hooke *hooke_new(double, double);
+DllExport Material *hooke_new(double, double);
 
 /* Model of Halm and Dragon (1998). */
 
