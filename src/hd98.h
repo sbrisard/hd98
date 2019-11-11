@@ -38,12 +38,7 @@ DllExport Hooke *hooke_new(double, double);
 
 typedef struct HalmDragon1998 {
   struct Material_;
-  double lambda;
-  double mu;
-  double alpha; /* Should be > 0 (opposite convention to Xianda's paper. */
-  double beta;
-  double k0_sqrt2;
-  double k1_sqrt2;
+  void *data;
 } HalmDragon1998;
 
 DllExport HalmDragon1998 *halm_dragon_1998_new(double, double, double, double,

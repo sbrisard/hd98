@@ -16,17 +16,26 @@ void assert_array_equal(size_t size, double *actual, double *expected,
 void test_hd98_proportional_strain(double const *eps_dot) {
   double atol = 1e-15;
   double rtol = 1e-15;
+
+  double kappa = 60700.;
+  double mu = 31300.;
+  double lambda = kappa - 2 * mu / HD98_DIM;
+  double alpha = 16000.;
+  double beta = 31000.;
+  double k0 = 0.11;
+  double k1 = 2.2;
+
   HalmDragon1998 *mat = halm_dragon_1998_new_default();
 
   double tr_eps_dot = eps_dot[0] + eps_dot[1] + eps_dot[2];
-  double C_eps_dot_h = mat->lambda * tr_eps_dot;
-  double H_eps_dot_h = 2 * mat->alpha * tr_eps_dot;
+  double C_eps_dot_h = lambda * tr_eps_dot;
+  double H_eps_dot_h = 2 * alpha * tr_eps_dot;
   double C_eps_dot[HD98_SYM];
   double H_eps_dot[HD98_SYM];
   double eps_dot_H_eps_dot = 0.;
   for (size_t i = 0; i < HD98_SYM; i++) {
-    C_eps_dot[i] = 2. * mat->mu * eps_dot[i];
-    H_eps_dot[i] = 4. * mat->beta * eps_dot[i];
+    C_eps_dot[i] = 2. * mu * eps_dot[i];
+    H_eps_dot[i] = 4. * beta * eps_dot[i];
     if (i < HD98_DIM) {
       C_eps_dot[i] += C_eps_dot_h;
       H_eps_dot[i] += H_eps_dot_h;
@@ -34,7 +43,7 @@ void test_hd98_proportional_strain(double const *eps_dot) {
     eps_dot_H_eps_dot += eps_dot[i] * H_eps_dot[i];
   }
 
-  double t_damage = sqrt(2. * mat->k0_sqrt2 / eps_dot_H_eps_dot);
+  double t_damage = sqrt(2. * k0*M_SQRT2 / eps_dot_H_eps_dot);
   double t_max = 2.0 * t_damage;
   size_t num_increments = 10;
 
@@ -55,8 +64,7 @@ void test_hd98_proportional_strain(double const *eps_dot) {
       sign[step] = 1;
       if (i == increment) {
         double const xi = increment * delta_xi;
-        omega_exp[step] =
-            (xi <= 1.) ? 0. : ((xi * xi - 1.) * mat->k0_sqrt2 / mat->k1_sqrt2);
+        omega_exp[step] = (xi <= 1.) ? 0. : ((xi * xi - 1.) * k0 / k1);
       } else {
         omega_exp[step] = omega_exp[step - 1];
       }

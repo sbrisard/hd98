@@ -64,9 +64,19 @@ Hooke *hooke_new(double lambda, double mu) {
   return hooke;
 }
 
+typedef struct HD98_HalmDragon1998Data_ {
+  double lambda;
+  double mu;
+  double alpha; /* Should be > 0 (opposite convention to Xianda's paper. */
+  double beta;
+  double k0_sqrt2;
+  double k1_sqrt2;
+} HD98_HalmDragon1998Data;
+
 void halm_dragon_1998_update(HalmDragon1998 *mat, double *delta_eps,
                              double *eps1, double *omega1, double *sig2,
                              double *omega2, double *C2) {
+  HD98_HalmDragon1998Data *data = mat->data;
   double eps2[HD98_SYM];
   for (size_t i = 0; i < HD98_SYM; i++)
     eps2[i] = eps1[i] + delta_eps[i];
@@ -75,8 +85,8 @@ void halm_dragon_1998_update(HalmDragon1998 *mat, double *delta_eps,
   for (size_t i = 0; i < HD98_DIM; i++)
     tr_eps2 += eps2[i];
 
-  double two_alpha_tr_eps2 = 2. * mat->alpha * tr_eps2;
-  double four_beta = 4. * mat->beta;
+  double two_alpha_tr_eps2 = 2. * data->alpha * tr_eps2;
+  double four_beta = 4. * data->beta;
   double H_eps2[HD98_SYM];
   for (size_t i = 0; i < HD98_SYM; i++)
     H_eps2[i] = four_beta * eps2[i];
@@ -87,25 +97,26 @@ void halm_dragon_1998_update(HalmDragon1998 *mat, double *delta_eps,
   for (size_t i = 0; i < HD98_SYM; i++)
     eps2_H_eps2 += eps2[i] * H_eps2[i];
 
-  double f_tr = 0.5 * eps2_H_eps2 - (mat->k0_sqrt2 + mat->k1_sqrt2 * omega1[0]);
+  double f_tr =
+      0.5 * eps2_H_eps2 - (data->k0_sqrt2 + data->k1_sqrt2 * omega1[0]);
 
-  double delta_omega = f_tr > 0. ? f_tr / mat->k1_sqrt2 : 0.;
+  double delta_omega = f_tr > 0. ? f_tr / data->k1_sqrt2 : 0.;
   omega2[0] = omega1[0] + delta_omega;
 
-  double lambda_tr_eps2 = mat->lambda * tr_eps2;
-  double two_mu = 2. * mat->mu;
+  double lambda_tr_eps2 = data->lambda * tr_eps2;
+  double two_mu = 2. * data->mu;
   for (size_t i = 0; i < HD98_SYM; i++)
     sig2[i] = two_mu * eps2[i] - omega2[0] * H_eps2[i];
   for (size_t i = 0; i < HD98_DIM; i++)
     sig2[i] += lambda_tr_eps2;
 
   if (C2 != NULL) {
-    double lambda_sec = mat->lambda - 2. * omega2[0] * mat->alpha;
-    double two_mu_sec = 2. * (mat->mu - 2. * omega2[0] * mat->beta);
+    double lambda_sec = data->lambda - 2. * omega2[0] * data->alpha;
+    double two_mu_sec = 2. * (data->mu - 2. * omega2[0] * data->beta);
     double *C2_ij = C2;
     if (f_tr > 0) {
       for (size_t i = 0; i < HD98_SYM; i++) {
-        double aux = -H_eps2[i] / mat->k1_sqrt2;
+        double aux = -H_eps2[i] / data->k1_sqrt2;
         for (size_t j = 0; j < HD98_SYM; j++) {
           *C2_ij = aux * H_eps2[j];
           if (i == j)
@@ -132,15 +143,17 @@ void halm_dragon_1998_update(HalmDragon1998 *mat, double *delta_eps,
 
 HalmDragon1998 *halm_dragon_1998_new(double lambda, double mu, double alpha,
                                      double beta, double k0, double k1) {
+  HD98_HalmDragon1998Data *data = malloc(sizeof(HD98_HalmDragon1998Data));
+  data->lambda = lambda;
+  data->mu = mu;
+  data->alpha = alpha;
+  data->beta = beta;
+  data->k0_sqrt2 = k0 * M_SQRT2;
+  data->k1_sqrt2 = k1 * M_SQRT2;
   HalmDragon1998 *mat = malloc(sizeof(HalmDragon1998));
-  mat->lambda = lambda;
-  mat->mu = mu;
-  mat->alpha = alpha;
-  mat->beta = beta;
-  mat->k0_sqrt2 = k0 * M_SQRT2;
-  mat->k1_sqrt2 = k1 * M_SQRT2;
   mat->free = free;
   mat->update = halm_dragon_1998_update;
+  mat->data = data;
   return mat;
 }
 
