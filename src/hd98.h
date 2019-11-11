@@ -29,9 +29,7 @@ struct Material_ {
 
 typedef struct Hooke {
   struct Material_;
-  double lambda;
-  double mu;
-  double *C;
+  void *data;
 } Hooke;
 
 DllExport Hooke *hooke_new(double, double);
