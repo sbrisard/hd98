@@ -19,8 +19,8 @@ void hooke_free(Material *mat) {
   free(mat);
 }
 
-void hooke_update(Material *mat, double *delta_eps, double *eps1, double *unused1,
-                  double *sig2, double *unused2, double *C2) {
+void hooke_update(Material *mat, double *delta_eps, double *eps1,
+                  double *unused1, double *sig2, double *unused2, double *C2) {
   double eps2[HD98_SYM];
   HD98_HookeData *data = mat->data;
   for (size_t i = 0; i < HD98_SYM; i++)
@@ -74,9 +74,14 @@ typedef struct HD98_HalmDragon1998Data_ {
   double k1_sqrt2;
 } HD98_HalmDragon1998Data;
 
-void halm_dragon_1998_update(HalmDragon1998 *mat, double *delta_eps,
-                             double *eps1, double *omega1, double *sig2,
-                             double *omega2, double *C2) {
+void hd98_halm_dragon_1998_free(Material *mat) {
+    free(mat->data);
+    free(mat);
+}
+
+void halm_dragon_1998_update(Material *mat, double *delta_eps, double *eps1,
+                             double *omega1, double *sig2, double *omega2,
+                             double *C2) {
   HD98_HalmDragon1998Data *data = mat->data;
   double eps2[HD98_SYM];
   for (size_t i = 0; i < HD98_SYM; i++)
@@ -142,8 +147,11 @@ void halm_dragon_1998_update(HalmDragon1998 *mat, double *delta_eps,
   }
 }
 
-HalmDragon1998 *halm_dragon_1998_new(double lambda, double mu, double alpha,
-                                     double beta, double k0, double k1) {
+MaterialType const HalmDragon1998 = {.free = hd98_halm_dragon_1998_free,
+                                     .update = halm_dragon_1998_update};
+
+Material *halm_dragon_1998_new(double lambda, double mu, double alpha,
+                               double beta, double k0, double k1) {
   HD98_HalmDragon1998Data *data = malloc(sizeof(HD98_HalmDragon1998Data));
   data->lambda = lambda;
   data->mu = mu;
@@ -151,14 +159,13 @@ HalmDragon1998 *halm_dragon_1998_new(double lambda, double mu, double alpha,
   data->beta = beta;
   data->k0_sqrt2 = k0 * M_SQRT2;
   data->k1_sqrt2 = k1 * M_SQRT2;
-  HalmDragon1998 *mat = malloc(sizeof(HalmDragon1998));
-  mat->free = free;
-  mat->update = halm_dragon_1998_update;
+  Material *mat = malloc(sizeof(Material));
+  mat->type = &HalmDragon1998;
   mat->data = data;
   return mat;
 }
 
-HalmDragon1998 *halm_dragon_1998_new_default() {
+Material *halm_dragon_1998_new_default() {
   double kappa = 60700.;
   double mu = 31300.;
   double alpha = 16000.;
@@ -170,8 +177,8 @@ HalmDragon1998 *halm_dragon_1998_new_default() {
 }
 
 void global_update(size_t n, double *delta_eps, double *eps1, double *omega1,
-                   uint8_t *phase, MaterialType **mat, double *sig2, double *omega2,
-                   double *C2) {
+                   uint8_t *phase, MaterialType **mat, double *sig2,
+                   double *omega2, double *C2) {
   double *delta_eps_i = delta_eps;
   double *eps1_i = eps1;
   double *omega1_i = omega1;

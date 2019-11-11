@@ -25,7 +25,7 @@ void test_hd98_proportional_strain(double const *eps_dot) {
   double k0 = 0.11;
   double k1 = 2.2;
 
-  HalmDragon1998 *mat = halm_dragon_1998_new_default();
+  Material *mat = halm_dragon_1998_new_default();
 
   double tr_eps_dot = eps_dot[0] + eps_dot[1] + eps_dot[2];
   double C_eps_dot_h = lambda * tr_eps_dot;
@@ -83,7 +83,7 @@ void test_hd98_proportional_strain(double const *eps_dot) {
     t += sign[step] * delta_t;
     double *const delta_eps = (sign[step] == 1) ? delta_eps_p : delta_eps_m;
     double omega_new;
-    mat->update(mat, delta_eps, eps, &omega, sig, &omega_new, NULL);
+    mat->type->update(mat, delta_eps, eps, &omega, sig, &omega_new, NULL);
     for (size_t i = 0; i < HD98_SYM; i++) {
       eps[i] += delta_eps[i];
     }
@@ -95,7 +95,7 @@ void test_hd98_proportional_strain(double const *eps_dot) {
     assert_array_equal(HD98_SYM, sig, sig_exp, rtol, atol);
   }
 
-  mat->free(mat);
+  mat->type->free(mat);
 }
 
 void test_hd98_setup_tests() {
