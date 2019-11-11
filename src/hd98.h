@@ -14,13 +14,13 @@
 
 /* General material model. */
 
-typedef struct Material_ Material;
+typedef struct MaterialType_ MaterialType;
 
-typedef void material_free_t(Material *);
-typedef void material_update_t(Material *, double *, double *, double *,
+typedef void material_free_t(MaterialType *);
+typedef void material_update_t(MaterialType *, double *, double *, double *,
                                double *, double *, double *);
 
-struct Material_ {
+struct MaterialType_ {
   material_free_t *free;
   material_update_t *update;
 };
@@ -28,7 +28,7 @@ struct Material_ {
 /* Hooke's model. */
 
 typedef struct Hooke {
-  struct Material_;
+  struct MaterialType_;
   void *data;
 } Hooke;
 
@@ -37,7 +37,7 @@ DllExport Hooke *hooke_new(double, double);
 /* Model of Halm and Dragon (1998). */
 
 typedef struct HalmDragon1998 {
-  struct Material_;
+  struct MaterialType_;
   void *data;
 } HalmDragon1998;
 
@@ -47,6 +47,6 @@ DllExport HalmDragon1998 *halm_dragon_1998_new(double, double, double, double,
 DllExport HalmDragon1998 *halm_dragon_1998_new_default();
 
 DllExport void global_update(size_t, double *, double *, double *, uint8_t *,
-                             Material **, double *, double *, double *);
+                             MaterialType **, double *, double *, double *);
 
 #endif

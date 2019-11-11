@@ -113,7 +113,7 @@ void test_hd98_setup_tests() {
 }
 
 void test_global_update() {
-  Material **mat = malloc(2 * sizeof(Material *));
+  MaterialType **mat = malloc(2 * sizeof(MaterialType *));
   mat[0] = halm_dragon_1998_new_default();
   double kappa1 = 76700.;
   double mu1 = 41600.;
