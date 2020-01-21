@@ -1,6 +1,5 @@
 #include <math.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -19,8 +18,13 @@ void hooke_free(Material *mat) {
   free(mat);
 }
 
-void hooke_update(Material *mat, double *delta_eps, double *eps1,
-                  double *unused1, double *sig2, double *unused2, double *C2) {
+void hooke_update(Material const *mat,
+                  double const *delta_eps,
+                  double const *eps1,
+                  double const *unused1,
+                  double *sig2,
+                  double *unused2,
+                  double *C2) {
   double eps2[HD98_SYM];
   HD98_HookeData *data = mat->data;
   for (size_t i = 0; i < HD98_SYM; i++)
@@ -79,8 +83,12 @@ void hd98_halm_dragon_1998_free(Material *mat) {
   free(mat);
 }
 
-void halm_dragon_1998_update(Material *mat, double *delta_eps, double *eps1,
-                             double *omega1, double *sig2, double *omega2,
+void halm_dragon_1998_update(Material const *mat,
+                             double const *delta_eps,
+                             double const *eps1,
+                             double const *omega1,
+                             double *sig2,
+                             double *omega2,
                              double *C2) {
   HD98_HalmDragon1998Data *data = mat->data;
   double eps2[HD98_SYM];
@@ -148,7 +156,7 @@ void halm_dragon_1998_update(Material *mat, double *delta_eps, double *eps1,
 }
 
 MaterialType const HalmDragon1998 = {.free = hd98_halm_dragon_1998_free,
-                                     .update = halm_dragon_1998_update};
+    .update = halm_dragon_1998_update};
 
 Material *halm_dragon_1998_new(double lambda, double mu, double alpha,
                                double beta, double k0, double k1) {
@@ -176,13 +184,19 @@ Material *halm_dragon_1998_new_default() {
                               k1);
 }
 
-void global_update(size_t n, double *delta_eps, double *eps1, double *omega1,
-                   uint8_t *phase, Material **mat, double *sig2, double *omega2,
+void global_update(size_t n,
+                   double const *delta_eps,
+                   double const *eps1,
+                   double const *omega1,
+                   uint8_t const *phase,
+                   Material **mat,
+                   double *sig2,
+                   double *omega2,
                    double *C2) {
-  double *delta_eps_i = delta_eps;
-  double *eps1_i = eps1;
-  double *omega1_i = omega1;
-  Material *mat_i;
+  double const *delta_eps_i = delta_eps;
+  double const *eps1_i = eps1;
+  double const *omega1_i = omega1;
+  Material const *mat_i;
   double *sig2_i = sig2;
   double *omega2_i = omega2;
   double *C2_i = C2;

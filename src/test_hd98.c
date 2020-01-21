@@ -48,7 +48,7 @@ void test_hd98_proportional_strain(gconstpointer data) {
   double t_max = 2.0 * t_damage;
   size_t num_increments = 10;
 
-  double delta_t = t_max / (double)num_increments;
+  double delta_t = t_max / (double) num_increments;
   double delta_xi = delta_t / t_damage;
   double delta_eps_p[HD98_SYM], delta_eps_m[HD98_SYM];
   for (size_t i = 0; i < HD98_SYM; i++) {
@@ -118,12 +118,12 @@ void test_global_update() {
   mat[0] = halm_dragon_1998_new_default();
   double kappa1 = 76700.;
   double mu1 = 41600.;
-  mat[1] = hooke_new(kappa1 - 2 * mu1 / (double)HD98_DIM, mu1);
+  mat[1] = hooke_new(kappa1 - 2 * mu1 / (double) HD98_DIM, mu1);
 
   size_t n = 10;
   uint8_t *phase = malloc(n * sizeof(size_t));
   for (size_t i = 0; i < n; i++)
-    phase[i] = i % 2;
+    phase[i] = (uint8_t) (i % 2);
 
   double *delta_eps = calloc(n * HD98_SYM, sizeof(double));
   double *eps1 = calloc(n * HD98_SYM, sizeof(double));

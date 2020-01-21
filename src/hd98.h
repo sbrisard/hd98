@@ -16,8 +16,9 @@ typedef struct MaterialType_ MaterialType;
 typedef struct Material_ Material;
 
 typedef void material_free_t(Material *);
-typedef void material_update_t(Material *, double *, double *, double *,
-                               double *, double *, double *);
+typedef void material_update_t
+    (Material const *, double const *, double const *, double const *,
+     double *, double *, double *);
 
 struct MaterialType_ {
   material_free_t *free;
@@ -36,7 +37,14 @@ DllExport Material *halm_dragon_1998_new(double, double, double, double, double,
 
 DllExport Material *halm_dragon_1998_new_default();
 
-DllExport void global_update(size_t, double *, double *, double *, uint8_t *,
-                             Material **, double *, double *, double *);
+DllExport void global_update(size_t,
+                             double const *,
+                             double const *,
+                             double const *,
+                             uint8_t const *,
+                             Material **,
+                             double *,
+                             double *,
+                             double *);
 
 #endif
