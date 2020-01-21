@@ -48,7 +48,7 @@ void test_hd98_proportional_strain(gconstpointer data) {
   double t_max = 2.0 * t_damage;
   size_t num_increments = 10;
 
-  double delta_t = t_max / (double) num_increments;
+  double delta_t = t_max / (double)num_increments;
   double delta_xi = delta_t / t_damage;
   double delta_eps_p[HD98_SYM], delta_eps_m[HD98_SYM];
   for (size_t i = 0; i < HD98_SYM; i++) {
@@ -99,6 +99,60 @@ void test_hd98_proportional_strain(gconstpointer data) {
   mat->type->free(mat);
 }
 
+void test_hd98_global_update() {
+  Material **mat = malloc(2 * sizeof(Material *));
+  mat[0] = halm_dragon_1998_new_default();
+  double kappa1 = 76700.;
+  double mu1 = 41600.;
+  mat[1] = hooke_new(kappa1 - 2 * mu1 / (double)HD98_DIM, mu1);
+
+  size_t n = 10;
+  uint8_t *phase = malloc(n * sizeof(size_t));
+  for (size_t i = 0; i < n; i++) phase[i] = (uint8_t)(i % 2);
+
+  double *delta_eps = calloc(n * HD98_SYM, sizeof(double));
+  double *eps1 = calloc(n * HD98_SYM, sizeof(double));
+  double *omega1 = calloc(n, sizeof(double));
+
+  double *sig2_act = calloc(n * HD98_SYM, sizeof(double));
+  double *omega2_act = calloc(n, sizeof(double));
+  double *C2_act = calloc(n * HD98_SYM * HD98_SYM, sizeof(double));
+
+  double *sig2_exp = calloc(n * HD98_SYM, sizeof(double));
+  double *omega2_exp = calloc(n, sizeof(double));
+  double *C2_exp = calloc(n * HD98_SYM * HD98_SYM, sizeof(double));
+
+  for (size_t i = 0; i < n; i++) {
+    eps1[HD98_SYM * i] = 1.e-4 * i;
+    omega1[i] = ((double)i) / ((double)(n - 1)) * 0.4;
+  }
+
+  global_update(n, delta_eps, eps1, omega1, phase, mat, sig2_act, omega2_act,
+                C2_act);
+  for (size_t i = 0; i < n; i++) {
+    Material *mat_i = mat[phase[i]];
+    mat_i->type->update(mat_i, delta_eps + HD98_SYM * i, eps1 + HD98_SYM * i,
+                        omega1 + i, sig2_exp + HD98_SYM * i, omega2_exp + i,
+                        C2_exp + HD98_SYM * HD98_SYM * i);
+  }
+
+  assert_array_equal(n * HD98_SYM, sig2_act, sig2_exp, 1e-15, 1e-15);
+  assert_array_equal(n, omega2_act, omega2_exp, 1e-15, 1e-15);
+  assert_array_equal(n * HD98_SYM * HD98_SYM, C2_act, C2_exp, 1e-15, 1e-15);
+
+  free(C2_exp);
+  free(omega2_exp);
+  free(sig2_exp);
+  free(C2_act);
+  free(omega2_act);
+  free(sig2_act);
+  free(omega1);
+  free(eps1);
+  free(delta_eps);
+  free(phase);
+  free(mat);
+}
+
 void test_hd98_setup_tests() {
   double *eps1 = g_new(double, HD98_SYM);
   double *eps2 = g_new(double, HD98_SYM);
@@ -111,57 +165,10 @@ void test_hd98_setup_tests() {
                             test_hd98_proportional_strain, g_free);
   g_test_add_data_func_full("/HalmDragon1998/strain-driven/deviatoric", eps2,
                             test_hd98_proportional_strain, g_free);
-}
-
-void test_global_update() {
-  Material **mat = malloc(2 * sizeof(Material *));
-  mat[0] = halm_dragon_1998_new_default();
-  double kappa1 = 76700.;
-  double mu1 = 41600.;
-  mat[1] = hooke_new(kappa1 - 2 * mu1 / (double) HD98_DIM, mu1);
-
-  size_t n = 10;
-  uint8_t *phase = malloc(n * sizeof(size_t));
-  for (size_t i = 0; i < n; i++)
-    phase[i] = (uint8_t) (i % 2);
-
-  double *delta_eps = calloc(n * HD98_SYM, sizeof(double));
-  double *eps1 = calloc(n * HD98_SYM, sizeof(double));
-  double *omega1 = calloc(n, sizeof(double));
-  double *sig2 = calloc(n * HD98_SYM, sizeof(double));
-  double *omega2 = calloc(n, sizeof(double));
-  double *C2 = calloc(n * HD98_SYM * HD98_SYM, sizeof(double));
-
-  for (size_t i = 0; i < n; i++) {
-    omega1[i] = 0.;
-    omega2[i] = 0.;
-  }
-
-  global_update(n, delta_eps, eps1, omega1, phase, mat, sig2, omega2, C2);
-  double *C2_ijk = C2;
-  for (size_t i = 0; i < n; i++) {
-    for (size_t j = 0; j < HD98_SYM; j++) {
-      for (size_t k = 0; k < HD98_SYM; k++) {
-        printf("%g\t", *C2_ijk);
-        ++C2_ijk;
-      }
-      printf("\n");
-    }
-  }
-
-  free(C2);
-  free(omega2);
-  free(sig2);
-  free(omega1);
-  free(eps1);
-  free(delta_eps);
-  free(phase);
-  free(mat);
+  g_test_add_func("/HalmDragon1998/global_update", test_hd98_global_update);
 }
 
 int main(int argc, char **argv) {
-  /* test_hd98_proportional_strain(); */
-  /* test_global_update(); */
   g_test_init(&argc, &argv, NULL);
   test_hd98_setup_tests();
   return g_test_run();
