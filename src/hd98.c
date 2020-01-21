@@ -11,20 +11,20 @@ typedef struct HD98_HookeData_ {
   double *C;
 } HD98_HookeData;
 
-void hooke_free(Material *mat) {
+void hd98_hooke_free(Material *mat) {
   HD98_HookeData *data = mat->data;
   free(data->C);
   free(data);
   free(mat);
 }
 
-void hooke_update(Material const *mat,
-                  double const *delta_eps,
-                  double const *eps1,
-                  double const *unused1,
-                  double *sig2,
-                  double *unused2,
-                  double *C2) {
+void hd98_hooke_update(Material const *mat,
+                       double const *delta_eps,
+                       double const *eps1,
+                       double const *unused1,
+                       double *sig2,
+                       double *unused2,
+                       double *C2) {
   double eps2[HD98_SYM];
   HD98_HookeData *data = mat->data;
   for (size_t i = 0; i < HD98_SYM; i++)
@@ -45,9 +45,9 @@ void hooke_update(Material const *mat,
   }
 }
 
-MaterialType const Hooke = {.free = hooke_free, .update = hooke_update};
+MaterialType const Hooke = {.free = hd98_hooke_free, .update = hd98_hooke_update};
 
-Material *hooke_new(double lambda, double mu) {
+Material *hd98_hooke_new(double lambda, double mu) {
   HD98_HookeData *data = malloc(sizeof(HD98_HookeData));
   data->lambda = lambda;
   data->mu = mu;
@@ -83,13 +83,13 @@ void hd98_halm_dragon_1998_free(Material *mat) {
   free(mat);
 }
 
-void halm_dragon_1998_update(Material const *mat,
-                             double const *delta_eps,
-                             double const *eps1,
-                             double const *omega1,
-                             double *sig2,
-                             double *omega2,
-                             double *C2) {
+void hd98_halm_dragon_1998_update(Material const *mat,
+                                  double const *delta_eps,
+                                  double const *eps1,
+                                  double const *omega1,
+                                  double *sig2,
+                                  double *omega2,
+                                  double *C2) {
   HD98_HalmDragon1998Data *data = mat->data;
   double eps2[HD98_SYM];
   for (size_t i = 0; i < HD98_SYM; i++)
@@ -156,10 +156,10 @@ void halm_dragon_1998_update(Material const *mat,
 }
 
 MaterialType const HalmDragon1998 = {.free = hd98_halm_dragon_1998_free,
-    .update = halm_dragon_1998_update};
+    .update = hd98_halm_dragon_1998_update};
 
-Material *halm_dragon_1998_new(double lambda, double mu, double alpha,
-                               double beta, double k0, double k1) {
+Material *hd98_halm_dragon_1998_new(double lambda, double mu, double alpha,
+                                    double beta, double k0, double k1) {
   HD98_HalmDragon1998Data *data = malloc(sizeof(HD98_HalmDragon1998Data));
   data->lambda = lambda;
   data->mu = mu;
@@ -173,26 +173,30 @@ Material *halm_dragon_1998_new(double lambda, double mu, double alpha,
   return mat;
 }
 
-Material *halm_dragon_1998_new_default() {
+Material *hd98_halm_dragon_1998_new_default() {
   double kappa = 60700.;
   double mu = 31300.;
   double alpha = 16000.;
   double beta = 31000.;
   double k0 = 0.11;
   double k1 = 2.2;
-  return halm_dragon_1998_new(kappa - 2 * mu / HD98_DIM, mu, alpha, beta, k0,
-                              k1);
+  return hd98_halm_dragon_1998_new(kappa - 2 * mu / HD98_DIM,
+                                   mu,
+                                   alpha,
+                                   beta,
+                                   k0,
+                                   k1);
 }
 
-void global_update(size_t n,
-                   double const *delta_eps,
-                   double const *eps1,
-                   double const *omega1,
-                   uint8_t const *phase,
-                   Material **mat,
-                   double *sig2,
-                   double *omega2,
-                   double *C2) {
+void hd98_global_update(size_t n,
+                        double const *delta_eps,
+                        double const *eps1,
+                        double const *omega1,
+                        uint8_t const *phase,
+                        Material **mat,
+                        double *sig2,
+                        double *omega2,
+                        double *C2) {
   double const *delta_eps_i = delta_eps;
   double const *eps1_i = eps1;
   double const *omega1_i = omega1;
