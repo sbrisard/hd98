@@ -13,7 +13,7 @@
 #define HD98_SYM 6
 
 typedef struct HD98_MaterialType_ HD98_MaterialType;
-typedef struct Material_ HD98_Material;
+typedef struct HD98_Material_ HD98_Material;
 
 typedef void material_free_t(HD98_Material *);
 typedef void material_update_t(HD98_Material const *, double const *, double const *,
@@ -25,7 +25,7 @@ struct HD98_MaterialType_ {
   material_update_t *update;
 };
 
-struct Material_ {
+struct HD98_Material_ {
   HD98_MaterialType const *type;
   void *data;
 };
