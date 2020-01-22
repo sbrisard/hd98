@@ -16,13 +16,13 @@ typedef struct HD98_MaterialType_ HD98_MaterialType;
 typedef struct HD98_Material_ HD98_Material;
 
 typedef void hd98_material_free_t(HD98_Material *);
-typedef void material_update_t(HD98_Material const *, double const *, double const *,
+typedef void hd98_material_update_t(HD98_Material const *, double const *, double const *,
                                double const *, double *, double *, double *);
 
 struct HD98_MaterialType_ {
   char *name;
   hd98_material_free_t *free;
-  material_update_t *update;
+  hd98_material_update_t *update;
 };
 
 struct HD98_Material_ {
