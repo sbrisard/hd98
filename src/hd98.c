@@ -37,7 +37,7 @@ void hd98_hooke_update(HD98_Material const *mat, double const *delta_eps,
   }
 }
 
-HD98_MaterialType const Hooke = {
+HD98_MaterialType const HD98_Hooke = {
     .name = "Hooke", .free = hd98_hooke_free, .update = hd98_hooke_update};
 
 HD98_Material *hd98_hooke_new(double lambda, double mu) {
@@ -55,7 +55,7 @@ HD98_Material *hd98_hooke_new(double lambda, double mu) {
     }
   }
   HD98_Material *hooke = malloc(sizeof(HD98_Material));
-  hooke->type = &Hooke;
+  hooke->type = &HD98_Hooke;
   hooke->data = data;
   return hooke;
 }
