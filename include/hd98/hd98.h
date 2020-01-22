@@ -16,8 +16,9 @@ typedef struct HD98_MaterialType_ HD98_MaterialType;
 typedef struct HD98_Material_ HD98_Material;
 
 typedef void hd98_material_free_t(HD98_Material *);
-typedef void hd98_material_update_t(HD98_Material const *, double const *, double const *,
-                               double const *, double *, double *, double *);
+typedef void hd98_material_update_t(HD98_Material const *, double const *,
+                                    double const *, double const *, double *,
+                                    double *, double *);
 
 struct HD98_MaterialType_ {
   char *name;
@@ -32,8 +33,8 @@ struct HD98_Material_ {
 
 DllExport HD98_Material *hd98_hooke_new(double, double);
 
-DllExport HD98_Material *hd98_halm_dragon_1998_new(double, double, double, double,
-                                              double, double);
+DllExport HD98_Material *hd98_halm_dragon_1998_new(double, double, double,
+                                                   double, double, double);
 
 DllExport HD98_Material *hd98_halm_dragon_1998_new_default();
 

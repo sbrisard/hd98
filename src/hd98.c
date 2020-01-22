@@ -74,9 +74,10 @@ void hd98_halm_dragon_1998_free(HD98_Material *mat) {
   free(mat);
 }
 
-void hd98_halm_dragon_1998_update(HD98_Material const *mat, double const *delta_eps,
-                                  double const *eps1, double const *omega1,
-                                  double *sig2, double *omega2, double *C2) {
+void hd98_halm_dragon_1998_update(HD98_Material const *mat,
+                                  double const *delta_eps, double const *eps1,
+                                  double const *omega1, double *sig2,
+                                  double *omega2, double *C2) {
   HD98_HalmDragon1998Data *data = mat->data;
   double eps2[HD98_SYM];
   for (size_t i = 0; i < HD98_SYM; i++) eps2[i] = eps1[i] + delta_eps[i];
@@ -132,12 +133,13 @@ void hd98_halm_dragon_1998_update(HD98_Material const *mat, double const *delta_
   }
 }
 
-HD98_MaterialType const HD98_HalmDragon1998 = {.name = "HalmDragon1998",
-                                     .free = hd98_halm_dragon_1998_free,
-                                     .update = hd98_halm_dragon_1998_update};
+HD98_MaterialType const HD98_HalmDragon1998 = {
+    .name = "HalmDragon1998",
+    .free = hd98_halm_dragon_1998_free,
+    .update = hd98_halm_dragon_1998_update};
 
 HD98_Material *hd98_halm_dragon_1998_new(double lambda, double mu, double alpha,
-                                    double beta, double k0, double k1) {
+                                         double beta, double k0, double k1) {
   HD98_HalmDragon1998Data *data = malloc(sizeof(HD98_HalmDragon1998Data));
   data->lambda = lambda;
   data->mu = mu;

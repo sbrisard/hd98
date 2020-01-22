@@ -104,11 +104,12 @@ void test_hd98_global_update() {
   mat[0] = hd98_halm_dragon_1998_new_default();
   double kappa1 = 76700.;
   double mu1 = 41600.;
-  mat[1] = hd98_hooke_new(kappa1 - 2 * mu1 / (double) HD98_DIM, mu1);
+  mat[1] = hd98_hooke_new(kappa1 - 2 * mu1 / (double)HD98_DIM, mu1);
 
   size_t n = 10;
   uint8_t *phase = malloc(n * sizeof(size_t));
-  for (size_t i = 0; i < n; i++) phase[i] = (uint8_t)(i % 2);
+  for (size_t i = 0; i < n; i++)
+    phase[i] = (uint8_t)(i % 2);
 
   double *delta_eps = calloc(n * HD98_SYM, sizeof(double));
   double *eps1 = calloc(n * HD98_SYM, sizeof(double));
@@ -127,15 +128,8 @@ void test_hd98_global_update() {
     omega1[i] = ((double)i) / ((double)(n - 1)) * 0.4;
   }
 
-  hd98_global_update(n,
-                     delta_eps,
-                     eps1,
-                     omega1,
-                     phase,
-                     mat,
-                     sig2_act,
-                     omega2_act,
-                     C2_act);
+  hd98_global_update(n, delta_eps, eps1, omega1, phase, mat, sig2_act,
+                     omega2_act, C2_act);
   for (size_t i = 0; i < n; i++) {
     HD98_Material *mat_i = mat[phase[i]];
     mat_i->type->update(mat_i, delta_eps + HD98_SYM * i, eps1 + HD98_SYM * i,
@@ -172,7 +166,8 @@ void test_hd98_setup_tests() {
                             test_hd98_proportional_strain, g_free);
   g_test_add_data_func_full("/HalmDragon1998/strain-driven/deviatoric", eps2,
                             test_hd98_proportional_strain, g_free);
-  g_test_add_func("/HalmDragon1998/hd98_global_update", test_hd98_global_update);
+  g_test_add_func("/HalmDragon1998/hd98_global_update",
+                  test_hd98_global_update);
 }
 
 int main(int argc, char **argv) {
