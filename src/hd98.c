@@ -132,7 +132,7 @@ void hd98_halm_dragon_1998_update(HD98_Material const *mat, double const *delta_
   }
 }
 
-HD98_MaterialType const HalmDragon1998 = {.name = "HalmDragon1998",
+HD98_MaterialType const HD98_HalmDragon1998 = {.name = "HalmDragon1998",
                                      .free = hd98_halm_dragon_1998_free,
                                      .update = hd98_halm_dragon_1998_update};
 
@@ -146,7 +146,7 @@ HD98_Material *hd98_halm_dragon_1998_new(double lambda, double mu, double alpha,
   data->k0_sqrt2 = k0 * M_SQRT2;
   data->k1_sqrt2 = k1 * M_SQRT2;
   HD98_Material *mat = malloc(sizeof(HD98_Material));
-  mat->type = &HalmDragon1998;
+  mat->type = &HD98_HalmDragon1998;
   mat->data = data;
   return mat;
 }
