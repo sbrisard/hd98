@@ -26,7 +26,7 @@ void test_hd98_proportional_strain(gconstpointer data) {
   double k0 = 0.11;
   double k1 = 2.2;
 
-  Material *mat = hd98_halm_dragon_1998_new_default();
+  HD98_Material *mat = hd98_halm_dragon_1998_new_default();
 
   double tr_eps_dot = eps_dot[0] + eps_dot[1] + eps_dot[2];
   double C_eps_dot_h = lambda * tr_eps_dot;
@@ -100,7 +100,7 @@ void test_hd98_proportional_strain(gconstpointer data) {
 }
 
 void test_hd98_global_update() {
-  Material **mat = malloc(2 * sizeof(Material *));
+  HD98_Material **mat = malloc(2 * sizeof(HD98_Material *));
   mat[0] = hd98_halm_dragon_1998_new_default();
   double kappa1 = 76700.;
   double mu1 = 41600.;
@@ -137,7 +137,7 @@ void test_hd98_global_update() {
                      omega2_act,
                      C2_act);
   for (size_t i = 0; i < n; i++) {
-    Material *mat_i = mat[phase[i]];
+    HD98_Material *mat_i = mat[phase[i]];
     mat_i->type->update(mat_i, delta_eps + HD98_SYM * i, eps1 + HD98_SYM * i,
                         omega1 + i, sig2_exp + HD98_SYM * i, omega2_exp + i,
                         C2_exp + HD98_SYM * HD98_SYM * i);
