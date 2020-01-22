@@ -30,7 +30,7 @@ make
 Then, to run the tests
 
 ```
-./test_hd98
+make test
 ```
 
 <!-- Local Variables: -->
