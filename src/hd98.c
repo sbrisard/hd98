@@ -37,7 +37,7 @@ void hd98_hooke_update(HD98_Material const *mat, double const *delta_eps,
   }
 }
 
-MaterialType const Hooke = {
+HD98_MaterialType const Hooke = {
     .name = "Hooke", .free = hd98_hooke_free, .update = hd98_hooke_update};
 
 HD98_Material *hd98_hooke_new(double lambda, double mu) {
@@ -132,7 +132,7 @@ void hd98_halm_dragon_1998_update(HD98_Material const *mat, double const *delta_
   }
 }
 
-MaterialType const HalmDragon1998 = {.name = "HalmDragon1998",
+HD98_MaterialType const HalmDragon1998 = {.name = "HalmDragon1998",
                                      .free = hd98_halm_dragon_1998_free,
                                      .update = hd98_halm_dragon_1998_update};
 
