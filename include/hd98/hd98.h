@@ -21,6 +21,7 @@ typedef void material_update_t
      double *, double *, double *);
 
 struct MaterialType_ {
+  char *name;
   material_free_t *free;
   material_update_t *update;
 };

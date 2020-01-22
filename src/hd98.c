@@ -18,34 +18,27 @@ void hd98_hooke_free(Material *mat) {
   free(mat);
 }
 
-void hd98_hooke_update(Material const *mat,
-                       double const *delta_eps,
-                       double const *eps1,
-                       double const *unused1,
-                       double *sig2,
-                       double *unused2,
-                       double *C2) {
+void hd98_hooke_update(Material const *mat, double const *delta_eps,
+                       double const *eps1, double const *unused1, double *sig2,
+                       double *unused2, double *C2) {
   double eps2[HD98_SYM];
   HD98_HookeData *data = mat->data;
-  for (size_t i = 0; i < HD98_SYM; i++)
-    eps2[i] = eps1[i] + delta_eps[i];
+  for (size_t i = 0; i < HD98_SYM; i++) eps2[i] = eps1[i] + delta_eps[i];
 
   double lambda_tr_eps2 = 0.;
-  for (size_t i = 0; i < HD98_DIM; i++)
-    lambda_tr_eps2 += eps2[i];
+  for (size_t i = 0; i < HD98_DIM; i++) lambda_tr_eps2 += eps2[i];
   lambda_tr_eps2 *= data->lambda;
 
   double two_mu = 2. * data->mu;
-  for (size_t i = 0; i < HD98_SYM; i++)
-    sig2[i] = two_mu * eps2[i];
-  for (size_t i = 0; i < HD98_DIM; i++)
-    sig2[i] += lambda_tr_eps2;
+  for (size_t i = 0; i < HD98_SYM; i++) sig2[i] = two_mu * eps2[i];
+  for (size_t i = 0; i < HD98_DIM; i++) sig2[i] += lambda_tr_eps2;
   if (C2) {
     memcpy(C2, data->C, HD98_SYM * HD98_SYM * sizeof(double));
   }
 }
 
-MaterialType const Hooke = {.free = hd98_hooke_free, .update = hd98_hooke_update};
+MaterialType const Hooke = {
+    .name = "Hooke", .free = hd98_hooke_free, .update = hd98_hooke_update};
 
 Material *hd98_hooke_new(double lambda, double mu) {
   HD98_HookeData *data = malloc(sizeof(HD98_HookeData));
@@ -56,10 +49,8 @@ Material *hd98_hooke_new(double lambda, double mu) {
   for (int i = 0; i < HD98_SYM; i++) {
     for (int j = 0; j < HD98_SYM; j++) {
       *C_ij = 0.;
-      if (i == j)
-        *C_ij += 2. * mu;
-      if ((i < HD98_DIM) && (j < HD98_DIM))
-        *C_ij += lambda;
+      if (i == j) *C_ij += 2. * mu;
+      if ((i < HD98_DIM) && (j < HD98_DIM)) *C_ij += lambda;
       ++C_ij;
     }
   }
@@ -83,33 +74,24 @@ void hd98_halm_dragon_1998_free(Material *mat) {
   free(mat);
 }
 
-void hd98_halm_dragon_1998_update(Material const *mat,
-                                  double const *delta_eps,
-                                  double const *eps1,
-                                  double const *omega1,
-                                  double *sig2,
-                                  double *omega2,
-                                  double *C2) {
+void hd98_halm_dragon_1998_update(Material const *mat, double const *delta_eps,
+                                  double const *eps1, double const *omega1,
+                                  double *sig2, double *omega2, double *C2) {
   HD98_HalmDragon1998Data *data = mat->data;
   double eps2[HD98_SYM];
-  for (size_t i = 0; i < HD98_SYM; i++)
-    eps2[i] = eps1[i] + delta_eps[i];
+  for (size_t i = 0; i < HD98_SYM; i++) eps2[i] = eps1[i] + delta_eps[i];
 
   double tr_eps2 = 0.;
-  for (size_t i = 0; i < HD98_DIM; i++)
-    tr_eps2 += eps2[i];
+  for (size_t i = 0; i < HD98_DIM; i++) tr_eps2 += eps2[i];
 
   double two_alpha_tr_eps2 = 2. * data->alpha * tr_eps2;
   double four_beta = 4. * data->beta;
   double H_eps2[HD98_SYM];
-  for (size_t i = 0; i < HD98_SYM; i++)
-    H_eps2[i] = four_beta * eps2[i];
-  for (size_t i = 0; i < HD98_DIM; i++)
-    H_eps2[i] += two_alpha_tr_eps2;
+  for (size_t i = 0; i < HD98_SYM; i++) H_eps2[i] = four_beta * eps2[i];
+  for (size_t i = 0; i < HD98_DIM; i++) H_eps2[i] += two_alpha_tr_eps2;
 
   double eps2_H_eps2 = 0.;
-  for (size_t i = 0; i < HD98_SYM; i++)
-    eps2_H_eps2 += eps2[i] * H_eps2[i];
+  for (size_t i = 0; i < HD98_SYM; i++) eps2_H_eps2 += eps2[i] * H_eps2[i];
 
   double f_tr =
       0.5 * eps2_H_eps2 - (data->k0_sqrt2 + data->k1_sqrt2 * omega1[0]);
@@ -121,8 +103,7 @@ void hd98_halm_dragon_1998_update(Material const *mat,
   double two_mu = 2. * data->mu;
   for (size_t i = 0; i < HD98_SYM; i++)
     sig2[i] = two_mu * eps2[i] - omega2[0] * H_eps2[i];
-  for (size_t i = 0; i < HD98_DIM; i++)
-    sig2[i] += lambda_tr_eps2;
+  for (size_t i = 0; i < HD98_DIM; i++) sig2[i] += lambda_tr_eps2;
 
   if (C2 != NULL) {
     double lambda_sec = data->lambda - 2. * omega2[0] * data->alpha;
@@ -133,10 +114,8 @@ void hd98_halm_dragon_1998_update(Material const *mat,
         double aux = -H_eps2[i] / data->k1_sqrt2;
         for (size_t j = 0; j < HD98_SYM; j++) {
           *C2_ij = aux * H_eps2[j];
-          if (i == j)
-            *C2_ij += two_mu_sec;
-          if ((i < HD98_DIM) && (j < HD98_DIM))
-            *C2_ij += lambda_sec;
+          if (i == j) *C2_ij += two_mu_sec;
+          if ((i < HD98_DIM) && (j < HD98_DIM)) *C2_ij += lambda_sec;
           ++C2_ij;
         }
       }
@@ -144,10 +123,8 @@ void hd98_halm_dragon_1998_update(Material const *mat,
       for (size_t i = 0; i < HD98_SYM; i++) {
         for (size_t j = 0; j < HD98_SYM; j++) {
           *C2_ij = 0;
-          if (i == j)
-            *C2_ij += two_mu_sec;
-          if ((i < HD98_DIM) && (j < HD98_DIM))
-            *C2_ij += lambda_sec;
+          if (i == j) *C2_ij += two_mu_sec;
+          if ((i < HD98_DIM) && (j < HD98_DIM)) *C2_ij += lambda_sec;
           ++C2_ij;
         }
       }
@@ -155,8 +132,9 @@ void hd98_halm_dragon_1998_update(Material const *mat,
   }
 }
 
-MaterialType const HalmDragon1998 = {.free = hd98_halm_dragon_1998_free,
-    .update = hd98_halm_dragon_1998_update};
+MaterialType const HalmDragon1998 = {.name = "HalmDragon1998",
+                                     .free = hd98_halm_dragon_1998_free,
+                                     .update = hd98_halm_dragon_1998_update};
 
 Material *hd98_halm_dragon_1998_new(double lambda, double mu, double alpha,
                                     double beta, double k0, double k1) {
@@ -180,22 +158,13 @@ Material *hd98_halm_dragon_1998_new_default() {
   double beta = 31000.;
   double k0 = 0.11;
   double k1 = 2.2;
-  return hd98_halm_dragon_1998_new(kappa - 2 * mu / HD98_DIM,
-                                   mu,
-                                   alpha,
-                                   beta,
-                                   k0,
-                                   k1);
+  return hd98_halm_dragon_1998_new(kappa - 2 * mu / HD98_DIM, mu, alpha, beta,
+                                   k0, k1);
 }
 
-void hd98_global_update(size_t n,
-                        double const *delta_eps,
-                        double const *eps1,
-                        double const *omega1,
-                        uint8_t const *phase,
-                        Material **mat,
-                        double *sig2,
-                        double *omega2,
+void hd98_global_update(size_t n, double const *delta_eps, double const *eps1,
+                        double const *omega1, uint8_t const *phase,
+                        Material **mat, double *sig2, double *omega2,
                         double *C2) {
   double const *delta_eps_i = delta_eps;
   double const *eps1_i = eps1;
