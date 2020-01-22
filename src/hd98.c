@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "hd98.h"
+#include "hd98/hd98.h"
 
 typedef struct HD98_HookeData_ {
   double lambda;
