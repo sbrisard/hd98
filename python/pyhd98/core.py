@@ -2,9 +2,10 @@
 
 import ctypes
 
-from ctypes import c_double, c_char_p, c_void_p
+from ctypes import c_double, c_char_p, c_size_t, c_void_p
 
 c_double_p = ctypes.POINTER(c_double)
+c_size_t_p = ctypes.POINTER(c_size_t)
 
 path = "/home/sbrisard/.local/opt/hd98/lib/libhd98.so"
 hd98 = ctypes.cdll.LoadLibrary(path)
@@ -61,3 +62,31 @@ class Material:
             omega2.ctypes.data_as(c_double_p),
             C2.ctypes.data_as(c_double_p),
         )
+
+
+hd98.hd98_global_update.argtypes = [
+    c_size_t,
+    c_double_p,
+    c_double_p,
+    c_double_p,
+    c_size_t_p,
+    c_void_p,
+    c_double_p,
+    c_double_p,
+    c_double_p,
+]
+hd98.hd98_global_update.restype = None
+
+
+def global_update(delta_eps, eps1, omega1, phase, mat, sig2, omega2, C2):
+    hd98.hd98_global_update(
+        phase.size,
+        delta_eps.ctypes.data_as(c_double_p),
+        eps1.ctypes.data_as(c_double_p),
+        omega1.ctypes.data_as(c_double_p),
+        phase.ctypes.data_as(c_size_t_p),
+        mat.ctypes.data_as(c_void_p),
+        sig2.ctypes.data_as(c_double_p),
+        omega2.ctypes.data_as(c_double_p),
+        C2.ctypes.data_as(c_double_p),
+    )
