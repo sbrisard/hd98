@@ -183,8 +183,7 @@ void hd98_global_update(size_t n, double const *delta_eps, double const *eps1,
 
     delta_eps_i += HD98_SYM;
     eps1_i += HD98_SYM;
-    ++omega1_i; /* This assumes that there is only one internal variable.
-                 */
+    ++omega1_i; /* This assumes that there is only one internal variable. */
     sig2_i += HD98_SYM;
     ++omega2_i;
     C2_i += HD98_SYM * HD98_SYM;
