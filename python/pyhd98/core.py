@@ -39,6 +39,7 @@ hd98_material_update_t = ctypes.CFUNCTYPE(
 class Material:
     def __init__(self, material_p, data_p_t):
         self._material_p = material_p
+        self._addr = ctypes.cast(material_p, c_void_p).value
         self._free = ctypes.cast(
             material_p.contents.type.contents.free, hd98_material_free_t
         )
