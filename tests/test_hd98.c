@@ -107,9 +107,9 @@ void test_hd98_global_update() {
   mat[1] = hd98_hooke_new(kappa1 - 2 * mu1 / (double)HD98_DIM, mu1);
 
   size_t n = 10;
-  uint8_t *phase = malloc(n * sizeof(size_t));
+  size_t *phase = malloc(n * sizeof(size_t));
   for (size_t i = 0; i < n; i++)
-    phase[i] = (uint8_t)(i % 2);
+    phase[i] = i % 2;
 
   double *delta_eps = calloc(n * HD98_SYM, sizeof(double));
   double *eps1 = calloc(n * HD98_SYM, sizeof(double));

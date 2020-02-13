@@ -40,7 +40,7 @@ DllExport HD98_Material *hd98_halm_dragon_1998_new_default();
 
 DllExport void hd98_global_update(size_t n, double const *delta_eps,
                                   double const *eps1, double const *omega1,
-                                  uint8_t const *phase, HD98_Material **mat,
+                                  size_t const *phase, HD98_Material **mat,
                                   double *sig2, double *omega2, double *C2);
 
 #endif
