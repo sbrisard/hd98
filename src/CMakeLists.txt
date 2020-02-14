@@ -11,5 +11,8 @@ if (MATH_LIBRARY)
   target_link_libraries(hd98 ${MATH_LIBRARY})
 endif()
 
+include(FindGSL)
+target_link_libraries(hd98 GSL::gsl)
+
 install(TARGETS hd98 LIBRARY DESTINATION lib)
 install(DIRECTORY ../include/hd98 DESTINATION include)

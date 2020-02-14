@@ -1,5 +1,8 @@
+#include <gsl/gsl_linalg.h>
 #include <math.h>
+#include <stdbool.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -188,4 +191,69 @@ void hd98_global_update(size_t n, double const *delta_eps, double const *eps1,
     ++omega2_i;
     C2_i += HD98_SYM * HD98_SYM;
   }
+}
+
+int hd98_solve_polarization_plus(HD98_Material *mat, double lambda0, double mu0,
+                                 double const *delta_tau, double const *eps1,
+                                 double const *omega1, double *delta_eps) {
+  /* TODO These values should not be hard-coded. */
+  double const atol = 1e-15;
+  double const rtol = 1e-15;
+  size_t const max_iter = 10;
+
+  /* TODO We assume here that there is only one internal variable. */
+  double omega2[1], sig1[HD98_SYM], sig2[HD98_SYM], C2[HD98_SYM * HD98_SYM];
+
+  /* A: matrix of NR iterations; b: residual; x: correction to delta_eps */
+  gsl_matrix *A = gsl_matrix_calloc(HD98_SYM, HD98_SYM);
+  gsl_vector *x = gsl_vector_calloc(HD98_SYM);
+  gsl_vector *b = gsl_vector_calloc(HD98_SYM);
+  gsl_permutation *p = gsl_permutation_alloc(HD98_SYM);
+
+  /* Compute initial stress */
+  /* TODO this should be a call to a function `current_stress`. */
+  for (size_t i = 0; i < HD98_SYM; i++) delta_eps[i] = 0.;
+  mat->type->update(mat, delta_eps, eps1, omega1, sig1, omega2, NULL);
+
+  /* Define iter outside the loop in order to be able to return an
+     error code. */
+  size_t iter = 0;
+  for (; iter <= max_iter; iter++) {
+    mat->type->update(mat, delta_eps, eps1, omega1, sig2, omega2, C2);
+    /* Compute matrix */
+    for (size_t i = 0, ij = 0; i < HD98_SYM; i++) {
+      for (size_t j = 0; j < HD98_SYM; j++, ij++) {
+        double A_ij = C2[ij];
+        if (i == j) A_ij += 2 * mu0;
+        if ((i < HD98_DIM) && (j < HD98_DIM)) A_ij += lambda0;
+        gsl_matrix_set(A, i, j, A_ij);
+      }
+    }
+    /* Compute residual */
+    double tr_delta_eps = 0;
+    for (size_t i = 0; i < HD98_DIM; i++) tr_delta_eps += delta_eps[i];
+    bool converged = true;
+    for (size_t i = 0; i < HD98_SYM; i++) {
+      double b_i = delta_tau[i] - (sig2[i] - sig1[i]) - 2 * mu0 * delta_eps[i];
+      if (i < HD98_DIM) b_i -= lambda0 * tr_delta_eps;
+      converged &= fabs(b_i) <= rtol * fabs(delta_tau[i]) + atol;
+      gsl_vector_set(b, i, b_i);
+    }
+    if (converged) break;
+    /* Compute correction */
+    int s;
+    gsl_linalg_LU_decomp(A, p, &s);
+    gsl_linalg_LU_solve(A, p, b, x);
+    /* Apply correction */
+    for (size_t i = 0; i < HD98_SYM; i++) {
+      delta_eps[i] += gsl_vector_get(x, i);
+    }
+  }
+
+  gsl_matrix_free(A);
+  gsl_vector_free(b);
+  gsl_vector_free(x);
+  gsl_permutation_free(p);
+
+  return iter > max_iter;
 }
