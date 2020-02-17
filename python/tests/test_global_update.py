@@ -37,7 +37,7 @@ def test_global_update(atol=1e-15, rtol=1e-15):
     ω2_act = np.empty_like(ω1, dtype=np.float64)
     C2_act = np.empty((n0, n1, sym, sym), dtype=np.float64)
 
-    global_update(Δε, ε1, ω1, phase, mat_addr, σ2_act, ω2_act, C2_act)
+    global_update(phase, mat_addr, Δε, ε1, ω1, σ2_act, ω2_act, C2_act)
 
     σ2_exp = np.empty((sym,), dtype=np.float64)
     # We need to create ω2 so as to be modifiable in place

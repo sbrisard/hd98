@@ -127,7 +127,7 @@ void test_hd98_global_update() {
     omega1[i] = ((double)i) / ((double)(n - 1)) * 0.4;
   }
 
-  hd98_global_update(n, delta_eps, eps1, omega1, phase, mat, sig2_act,
+  hd98_global_update(n, phase, mat, delta_eps, eps1, omega1, sig2_act,
                      omega2_act, C2_act);
   for (size_t i = 0; i < n; i++) {
     HD98_Material *mat_i = mat[phase[i]];

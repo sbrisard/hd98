@@ -66,11 +66,11 @@ class Material:
 
 hd98.hd98_global_update.argtypes = [
     c_size_t,
-    c_double_p,
-    c_double_p,
-    c_double_p,
     c_size_t_p,
     c_void_p,
+    c_double_p,
+    c_double_p,
+    c_double_p,
     c_double_p,
     c_double_p,
     c_double_p,
@@ -78,14 +78,14 @@ hd98.hd98_global_update.argtypes = [
 hd98.hd98_global_update.restype = None
 
 
-def global_update(delta_eps, eps1, omega1, phase, mat, sig2, omega2, C2):
+def global_update(phase, mat, delta_eps, eps1, omega1, sig2, omega2, C2):
     hd98.hd98_global_update(
         phase.size,
+        phase.ctypes.data_as(c_size_t_p),
+        mat.ctypes.data_as(c_void_p),
         delta_eps.ctypes.data_as(c_double_p),
         eps1.ctypes.data_as(c_double_p),
         omega1.ctypes.data_as(c_double_p),
-        phase.ctypes.data_as(c_size_t_p),
-        mat.ctypes.data_as(c_void_p),
         sig2.ctypes.data_as(c_double_p),
         omega2.ctypes.data_as(c_double_p),
         C2.ctypes.data_as(c_double_p),
