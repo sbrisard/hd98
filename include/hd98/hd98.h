@@ -32,7 +32,22 @@ struct HD98_Material_ {
   void *data;
 };
 
+typedef struct HD98_HookeData_ {
+  double lambda;
+  double mu;
+  double *C;
+} HD98_HookeData;
+
 DllExport HD98_Material *hd98_hooke_new(double, double);
+
+typedef struct HD98_HalmDragon1998Data_ {
+  double lambda;
+  double mu;
+  double alpha; /* Should be > 0 (opposite convention to Xianda's paper. */
+  double beta;
+  double k0_sqrt2;
+  double k1_sqrt2;
+} HD98_HalmDragon1998Data;
 
 DllExport HD98_Material *hd98_halm_dragon_1998_new(double, double, double,
                                                    double, double, double);

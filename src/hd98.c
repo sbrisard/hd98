@@ -8,12 +8,6 @@
 
 #include "hd98/hd98.h"
 
-typedef struct HD98_HookeData_ {
-  double lambda;
-  double mu;
-  double *C;
-} HD98_HookeData;
-
 void hd98_hooke_free(HD98_Material *mat) {
   HD98_HookeData *data = mat->data;
   free(data->C);
@@ -64,15 +58,6 @@ HD98_Material *hd98_hooke_new(double lambda, double mu) {
   hooke->data = data;
   return hooke;
 }
-
-typedef struct HD98_HalmDragon1998Data_ {
-  double lambda;
-  double mu;
-  double alpha; /* Should be > 0 (opposite convention to Xianda's paper. */
-  double beta;
-  double k0_sqrt2;
-  double k1_sqrt2;
-} HD98_HalmDragon1998Data;
 
 void hd98_halm_dragon_1998_free(HD98_Material *mat) {
   free(mat->data);
