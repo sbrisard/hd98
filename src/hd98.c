@@ -25,18 +25,16 @@ void hd98_hooke_update(HD98_Material const *mat, double const *delta_eps,
                        double const *eps1, double const *unused1, double *sig2,
                        double *unused2, double *C2) {
   HD98_HookeData *data = mat->data;
-  if (sig2) {
-    double eps2[HD98_SYM];
-    for (size_t i = 0; i < HD98_SYM; i++) eps2[i] = eps1[i] + delta_eps[i];
+  double eps2[HD98_SYM];
+  for (size_t i = 0; i < HD98_SYM; i++) eps2[i] = eps1[i] + delta_eps[i];
 
-    double lambda_tr_eps2 = 0.;
-    for (size_t i = 0; i < HD98_DIM; i++) lambda_tr_eps2 += eps2[i];
-    lambda_tr_eps2 *= data->lambda;
+  double lambda_tr_eps2 = 0.;
+  for (size_t i = 0; i < HD98_DIM; i++) lambda_tr_eps2 += eps2[i];
+  lambda_tr_eps2 *= data->lambda;
 
-    double two_mu = 2. * data->mu;
-    for (size_t i = 0; i < HD98_SYM; i++) sig2[i] = two_mu * eps2[i];
-    for (size_t i = 0; i < HD98_DIM; i++) sig2[i] += lambda_tr_eps2;
-  }
+  double two_mu = 2. * data->mu;
+  for (size_t i = 0; i < HD98_SYM; i++) sig2[i] = two_mu * eps2[i];
+  for (size_t i = 0; i < HD98_DIM; i++) sig2[i] += lambda_tr_eps2;
   if (C2) {
     memcpy(C2, data->C, HD98_SYM * HD98_SYM * sizeof(double));
   }
