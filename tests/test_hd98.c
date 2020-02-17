@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #include "hd98/hd98.h"
+#include "hd98/hooke.h"
 
 void assert_array_equal(size_t size, double *actual, double *expected,
                         double rtol, double atol) {

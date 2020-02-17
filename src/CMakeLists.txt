@@ -1,6 +1,10 @@
 find_library(MATH_LIBRARY m)
 
-add_library(hd98 SHARED hd98.c ../include/hd98/hd98.h)
+add_library(hd98 SHARED
+  hd98.c
+  hooke.c
+  ../include/hd98/hd98.h
+  ../include/hd98/hooke.h)
 
 target_include_directories(hd98 PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}../include>

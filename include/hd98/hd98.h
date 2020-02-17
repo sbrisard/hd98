@@ -32,16 +32,6 @@ struct HD98_Material_ {
   void *data;
 };
 
-typedef struct HD98_HookeData_ {
-  double lambda;
-  double mu;
-  double *C;
-} HD98_HookeData;
-
-HD98_MaterialType const HD98_Hooke;
-
-DllExport HD98_Material *hd98_hooke_new(double, double);
-
 typedef struct HD98_HalmDragon1998Data_ {
   double lambda;
   double mu;
