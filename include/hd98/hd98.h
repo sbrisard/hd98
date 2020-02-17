@@ -38,6 +38,8 @@ typedef struct HD98_HookeData_ {
   double *C;
 } HD98_HookeData;
 
+HD98_MaterialType const HD98_Hooke;
+
 DllExport HD98_Material *hd98_hooke_new(double, double);
 
 typedef struct HD98_HalmDragon1998Data_ {
@@ -48,6 +50,8 @@ typedef struct HD98_HalmDragon1998Data_ {
   double k0_sqrt2;
   double k1_sqrt2;
 } HD98_HalmDragon1998Data;
+
+HD98_MaterialType const HD98_HalmDragon1998;
 
 DllExport HD98_Material *hd98_halm_dragon_1998_new(double, double, double,
                                                    double, double, double);

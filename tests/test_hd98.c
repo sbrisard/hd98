@@ -13,6 +13,16 @@ void assert_array_equal(size_t size, double *actual, double *expected,
   }
 }
 
+void test_hooke_material_type() {
+  g_assert_cmpstr(HD98_Hooke.name, ==, "Hooke");
+  g_assert_cmpuint(HD98_Hooke.num_int_var, ==, 0);
+}
+
+void test_halm_dragon_1998_material_type() {
+  g_assert_cmpstr(HD98_HalmDragon1998.name, ==, "HalmDragon1998");
+  g_assert_cmpuint(HD98_HalmDragon1998.num_int_var, ==, 1);
+}
+
 void test_hd98_proportional_strain(gconstpointer data) {
   double const *eps_dot = data;
   double atol = 1e-15;
@@ -222,6 +232,9 @@ void test_hd98_setup_tests() {
     eps2[i] = 0.;
   }
   eps2[HD98_SYM - 1] = 1.;
+  g_test_add_func("/Hooke/HD98_MaterialType", test_hooke_material_type);
+  g_test_add_func("/HalmDragon1998/HD98_MaterialType",
+                  test_halm_dragon_1998_material_type);
   g_test_add_data_func_full("/HalmDragon1998/strain-driven/hydrostatic", eps1,
                             test_hd98_proportional_strain, g_free);
   g_test_add_data_func_full("/HalmDragon1998/strain-driven/deviatoric", eps2,
