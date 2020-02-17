@@ -2,7 +2,7 @@
 
 import ctypes
 
-from ctypes import c_double, c_char_p, c_size_t, c_void_p
+from ctypes import c_double, c_char_p, c_int, c_size_t, c_void_p
 
 c_double_p = ctypes.POINTER(c_double)
 c_size_t_p = ctypes.POINTER(c_size_t)
@@ -90,3 +90,31 @@ def global_update(delta_eps, eps1, omega1, phase, mat, sig2, omega2, C2):
         omega2.ctypes.data_as(c_double_p),
         C2.ctypes.data_as(c_double_p),
     )
+
+
+hd98.hd98_solve_polarizations_plus.argtypes = (
+    c_size_t,
+    c_size_t_p,
+    c_void_p,
+    c_double,
+    c_double,
+) + 4 * (c_double_p,)
+hd98.hd98_solve_polarizations_plus.restype = c_int
+
+
+def solve_polarizations_plus(
+    phase, mat, lambda0, mu0, delta_tau, eps1, omega1, delta_eps
+):
+    err = hd98.hd98_solve_polarizations_plus(
+        phase.size,
+        phase.ctypes.data_as(c_size_t_p),
+        mat.ctypes.data_as(c_void_p),
+        lambda0,
+        mu0,
+        delta_tau.ctypes.data_as(c_double_p),
+        eps1.ctypes.data_as(c_double_p),
+        omega1.ctypes.data_as(c_double_p),
+        delta_eps.ctypes.data_as(c_double_p),
+    )
+    if err != 0:
+        raise RuntimeError(err)

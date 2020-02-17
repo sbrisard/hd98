@@ -257,3 +257,30 @@ int hd98_solve_polarization_plus(HD98_Material *mat, double lambda0, double mu0,
 
   return iter > max_iter;
 }
+
+int hd98_solve_polarizations_plus(size_t n, size_t const *phase,
+                                  HD98_Material **mat, double lambda0,
+                                  double mu0, double const *delta_tau,
+                                  double const *eps1, double const *omega1,
+                                  double *delta_eps) {
+  double const *delta_tau_i = delta_tau;
+  double const *eps1_i = eps1;
+  double const *omega1_i = omega1;
+  HD98_Material const *mat_i;
+  double *delta_eps_i = delta_eps;
+
+  for (size_t i = 0; i < n; i++) {
+    mat_i = mat[phase[i]];
+    int err = hd98_solve_polarization_plus(mat_i, lambda0, mu0, delta_tau_i,
+                                           eps1_i, omega1_i, delta_eps_i);
+    if (err) {
+      return i;
+    }
+    delta_tau_i += HD98_SYM;
+    eps1_i += HD98_SYM;
+    ++omega1_i; /* TODO This assumes that there is only one internal variable.
+                 */
+    delta_eps_i += HD98_SYM;
+  }
+  return 0;
+}
