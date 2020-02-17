@@ -22,6 +22,7 @@ typedef void hd98_material_update_t(HD98_Material const *, double const *,
 
 struct HD98_MaterialType_ {
   char *name;
+  size_t num_int_var;
   hd98_material_free_t *free;
   hd98_material_update_t *update;
 };

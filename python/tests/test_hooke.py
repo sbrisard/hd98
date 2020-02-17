@@ -9,6 +9,8 @@ def test_hooke_data():
     lambda_ = 1.2
     mu = 3.4
     hooke = Hooke(lambda_, mu)
+    assert hooke.name == b"Hooke"
+    assert hooke.num_int_var == 0
     assert hooke.lambda_ == lambda_
     assert hooke.mu == mu
 

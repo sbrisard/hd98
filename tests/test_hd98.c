@@ -108,36 +108,47 @@ void test_hd98_global_update() {
 
   size_t n = 10;
   size_t *phase = malloc(n * sizeof(size_t));
-  for (size_t i = 0; i < n; i++) phase[i] = i % 2;
+  size_t m = 0; /* Total number of internal variables. */
+  for (size_t i = 0; i < n; i++) {
+    phase[i] = i % 2;
+    m += mat[phase[i]]->type->num_int_var;
+  }
 
   double *delta_eps = calloc(n * HD98_SYM, sizeof(double));
   double *eps1 = calloc(n * HD98_SYM, sizeof(double));
-  double *omega1 = calloc(n, sizeof(double));
+  double *omega1 = calloc(m, sizeof(double));
 
   double *sig2_act = calloc(n * HD98_SYM, sizeof(double));
-  double *omega2_act = calloc(n, sizeof(double));
+  double *omega2_act = calloc(m, sizeof(double));
   double *C2_act = calloc(n * HD98_SYM * HD98_SYM, sizeof(double));
 
   double *sig2_exp = calloc(n * HD98_SYM, sizeof(double));
-  double *omega2_exp = calloc(n, sizeof(double));
+  double *omega2_exp = calloc(m, sizeof(double));
   double *C2_exp = calloc(n * HD98_SYM * HD98_SYM, sizeof(double));
 
   for (size_t i = 0; i < n; i++) {
     eps1[HD98_SYM * i] = 1.e-4 * i;
-    omega1[i] = ((double)i) / ((double)(n - 1)) * 0.4;
+  }
+
+  for (size_t i = 0; i < m; i++) {
+    omega1[i] = ((double)i) / ((double)(m - 1)) * 0.4;
   }
 
   hd98_global_update(n, phase, mat, delta_eps, eps1, omega1, sig2_act,
                      omega2_act, C2_act);
+  double *omega1_i = omega1;
+  double *omega2_i = omega2_exp;
   for (size_t i = 0; i < n; i++) {
     HD98_Material *mat_i = mat[phase[i]];
     mat_i->type->update(mat_i, delta_eps + HD98_SYM * i, eps1 + HD98_SYM * i,
-                        omega1 + i, sig2_exp + HD98_SYM * i, omega2_exp + i,
+                        omega1_i, sig2_exp + HD98_SYM * i, omega2_i,
                         C2_exp + HD98_SYM * HD98_SYM * i);
+    omega1_i += mat_i->type->num_int_var;
+    omega2_i += mat_i->type->num_int_var;
   }
 
   assert_array_equal(n * HD98_SYM, sig2_act, sig2_exp, 1e-15, 1e-15);
-  assert_array_equal(n, omega2_act, omega2_exp, 1e-15, 1e-15);
+  assert_array_equal(m, omega2_act, omega2_exp, 1e-15, 1e-15);
   assert_array_equal(n * HD98_SYM * HD98_SYM, C2_act, C2_exp, 1e-15, 1e-15);
 
   free(C2_exp);

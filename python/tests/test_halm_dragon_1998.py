@@ -15,6 +15,8 @@ def test_halm_dragon_1998_data():
     k1 = 2.2
     λ = κ - 2 * μ / 3
     mat = HalmDragon1998(λ, μ, α, β, k0, k1)
+    assert mat.name == b"HalmDragon1998"
+    assert mat.num_int_var == 1
     assert mat.lambda_ == λ
     assert mat.mu == μ
     assert mat.alpha == α

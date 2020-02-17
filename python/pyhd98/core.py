@@ -12,7 +12,7 @@ hd98 = ctypes.cdll.LoadLibrary(path)
 
 
 class HD98_MaterialType(ctypes.Structure):
-    _fields_ = [("name", c_char_p), ("free", c_void_p), ("update", c_void_p)]
+    _fields_ = [("name", c_char_p), ("num_int_var", c_size_t), ("free", c_void_p), ("update", c_void_p)]
 
 
 HD98_MaterialType_p = ctypes.POINTER(HD98_MaterialType)
@@ -62,6 +62,14 @@ class Material:
             omega2.ctypes.data_as(c_double_p),
             C2.ctypes.data_as(c_double_p),
         )
+
+    @property
+    def name(self):
+        return self._material_p.contents.type.contents.name
+
+    @property
+    def num_int_var(self):
+        return self._material_p.contents.type.contents.num_int_var
 
 
 hd98.hd98_global_update.argtypes = [

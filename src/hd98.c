@@ -40,8 +40,10 @@ void hd98_hooke_update(HD98_Material const *mat, double const *delta_eps,
   }
 }
 
-HD98_MaterialType const HD98_Hooke = {
-    .name = "Hooke", .free = hd98_hooke_free, .update = hd98_hooke_update};
+HD98_MaterialType const HD98_Hooke = {.name = "Hooke",
+                                      .num_int_var = 0,
+                                      .free = hd98_hooke_free,
+                                      .update = hd98_hooke_update};
 
 HD98_Material *hd98_hooke_new(double lambda, double mu) {
   HD98_HookeData *data = malloc(sizeof(HD98_HookeData));
@@ -138,6 +140,7 @@ void hd98_halm_dragon_1998_update(HD98_Material const *mat,
 
 HD98_MaterialType const HD98_HalmDragon1998 = {
     .name = "HalmDragon1998",
+    .num_int_var = 1,
     .free = hd98_halm_dragon_1998_free,
     .update = hd98_halm_dragon_1998_update};
 
@@ -186,9 +189,9 @@ void hd98_global_update(size_t n, size_t const *phase, HD98_Material **mat,
 
     delta_eps_i += HD98_SYM;
     eps1_i += HD98_SYM;
-    ++omega1_i; /* This assumes that there is only one internal variable. */
+    omega1_i += mat_i->type->num_int_var;
     sig2_i += HD98_SYM;
-    ++omega2_i;
+    omega2_i += mat_i->type->num_int_var;
     C2_i += HD98_SYM * HD98_SYM;
   }
 }
@@ -201,8 +204,8 @@ int hd98_solve_polarization_plus(HD98_Material *mat, double lambda0, double mu0,
   double const rtol = 1e-15;
   size_t const max_iter = 10;
 
-  /* TODO We assume here that there is only one internal variable. */
-  double omega2[1], sig1[HD98_SYM], sig2[HD98_SYM], C2[HD98_SYM * HD98_SYM];
+  double omega2[mat->type->num_int_var], sig1[HD98_SYM], sig2[HD98_SYM],
+      C2[HD98_SYM * HD98_SYM];
 
   /* A: matrix of NR iterations; b: residual; x: correction to delta_eps */
   gsl_matrix *A = gsl_matrix_calloc(HD98_SYM, HD98_SYM);
@@ -278,8 +281,7 @@ int hd98_solve_polarizations_plus(size_t n, size_t const *phase,
     }
     delta_tau_i += HD98_SYM;
     eps1_i += HD98_SYM;
-    ++omega1_i; /* TODO This assumes that there is only one internal variable.
-                 */
+    omega1_i += mat_i->type->num_int_var;
     delta_eps_i += HD98_SYM;
   }
   return 0;
