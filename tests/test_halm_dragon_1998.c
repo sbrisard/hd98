@@ -11,14 +11,14 @@ static void test_material_type() {
 }
 
 static void test_new() {
-  double const kappa = 60700.;
-  double const mu = 31300.;
-  double const lambda = kappa - 2 * mu / HD98_DIM;
-  double const alpha = 16000.;
-  double const beta = 31000.;
-  double const k0 = 0.11;
-  double const k1 = 2.2;
-  HD98_Material const *mat =
+  double kappa = 60700.;
+  double mu = 31300.;
+  double lambda = kappa - 2 * mu / HD98_DIM;
+  double alpha = 16000.;
+  double beta = 31000.;
+  double k0 = 0.11;
+  double k1 = 2.2;
+  HD98_Material *mat =
       hd98_halm_dragon_1998_new(lambda, mu, alpha, beta, k0, k1);
   g_assert_true(mat->type == &HD98_HalmDragon1998);
   HD98_HalmDragon1998Data *data = mat->data;
@@ -49,7 +49,7 @@ static void test_current_state() {
   double sig_act[HD98_SYM], sig_exp[HD98_SYM];
   mat->type->current_state(mat, eps, omega, sig_act);
 
-  HD98_HalmDragon1998Data const *data = mat->data;
+  HD98_HalmDragon1998Data *data = mat->data;
   HD98_Material *hooke =
       hd98_hooke_new(data->lambda - 2 * omega[0] * data->alpha,
                      data->mu - 2 * omega[0] * data->beta);
@@ -106,7 +106,7 @@ static void test_update_proportional_strain(gconstpointer data) {
     for (size_t i = 1; i <= increment; i++, step++) {
       sign[step] = 1;
       if (i == increment) {
-        double const xi = increment * delta_xi;
+        double xi = increment * delta_xi;
         omega_exp[step] =
             (xi <= 1.)
                 ? 0.
@@ -127,7 +127,7 @@ static void test_update_proportional_strain(gconstpointer data) {
   double sig[HD98_SYM], sig_exp[HD98_SYM];
   for (size_t step = 0; step < num_steps; step++) {
     t += sign[step] * delta_t;
-    double *const delta_eps = (sign[step] == 1) ? delta_eps_p : delta_eps_m;
+    double *delta_eps = (sign[step] == 1) ? delta_eps_p : delta_eps_m;
     double omega_new;
     mat->type->update(mat, delta_eps, eps, &omega, sig, &omega_new, NULL);
     for (size_t i = 0; i < HD98_SYM; i++) {
