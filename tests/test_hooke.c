@@ -74,15 +74,7 @@ static void test_update() {
   for (size_t i = 0; i < HD98_SYM; i++) {
     delta_eps[i] = 1.;
     mat->type->update(mat, delta_eps, eps1, NULL, sig2_act, NULL, C2_act);
-    for (size_t j = 0; j < HD98_SYM; j++) {
-      sig2_exp[j] = 0.;
-    }
-    sig2_exp[i] = 2 * data->mu * delta_eps[i];
-    if (i < HD98_DIM) {
-      for (size_t j = 0; j < HD98_DIM; j++) {
-        sig2_exp[j] += data->lambda;
-      }
-    }
+    mat->type->current_state(mat, delta_eps, NULL, sig2_exp);
     assert_array_equal(HD98_SYM, sig2_act, sig2_exp, 1e-15, 1e-15);
     assert_array_equal(HD98_SYM * HD98_SYM, C2_act, C2_exp, 1e-15, 1e-15);
     delta_eps[i] = 0.;
