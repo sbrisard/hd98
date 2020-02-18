@@ -13,34 +13,33 @@ void setup_halm_dragon_1998_tests();
 void assert_array_equal(size_t size, double const *actual,
                         double const *expected, double rtol, double atol) {
   for (size_t i = 0; i < size; i++) {
-    double const err = fabs(actual[i] - expected[i]);
-    double const tol = atol + rtol * fabs(expected[i]);
+    double err = fabs(actual[i] - expected[i]);
+    double tol = atol + rtol * fabs(expected[i]);
     g_assert_cmpfloat(err, <=, tol);
   }
 }
 
 static HD98_Material *hooke_new_default() {
-  double const kappa = 76700.;
-  double const mu = 41600.;
+  double kappa = 76700.;
+  double mu = 41600.;
   return hd98_hooke_new(kappa - 2 * mu / HD98_DIM, mu);
 }
 
 static HD98_Material *halm_dragon_1998_new_default() {
-  double const kappa = 60700.;
-  double const mu = 31300.;
-  double const lambda = kappa - 2 * mu / HD98_DIM;
-  double const alpha = 16000.;
-  double const beta = 31000.;
-  double const k0 = 0.11;
-  double const k1 = 2.2;
+  double kappa = 60700.;
+  double mu = 31300.;
+  double lambda = kappa - 2 * mu / HD98_DIM;
+  double alpha = 16000.;
+  double beta = 31000.;
+  double k0 = 0.11;
+  double k1 = 2.2;
   return hd98_halm_dragon_1998_new(lambda, mu, alpha, beta, k0, k1);
 }
 
 static void test_global_update() {
-  HD98_Material const
-      *mat[] = {halm_dragon_1998_new_default(), hooke_new_default()};
+  HD98_Material *mat[] = {halm_dragon_1998_new_default(), hooke_new_default()};
 
-  size_t const n = 10;
+  size_t n = 10;
   size_t phase[n];
   size_t m = 0; /* Total number of internal variables */
   for (size_t i = 0; i < n; i++) {
@@ -64,7 +63,7 @@ static void test_global_update() {
     eps1[HD98_SYM * i] = 1.e-4 * i;
   }
   for (size_t i = 0; i < m; i++) {
-    omega1[i] = ((double) i) / ((double) (m - 1)) * 0.4;
+    omega1[i] = ((double)i) / ((double)(m - 1)) * 0.4;
   }
 
   hd98_global_update(n, phase, mat, delta_eps, eps1, omega1, sig2_act,
@@ -72,7 +71,7 @@ static void test_global_update() {
   double *omega1_i = omega1;
   double *omega2_i = omega2_exp;
   for (size_t i = 0; i < n; i++) {
-    HD98_Material const *mat_i = mat[phase[i]];
+    HD98_Material *mat_i = mat[phase[i]];
     mat_i->type->update(mat_i, delta_eps + HD98_SYM * i, eps1 + HD98_SYM * i,
                         omega1_i, sig2_exp + HD98_SYM * i, omega2_i,
                         C2_exp + HD98_SYM * HD98_SYM * i);
@@ -86,25 +85,25 @@ static void test_global_update() {
 }
 
 static void test_solve_polarization_plus() {
-  double const atol = 1e-15;
-  double const rtol = 1e-15;
+  double atol = 1e-15;
+  double rtol = 1e-15;
 
-  HD98_Material const *mat = halm_dragon_1998_new_default();
+  HD98_Material *mat = halm_dragon_1998_new_default();
 
-  double const mu0 = 10000;
-  double const nu0 = 0.3;
-  double const lambda0 = 2 * mu0 * nu0 / (1 - 2 * nu0);
+  double mu0 = 10000;
+  double nu0 = 0.3;
+  double lambda0 = 2 * mu0 * nu0 / (1 - 2 * nu0);
 
-  double const eps1[] = {0., 0., 0., 0., 0., 1e-3};
-  double const omega1[] = {0.3};
+  double eps1[] = {0., 0., 0., 0., 0., 1e-3};
+  double omega1[] = {0.3};
 
-  double const O[] = {0., 0., 0., 0., 0., 0.};
+  double O[] = {0., 0., 0., 0., 0., 0.};
   double sig1[HD98_SYM];
   double unused[1];
   /* TODO this should be a call to a function `current_stress`. */
   mat->type->update(mat, O, eps1, omega1, sig1, unused, NULL);
 
-  double const delta_eps[] = {1e-4, -2e-4, 3e-4, -4e-4, 5e-4, -6e-4};
+  double delta_eps[] = {1e-4, -2e-4, 3e-4, -4e-4, 5e-4, -6e-4};
   double sig2[HD98_SYM];
   double omega2[1];
   mat->type->update(mat, delta_eps, eps1, omega1, sig2, omega2, NULL);
