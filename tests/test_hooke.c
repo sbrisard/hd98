@@ -9,9 +9,9 @@ static void test_material_type() {
 }
 
 static void test_new() {
-  double const mu = 1.2;
-  double const nu = 0.3;
-  double const lambda = 2 * mu * nu / (1 - 2 * nu);
+  double mu = 1.2;
+  double nu = 0.3;
+  double lambda = 2 * mu * nu / (1 - 2 * nu);
   HD98_Material *mat = hd98_hooke_new(lambda, mu);
   g_assert_true(mat->type == &HD98_Hooke);
   HD98_HookeData *data = mat->data;
@@ -20,15 +20,15 @@ static void test_new() {
 }
 
 static HD98_Material *hooke_new_default() {
-  double const mu = 1.2;
-  double const nu = 0.3;
-  double const lambda = 2 * mu * nu / (1 - 2 * nu);
+  double mu = 1.2;
+  double nu = 0.3;
+  double lambda = 2 * mu * nu / (1 - 2 * nu);
   return hd98_hooke_new(lambda, mu);
 }
 
 static void test_current_state() {
-  HD98_Material const *mat = hooke_new_default();
-  HD98_HookeData const *data = mat->data;
+  HD98_Material *mat = hooke_new_default();
+  HD98_HookeData *data = mat->data;
   double eps[HD98_SYM], sig_act[HD98_SYM], sig_exp[HD98_SYM];
   for (size_t i = 0; i < HD98_SYM; i++) {
     eps[i] = 0.;
@@ -51,8 +51,8 @@ static void test_current_state() {
 }
 
 static void test_update() {
-  HD98_Material const *mat = hooke_new_default();
-  HD98_HookeData const *data = mat->data;
+  HD98_Material *mat = hooke_new_default();
+  HD98_HookeData *data = mat->data;
   double eps1[HD98_SYM];
   double delta_eps[HD98_SYM];
   double sig2_act[HD98_SYM];
