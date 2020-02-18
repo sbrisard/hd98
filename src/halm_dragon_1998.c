@@ -12,8 +12,8 @@ static void halm_dragon_1998_current_state(HD98_Material const *mat,
                                            double const *eps,
                                            double const *omega, double *sig) {
   HD98_HalmDragon1998Data *data = mat->data;
-  double const lambda = data->lambda - 2 * data->alpha * omega[0];
-  double const two_mu = 2 * data->mu - 4 * data->beta * omega[0];
+  double lambda = data->lambda - 2 * data->alpha * omega[0];
+  double two_mu = 2 * data->mu - 4 * data->beta * omega[0];
   double lambda_tr_eps = 0.;
   for (size_t i = 0; i < HD98_DIM; i++) {
     lambda_tr_eps += eps[i];
