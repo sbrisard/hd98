@@ -10,6 +10,23 @@ void hd98_hooke_free(HD98_Material *mat) {
   free(mat);
 }
 
+void hd98_hooke_current_state(HD98_Material const *mat, double const *eps,
+                              double const *unused, double *sig) {
+  HD98_HookeData *data = mat->data;
+  double lambda_tr_eps = 0.;
+  for (size_t i = 0; i < HD98_DIM; i++) {
+    lambda_tr_eps += eps[i];
+  }
+  lambda_tr_eps *= data->lambda;
+  double two_mu = 2 * data->mu;
+  for (size_t i = 0; i < HD98_DIM; i++) {
+    sig[i] = lambda_tr_eps + two_mu * eps[i];
+  }
+  for (size_t i = HD98_DIM; i < HD98_SYM; i++) {
+    sig[i] = two_mu * eps[i];
+  }
+}
+
 void hd98_hooke_update(HD98_Material const *mat, double const *delta_eps,
                        double const *eps1, double const *unused1, double *sig2,
                        double *unused2, double *C2) {
@@ -32,6 +49,7 @@ void hd98_hooke_update(HD98_Material const *mat, double const *delta_eps,
 HD98_MaterialType const HD98_Hooke = {.name = "Hooke",
                                       .niv = 0,
                                       .free = hd98_hooke_free,
+                                      .current_state = hd98_hooke_current_state,
                                       .update = hd98_hooke_update};
 
 HD98_Material *hd98_hooke_new(double lambda, double mu) {

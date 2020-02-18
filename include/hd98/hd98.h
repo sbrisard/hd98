@@ -16,6 +16,10 @@ typedef struct HD98_MaterialType_ HD98_MaterialType;
 typedef struct HD98_Material_ HD98_Material;
 
 typedef void hd98_material_free_t(HD98_Material *mat);
+typedef void hd98_material_current_state_t(HD98_Material const *mat,
+                                           double const *eps,
+                                           double const *iv,
+                                           double *sig);
 typedef void hd98_material_update_t(HD98_Material const *mat,
                                     double const *delta_eps, double const *eps1,
                                     double const *iv1, double *sig2,
@@ -25,6 +29,7 @@ struct HD98_MaterialType_ {
   char *name;
   size_t niv; /* Number of internal variables. */
   hd98_material_free_t *free;
+  hd98_material_current_state_t *current_state;
   hd98_material_update_t *update;
 };
 

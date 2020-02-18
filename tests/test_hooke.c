@@ -8,7 +8,7 @@ static void test_material_type() {
   g_assert_cmpuint(HD98_Hooke.niv, ==, 0);
 }
 
-static void test_new(){
+static void test_new() {
   double const mu = 1.2;
   double const nu = 0.3;
   double const lambda = 2 * mu * nu / (1 - 2 * nu);
@@ -19,11 +19,40 @@ static void test_new(){
   g_assert_cmpfloat(data->mu, ==, mu);
 }
 
-static void test_update() {
+static HD98_Material *hooke_new_default() {
   double const mu = 1.2;
   double const nu = 0.3;
   double const lambda = 2 * mu * nu / (1 - 2 * nu);
-  HD98_Material *mat = hd98_hooke_new(lambda, mu);
+  return hd98_hooke_new(lambda, mu);
+}
+
+static void test_current_state() {
+  HD98_Material const *mat = hooke_new_default();
+  HD98_HookeData const *data = mat->data;
+  double eps[HD98_SYM], sig_act[HD98_SYM], sig_exp[HD98_SYM];
+  for (size_t i = 0; i < HD98_SYM; i++) {
+    eps[i] = 0.;
+  }
+  for (size_t i = 0; i < HD98_SYM; i++) {
+    eps[i] = 1.;
+    mat->type->current_state(mat, eps, NULL, sig_act);
+    for (size_t j = 0; j < HD98_SYM; j++) {
+      sig_exp[j] = 0.;
+    }
+    sig_exp[i] = 2 * data->mu * eps[i];
+    if (i < HD98_DIM) {
+      for (size_t j = 0; j < HD98_DIM; j++) {
+        sig_exp[j] += data->lambda;
+      }
+    }
+    assert_array_equal(HD98_SYM, sig_act, sig_exp, 1e-15, 1e-15);
+    eps[i] = 0.;
+  }
+}
+
+static void test_update() {
+  HD98_Material const *mat = hooke_new_default();
+  HD98_HookeData const *data = mat->data;
   double eps1[HD98_SYM];
   double delta_eps[HD98_SYM];
   double sig2_act[HD98_SYM];
@@ -36,9 +65,9 @@ static void test_update() {
   }
   for (size_t i = 0, ij = 0; i < HD98_SYM; i++) {
     for (size_t j = 0; j < HD98_SYM; j++, ij++) {
-      C2_exp[ij] = (i < HD98_DIM) && (j < HD98_DIM) ? lambda : 0.;
+      C2_exp[ij] = (i < HD98_DIM) && (j < HD98_DIM) ? data->lambda : 0.;
       if (i == j) {
-        C2_exp[ij] += 2*mu;
+        C2_exp[ij] += 2 * data->mu;
       }
     }
   }
@@ -48,10 +77,10 @@ static void test_update() {
     for (size_t j = 0; j < HD98_SYM; j++) {
       sig2_exp[j] = 0.;
     }
-    sig2_exp[i] = 2 * mu * delta_eps[i];
+    sig2_exp[i] = 2 * data->mu * delta_eps[i];
     if (i < HD98_DIM) {
       for (size_t j = 0; j < HD98_DIM; j++) {
-        sig2_exp[j] += lambda;
+        sig2_exp[j] += data->lambda;
       }
     }
     assert_array_equal(HD98_SYM, sig2_act, sig2_exp, 1e-15, 1e-15);
@@ -63,5 +92,6 @@ static void test_update() {
 void setup_hooke_tests() {
   g_test_add_func("/Hooke/HD98_MaterialType", test_material_type);
   g_test_add_func("/Hooke/new", test_new);
+  g_test_add_func("/Hooke/current_state", test_current_state);
   g_test_add_func("/Hooke/update", test_update);
 }
