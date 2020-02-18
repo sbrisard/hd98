@@ -2,8 +2,8 @@
 #include <math.h>
 #include <stdio.h>
 
-#include "hd98/hd98.h"
 #include "hd98/halm_dragon_1998.h"
+#include "hd98/hd98.h"
 #include "hd98/hooke.h"
 
 void setup_hooke_tests();
@@ -19,14 +19,13 @@ void assert_array_equal(size_t size, double *actual, double *expected,
   }
 }
 
-static void test_hd98_global_update() {
+static void test_global_update() {
   HD98_Material **mat = malloc(2 * sizeof(HD98_Material *));
 
   double const kappa0 = 60700.;
   double const mu0 = 31300.;
   double const lambda0 = kappa0 - 2 * mu0 / HD98_DIM;
-  mat[0] =
-      hd98_halm_dragon_1998_new(lambda0, mu0, 16000., 31000., 0.11, 2.2);
+  mat[0] = hd98_halm_dragon_1998_new(lambda0, mu0, 16000., 31000., 0.11, 2.2);
   double const kappa1 = 76700.;
   double const mu1 = 41600.;
   mat[1] = hd98_hooke_new(kappa1 - 2 * mu1 / (double)HD98_DIM, mu1);
@@ -89,7 +88,7 @@ static void test_hd98_global_update() {
   free(mat);
 }
 
-static void test_hd98_solve_polarization_plus() {
+static void test_solve_polarization_plus() {
   double const atol = 1e-15;
   double const rtol = 1e-15;
 
@@ -139,17 +138,16 @@ static void test_hd98_solve_polarization_plus() {
   assert_array_equal(HD98_SYM, delta_eps_act, delta_eps, rtol, atol);
 }
 
-void test_hd98_setup_tests() {
-  g_test_add_func("/HalmDragon1998/hd98_global_update",
-                  test_hd98_global_update);
-  g_test_add_func("/HalmDragon1998/hd98_solve_polarization_plus",
-                  test_hd98_solve_polarization_plus);
+void setup_hd98_tests() {
+  g_test_add_func("/hd98/hd98_global_update", test_global_update);
+  g_test_add_func("/hd98/hd98_solve_polarization_plus",
+                  test_solve_polarization_plus);
 }
 
 int main(int argc, char **argv) {
   g_test_init(&argc, &argv, NULL);
   setup_hooke_tests();
   setup_halm_dragon_1998_tests();
-  test_hd98_setup_tests();
+  setup_hd98_tests();
   return g_test_run();
 }
