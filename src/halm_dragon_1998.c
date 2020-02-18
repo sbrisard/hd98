@@ -87,14 +87,3 @@ HD98_Material *hd98_halm_dragon_1998_new(double lambda, double mu, double alpha,
   mat->data = data;
   return mat;
 }
-
-HD98_Material *hd98_halm_dragon_1998_new_default() {
-  double kappa = 60700.;
-  double mu = 31300.;
-  double alpha = 16000.;
-  double beta = 31000.;
-  double k0 = 0.11;
-  double k1 = 2.2;
-  return hd98_halm_dragon_1998_new(kappa - 2 * mu / HD98_DIM, mu, alpha, beta,
-                                   k0, k1);
-}

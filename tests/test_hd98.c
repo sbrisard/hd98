@@ -21,9 +21,14 @@ void assert_array_equal(size_t size, double *actual, double *expected,
 
 void test_hd98_global_update() {
   HD98_Material **mat = malloc(2 * sizeof(HD98_Material *));
-  mat[0] = hd98_halm_dragon_1998_new_default();
-  double kappa1 = 76700.;
-  double mu1 = 41600.;
+
+  double const kappa0 = 60700.;
+  double const mu0 = 31300.;
+  double const lambda0 = kappa0 - 2 * mu0 / HD98_DIM;
+  mat[0] =
+      hd98_halm_dragon_1998_new(lambda0, mu0, 16000., 31000., 0.11, 2.2);
+  double const kappa1 = 76700.;
+  double const mu1 = 41600.;
   mat[1] = hd98_hooke_new(kappa1 - 2 * mu1 / (double)HD98_DIM, mu1);
 
   size_t n = 10;
