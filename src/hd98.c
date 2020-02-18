@@ -10,40 +10,39 @@
 
 void hd98_global_update(size_t n, size_t const *phase, HD98_Material **mat,
                         double const *delta_eps, double const *eps1,
-                        double const *omega1, double *sig2, double *omega2,
+                        double const *iv1, double *sig2, double *iv2,
                         double *C2) {
   double const *delta_eps_i = delta_eps;
   double const *eps1_i = eps1;
-  double const *omega1_i = omega1;
+  double const *iv1_i = iv1;
   HD98_Material const *mat_i;
   double *sig2_i = sig2;
-  double *omega2_i = omega2;
+  double *iv2_i = iv2;
   double *C2_i = C2;
 
   for (size_t i = 0; i < n; i++) {
     mat_i = mat[phase[i]];
-    mat_i->type->update(mat_i, delta_eps_i, eps1_i, omega1_i, sig2_i, omega2_i,
-                        C2_i);
+    mat_i->type->update(mat_i, delta_eps_i, eps1_i, iv1_i, sig2_i, iv2_i, C2_i);
 
     delta_eps_i += HD98_SYM;
     eps1_i += HD98_SYM;
-    omega1_i += mat_i->type->num_int_var;
+    iv1_i += mat_i->type->num_int_var;
     sig2_i += HD98_SYM;
-    omega2_i += mat_i->type->num_int_var;
+    iv2_i += mat_i->type->num_int_var;
     C2_i += HD98_SYM * HD98_SYM;
   }
 }
 
 int hd98_solve_polarization_plus(HD98_Material const *mat, double lambda0,
                                  double mu0, double const *delta_tau,
-                                 double const *eps1, double const *omega1,
+                                 double const *eps1, double const *iv1,
                                  double *delta_eps) {
   /* TODO These values should not be hard-coded. */
   double const atol = 1e-15;
   double const rtol = 1e-15;
   size_t const max_iter = 10;
 
-  double omega2[mat->type->num_int_var], sig1[HD98_SYM], sig2[HD98_SYM],
+  double iv2[mat->type->num_int_var], sig1[HD98_SYM], sig2[HD98_SYM],
       C2[HD98_SYM * HD98_SYM];
 
   /* A: matrix of NR iterations; b: residual; x: correction to delta_eps */
@@ -55,13 +54,13 @@ int hd98_solve_polarization_plus(HD98_Material const *mat, double lambda0,
   /* Compute initial stress */
   /* TODO this should be a call to a function `current_stress`. */
   for (size_t i = 0; i < HD98_SYM; i++) delta_eps[i] = 0.;
-  mat->type->update(mat, delta_eps, eps1, omega1, sig1, omega2, NULL);
+  mat->type->update(mat, delta_eps, eps1, iv1, sig1, iv2, NULL);
 
   /* Define iter outside the loop in order to be able to return an
      error code. */
   size_t iter = 0;
   for (; iter <= max_iter; iter++) {
-    mat->type->update(mat, delta_eps, eps1, omega1, sig2, omega2, C2);
+    mat->type->update(mat, delta_eps, eps1, iv1, sig2, iv2, C2);
     /* Compute matrix */
     for (size_t i = 0, ij = 0; i < HD98_SYM; i++) {
       for (size_t j = 0; j < HD98_SYM; j++, ij++) {
@@ -103,24 +102,24 @@ int hd98_solve_polarization_plus(HD98_Material const *mat, double lambda0,
 int hd98_solve_polarizations_plus(size_t n, size_t const *phase,
                                   HD98_Material const **mat, double lambda0,
                                   double mu0, double const *delta_tau,
-                                  double const *eps1, double const *omega1,
+                                  double const *eps1, double const *iv1,
                                   double *delta_eps) {
   double const *delta_tau_i = delta_tau;
   double const *eps1_i = eps1;
-  double const *omega1_i = omega1;
+  double const *iv1_i = iv1;
   HD98_Material const *mat_i;
   double *delta_eps_i = delta_eps;
 
   for (size_t i = 0; i < n; i++) {
     mat_i = mat[phase[i]];
     int err = hd98_solve_polarization_plus(mat_i, lambda0, mu0, delta_tau_i,
-                                           eps1_i, omega1_i, delta_eps_i);
+                                           eps1_i, iv1_i, delta_eps_i);
     if (err) {
       return i;
     }
     delta_tau_i += HD98_SYM;
     eps1_i += HD98_SYM;
-    omega1_i += mat_i->type->num_int_var;
+    iv1_i += mat_i->type->num_int_var;
     delta_eps_i += HD98_SYM;
   }
   return 0;

@@ -18,8 +18,8 @@ typedef struct HD98_Material_ HD98_Material;
 typedef void hd98_material_free_t(HD98_Material *mat);
 typedef void hd98_material_update_t(HD98_Material const *mat,
                                     double const *delta_eps, double const *eps1,
-                                    double const *alpha1, double *sig2,
-                                    double *alpha2, double *C2);
+                                    double const *iv1, double *sig2,
+                                    double *iv2, double *C2);
 
 struct HD98_MaterialType_ {
   char *name;
@@ -35,18 +35,18 @@ struct HD98_Material_ {
 
 DllExport void hd98_global_update(size_t n, size_t const *phase,
                                   HD98_Material **mat, double const *delta_eps,
-                                  double const *eps1, double const *omega1,
-                                  double *sig2, double *omega2, double *C2);
+                                  double const *eps1, double const *iv1,
+                                  double *sig2, double *iv2, double *C2);
 
 DllExport int hd98_solve_polarization_plus(HD98_Material const *mat,
                                            double lambda0, double mu0,
                                            double const *delta_tau,
                                            double const *eps1,
-                                           double const *omega1,
+                                           double const *iv1,
                                            double *delta_eps);
 
 DllExport int hd98_solve_polarizations_plus(
     size_t n, size_t const *phase, HD98_Material const **mat, double lambda0,
-    double mu0, double const *delta_tau, double const *eps1,
-    double const *omega1, double *delta_eps);
+    double mu0, double const *delta_tau, double const *eps1, double const *iv1,
+    double *delta_eps);
 #endif
