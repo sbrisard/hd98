@@ -8,6 +8,17 @@ void test_material_type() {
   g_assert_cmpuint(HD98_Hooke.num_int_var, ==, 0);
 }
 
+void test_new(){
+  double const mu = 1.2;
+  double const nu = 0.3;
+  double const lambda = 2 * mu * nu / (1 - 2 * nu);
+  HD98_Material *mat = hd98_hooke_new(lambda, mu);
+  g_assert_true(mat->type == &HD98_Hooke);
+  HD98_HookeData *data = mat->data;
+  g_assert_cmpfloat(data->lambda, ==, lambda);
+  g_assert_cmpfloat(data->mu, ==, mu);
+}
+
 void test_update() {
   double const mu = 1.2;
   double const nu = 0.3;
@@ -51,5 +62,6 @@ void test_update() {
 
 void setup_hooke_tests() {
   g_test_add_func("/Hooke/HD98_MaterialType", test_material_type);
+  g_test_add_func("/Hooke/new", test_new);
   g_test_add_func("/Hooke/update", test_update);
 }
