@@ -34,9 +34,10 @@ void hd98_global_update(size_t n, size_t const *phase, HD98_Material **mat,
   }
 }
 
-int hd98_solve_polarization_plus(HD98_Material *mat, double lambda0, double mu0,
-                                 double const *delta_tau, double const *eps1,
-                                 double const *omega1, double *delta_eps) {
+int hd98_solve_polarization_plus(HD98_Material const *mat, double lambda0,
+                                 double mu0, double const *delta_tau,
+                                 double const *eps1, double const *omega1,
+                                 double *delta_eps) {
   /* TODO These values should not be hard-coded. */
   double const atol = 1e-15;
   double const rtol = 1e-15;
@@ -100,7 +101,7 @@ int hd98_solve_polarization_plus(HD98_Material *mat, double lambda0, double mu0,
 }
 
 int hd98_solve_polarizations_plus(size_t n, size_t const *phase,
-                                  HD98_Material **mat, double lambda0,
+                                  HD98_Material const **mat, double lambda0,
                                   double mu0, double const *delta_tau,
                                   double const *eps1, double const *omega1,
                                   double *delta_eps) {

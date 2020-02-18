@@ -37,16 +37,15 @@ DllExport void hd98_global_update(size_t n, size_t const *phase,
                                   double const *eps1, double const *omega1,
                                   double *sig2, double *omega2, double *C2);
 
-DllExport int hd98_solve_polarization_plus(HD98_Material *mat, double lambda0,
-                                           double mu0, double const *delta_tau,
+DllExport int hd98_solve_polarization_plus(HD98_Material const *mat,
+                                           double lambda0, double mu0,
+                                           double const *delta_tau,
                                            double const *eps1,
                                            double const *omega1,
                                            double *delta_eps);
 
-DllExport int hd98_solve_polarizations_plus(size_t n, size_t const *phase,
-                                            HD98_Material **mat, double lambda0,
-                                            double mu0, double const *delta_tau,
-                                            double const *eps1,
-                                            double const *omega1,
-                                            double *delta_eps);
+DllExport int hd98_solve_polarizations_plus(
+    size_t n, size_t const *phase, HD98_Material const **mat, double lambda0,
+    double mu0, double const *delta_tau, double const *eps1,
+    double const *omega1, double *delta_eps);
 #endif
