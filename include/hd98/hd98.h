@@ -15,10 +15,11 @@
 typedef struct HD98_MaterialType_ HD98_MaterialType;
 typedef struct HD98_Material_ HD98_Material;
 
-typedef void hd98_material_free_t(HD98_Material *);
-typedef void hd98_material_update_t(HD98_Material const *, double const *,
-                                    double const *, double const *, double *,
-                                    double *, double *);
+typedef void hd98_material_free_t(HD98_Material *mat);
+typedef void hd98_material_update_t(HD98_Material const *mat,
+                                    double const *delta_eps, double const *eps1,
+                                    double const *alpha1, double *sig2,
+                                    double *alpha2, double *C2);
 
 struct HD98_MaterialType_ {
   char *name;

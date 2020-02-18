@@ -14,8 +14,9 @@ typedef struct HD98_HalmDragon1998Data_ {
 
 HD98_MaterialType const HD98_HalmDragon1998;
 
-DllExport HD98_Material *hd98_halm_dragon_1998_new(double, double, double,
-                                                   double, double, double);
+DllExport HD98_Material *hd98_halm_dragon_1998_new(double lambda, double mu,
+                                                   double alpha, double beta,
+                                                   double k0, double k1);
 
 DllExport HD98_Material *hd98_halm_dragon_1998_new_default();
 
