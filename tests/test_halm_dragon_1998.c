@@ -29,7 +29,7 @@ static void test_new() {
   g_assert_cmpfloat(data->k1_sqrt2, ==, k1 * M_SQRT2);
 }
 
-void test_hd98_proportional_strain(gconstpointer data) {
+static void test_update_proportional_strain(gconstpointer data) {
   double const *eps_dot = data;
   double atol = 1e-15;
   double rtol = 1e-15;
@@ -42,9 +42,13 @@ void test_hd98_proportional_strain(gconstpointer data) {
   double k0 = 0.11;
   double k1 = 2.2;
 
-  HD98_Material *mat = hd98_halm_dragon_1998_new_default();
+  HD98_Material *mat =
+      hd98_halm_dragon_1998_new(lambda, mu, alpha, beta, k0, k1);
 
-  double tr_eps_dot = eps_dot[0] + eps_dot[1] + eps_dot[2];
+  double tr_eps_dot = 0.;
+  for (size_t i = 0; i < HD98_DIM; i++) {
+    tr_eps_dot += eps_dot[i];
+  }
   double C_eps_dot_h = lambda * tr_eps_dot;
   double H_eps_dot_h = 2 * alpha * tr_eps_dot;
   double C_eps_dot[HD98_SYM];
@@ -126,7 +130,7 @@ void setup_halm_dragon_1998_tests() {
   g_test_add_func("/HalmDragon1998/HD98_MaterialType", test_material_type);
   g_test_add_func("/HalmDragon1998/new", test_new);
   g_test_add_data_func_full("/HalmDragon1998/update/hydrostatic", eps1,
-                            test_hd98_proportional_strain, g_free);
+                            test_update_proportional_strain, g_free);
   g_test_add_data_func_full("/HalmDragon1998/update/deviatoric", eps2,
-                            test_hd98_proportional_strain, g_free);
+                            test_update_proportional_strain, g_free);
 }
