@@ -19,7 +19,7 @@ void assert_array_equal(size_t size, double *actual, double *expected,
   }
 }
 
-void test_hd98_global_update() {
+static void test_hd98_global_update() {
   HD98_Material **mat = malloc(2 * sizeof(HD98_Material *));
 
   double const kappa0 = 60700.;
@@ -89,7 +89,7 @@ void test_hd98_global_update() {
   free(mat);
 }
 
-void test_hd98_solve_polarization_plus() {
+static void test_hd98_solve_polarization_plus() {
   double const atol = 1e-15;
   double const rtol = 1e-15;
 
