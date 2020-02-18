@@ -4,7 +4,7 @@
 #include "hd98/halm_dragon_1998.h"
 #include "test_hd98.h"
 
-void test_halm_dragon_1998_material_type() {
+void test_material_type() {
   g_assert_cmpstr(HD98_HalmDragon1998.name, ==, "HalmDragon1998");
   g_assert_cmpuint(HD98_HalmDragon1998.num_int_var, ==, 1);
 }
@@ -103,8 +103,7 @@ void setup_halm_dragon_1998_tests() {
     eps2[i] = 0.;
   }
   eps2[HD98_SYM - 1] = 1.;
-  g_test_add_func("/HalmDragon1998/HD98_MaterialType",
-                  test_halm_dragon_1998_material_type);
+  g_test_add_func("/HalmDragon1998/HD98_MaterialType", test_material_type);
   g_test_add_data_func_full("/HalmDragon1998/update/hydrostatic", eps1,
                             test_hd98_proportional_strain, g_free);
   g_test_add_data_func_full("/HalmDragon1998/update/deviatoric", eps2,
