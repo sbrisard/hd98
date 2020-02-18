@@ -40,9 +40,9 @@ int hd98_solve_polarization_plus(HD98_Material const *mat, double lambda0,
                                  double const *eps1, double const *iv1,
                                  double *delta_eps) {
   /* TODO These values should not be hard-coded. */
-  double const atol = 1e-15;
-  double const rtol = 1e-15;
-  size_t const max_iter = 10;
+  double atol = 1e-15;
+  double rtol = 1e-15;
+  size_t max_iter = 10;
 
   double iv2[mat->type->niv], sig1[HD98_SYM], sig2[HD98_SYM],
       C2[HD98_SYM * HD98_SYM];
