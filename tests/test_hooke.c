@@ -3,12 +3,12 @@
 #include "hd98/hooke.h"
 #include "test_hd98.h"
 
-void test_material_type() {
+static void test_material_type() {
   g_assert_cmpstr(HD98_Hooke.name, ==, "Hooke");
   g_assert_cmpuint(HD98_Hooke.num_int_var, ==, 0);
 }
 
-void test_new(){
+static void test_new(){
   double const mu = 1.2;
   double const nu = 0.3;
   double const lambda = 2 * mu * nu / (1 - 2 * nu);
@@ -19,7 +19,7 @@ void test_new(){
   g_assert_cmpfloat(data->mu, ==, mu);
 }
 
-void test_update() {
+static void test_update() {
   double const mu = 1.2;
   double const nu = 0.3;
   double const lambda = 2 * mu * nu / (1 - 2 * nu);
