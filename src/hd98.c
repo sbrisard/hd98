@@ -8,9 +8,14 @@
 
 #include "hd98/hd98.h"
 
-void hd98_global_update(size_t n, size_t const *phase, HD98_Material **mat,
-                        double const *delta_eps, double const *eps1,
-                        double const *iv1, double *sig2, double *iv2,
+void hd98_global_update(size_t n,
+                        size_t const *phase,
+                        HD98_Material const **mat,
+                        double const *delta_eps,
+                        double const *eps1,
+                        double const *iv1,
+                        double *sig2,
+                        double *iv2,
                         double *C2) {
   double const *delta_eps_i = delta_eps;
   double const *eps1_i = eps1;

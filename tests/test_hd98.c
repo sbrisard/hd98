@@ -37,7 +37,8 @@ static HD98_Material *halm_dragon_1998_new_default() {
 }
 
 static void test_global_update() {
-  HD98_Material *mat[] = {halm_dragon_1998_new_default(), hooke_new_default()};
+  HD98_Material const
+      *mat[] = {halm_dragon_1998_new_default(), hooke_new_default()};
 
   size_t const n = 10;
   size_t phase[n];
@@ -63,7 +64,7 @@ static void test_global_update() {
     eps1[HD98_SYM * i] = 1.e-4 * i;
   }
   for (size_t i = 0; i < m; i++) {
-    omega1[i] = ((double)i) / ((double)(m - 1)) * 0.4;
+    omega1[i] = ((double) i) / ((double) (m - 1)) * 0.4;
   }
 
   hd98_global_update(n, phase, mat, delta_eps, eps1, omega1, sig2_act,
