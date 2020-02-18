@@ -44,7 +44,7 @@ static void test_global_update() {
   size_t m = 0; /* Total number of internal variables */
   for (size_t i = 0; i < n; i++) {
     phase[i] = i % 2;
-    m += mat[phase[i]]->type->num_int_var;
+    m += mat[phase[i]]->type->niv;
   }
 
   double delta_eps[n * HD98_SYM], eps1[n * HD98_SYM], sig2_act[n * HD98_SYM];
@@ -75,8 +75,8 @@ static void test_global_update() {
     mat_i->type->update(mat_i, delta_eps + HD98_SYM * i, eps1 + HD98_SYM * i,
                         omega1_i, sig2_exp + HD98_SYM * i, omega2_i,
                         C2_exp + HD98_SYM * HD98_SYM * i);
-    omega1_i += mat_i->type->num_int_var;
-    omega2_i += mat_i->type->num_int_var;
+    omega1_i += mat_i->type->niv;
+    omega2_i += mat_i->type->niv;
   }
 
   assert_array_equal(n * HD98_SYM, sig2_act, sig2_exp, 1e-15, 1e-15);

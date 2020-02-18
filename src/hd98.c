@@ -26,9 +26,9 @@ void hd98_global_update(size_t n, size_t const *phase, HD98_Material **mat,
 
     delta_eps_i += HD98_SYM;
     eps1_i += HD98_SYM;
-    iv1_i += mat_i->type->num_int_var;
+    iv1_i += mat_i->type->niv;
     sig2_i += HD98_SYM;
-    iv2_i += mat_i->type->num_int_var;
+    iv2_i += mat_i->type->niv;
     C2_i += HD98_SYM * HD98_SYM;
   }
 }
@@ -42,7 +42,7 @@ int hd98_solve_polarization_plus(HD98_Material const *mat, double lambda0,
   double const rtol = 1e-15;
   size_t const max_iter = 10;
 
-  double iv2[mat->type->num_int_var], sig1[HD98_SYM], sig2[HD98_SYM],
+  double iv2[mat->type->niv], sig1[HD98_SYM], sig2[HD98_SYM],
       C2[HD98_SYM * HD98_SYM];
 
   /* A: matrix of NR iterations; b: residual; x: correction to delta_eps */
@@ -119,7 +119,7 @@ int hd98_solve_polarizations_plus(size_t n, size_t const *phase,
     }
     delta_tau_i += HD98_SYM;
     eps1_i += HD98_SYM;
-    iv1_i += mat_i->type->num_int_var;
+    iv1_i += mat_i->type->niv;
     delta_eps_i += HD98_SYM;
   }
   return 0;

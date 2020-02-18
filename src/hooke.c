@@ -30,7 +30,7 @@ void hd98_hooke_update(HD98_Material const *mat, double const *delta_eps,
 }
 
 HD98_MaterialType const HD98_Hooke = {.name = "Hooke",
-                                      .num_int_var = 0,
+                                      .niv = 0,
                                       .free = hd98_hooke_free,
                                       .update = hd98_hooke_update};
 

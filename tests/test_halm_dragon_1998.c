@@ -6,7 +6,7 @@
 
 static void test_material_type() {
   g_assert_cmpstr(HD98_HalmDragon1998.name, ==, "HalmDragon1998");
-  g_assert_cmpuint(HD98_HalmDragon1998.num_int_var, ==, 1);
+  g_assert_cmpuint(HD98_HalmDragon1998.niv, ==, 1);
 }
 
 static void test_new() {

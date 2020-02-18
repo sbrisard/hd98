@@ -5,7 +5,7 @@
 
 static void test_material_type() {
   g_assert_cmpstr(HD98_Hooke.name, ==, "Hooke");
-  g_assert_cmpuint(HD98_Hooke.num_int_var, ==, 0);
+  g_assert_cmpuint(HD98_Hooke.niv, ==, 0);
 }
 
 static void test_new(){

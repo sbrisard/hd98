@@ -69,7 +69,7 @@ void hd98_halm_dragon_1998_update(HD98_Material const *mat,
 
 HD98_MaterialType const HD98_HalmDragon1998 = {
     .name = "HalmDragon1998",
-    .num_int_var = 1,
+    .niv = 1,
     .free = hd98_halm_dragon_1998_free,
     .update = hd98_halm_dragon_1998_update};
 
