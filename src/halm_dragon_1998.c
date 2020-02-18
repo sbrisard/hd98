@@ -8,6 +8,25 @@ void hd98_halm_dragon_1998_free(HD98_Material *mat) {
   free(mat);
 }
 
+static void halm_dragon_1998_current_state(HD98_Material const *mat,
+                                           double const *eps,
+                                           double const *omega, double *sig) {
+  HD98_HalmDragon1998Data *data = mat->data;
+  double const lambda = data->lambda - 2 * data->alpha * omega[0];
+  double const two_mu = 2 * data->mu - 4 * data->beta * omega[0];
+  double lambda_tr_eps = 0.;
+  for (size_t i = 0; i < HD98_DIM; i++) {
+    lambda_tr_eps += eps[i];
+  }
+  lambda_tr_eps *= lambda;
+  for (size_t i = 0; i < HD98_DIM; i++) {
+    sig[i] = lambda_tr_eps + two_mu * eps[i];
+  }
+  for (size_t i = HD98_DIM; i < HD98_SYM; i++) {
+    sig[i] = two_mu * eps[i];
+  }
+}
+
 void hd98_halm_dragon_1998_update(HD98_Material const *mat,
                                   double const *delta_eps, double const *eps1,
                                   double const *omega1, double *sig2,
@@ -71,6 +90,7 @@ HD98_MaterialType const HD98_HalmDragon1998 = {
     .name = "HalmDragon1998",
     .niv = 1,
     .free = hd98_halm_dragon_1998_free,
+    .current_state = halm_dragon_1998_current_state,
     .update = hd98_halm_dragon_1998_update};
 
 HD98_Material *hd98_halm_dragon_1998_new(double lambda, double mu, double alpha,
