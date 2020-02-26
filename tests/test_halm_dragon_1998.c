@@ -18,8 +18,8 @@ static void test_new() {
   double beta = 31000.;
   double k0 = 0.11;
   double k1 = 2.2;
-  HD98_Material *mat =
-      hd98_halm_dragon_1998_new(lambda, mu, alpha, beta, k0, k1);
+  HD98_Material *mat = hd98_halm_dragon_1998_new(lambda, mu, alpha, beta, k0,
+                                                 k1, HD98_TANGENT_STIFFNESS);
   g_assert_true(mat->type == &HD98_HalmDragon1998);
   HD98_HalmDragon1998Data *data = mat->data;
   g_assert_cmpfloat(data->lambda, ==, lambda);
@@ -28,6 +28,7 @@ static void test_new() {
   g_assert_cmpfloat(data->beta, ==, beta);
   g_assert_cmpfloat(data->k0_sqrt2, ==, k0 * M_SQRT2);
   g_assert_cmpfloat(data->k1_sqrt2, ==, k1 * M_SQRT2);
+  g_assert_cmpint(data->stiffness_type, ==, HD98_TANGENT_STIFFNESS);
 }
 
 static HD98_Material *halm_dragon_1998_new_default() {
@@ -39,7 +40,8 @@ static HD98_Material *halm_dragon_1998_new_default() {
   double k0 = 0.11;
   double k1 = 2.2;
 
-  return hd98_halm_dragon_1998_new(lambda, mu, alpha, beta, k0, k1);
+  return hd98_halm_dragon_1998_new(lambda, mu, alpha, beta, k0, k1,
+                                   HD98_TANGENT_STIFFNESS);
 }
 
 static void test_current_state() {

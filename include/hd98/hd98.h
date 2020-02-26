@@ -12,6 +12,9 @@
 #define HD98_DIM 3
 #define HD98_SYM 6
 
+#define HD98_TANGENT_STIFFNESS 0
+#define HD98_SECANT_STIFFNESS 1
+
 typedef struct HD98_MaterialType_ HD98_MaterialType;
 typedef struct HD98_Material_ HD98_Material;
 

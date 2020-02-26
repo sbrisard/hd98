@@ -33,7 +33,7 @@ static HD98_Material *halm_dragon_1998_new_default() {
   double beta = 31000.;
   double k0 = 0.11;
   double k1 = 2.2;
-  return hd98_halm_dragon_1998_new(lambda, mu, alpha, beta, k0, k1);
+  return hd98_halm_dragon_1998_new(lambda, mu, alpha, beta, k0, k1, HD98_TANGENT_STIFFNESS);
 }
 
 static void test_global_update() {

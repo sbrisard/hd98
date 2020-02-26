@@ -94,7 +94,8 @@ HD98_MaterialType const HD98_HalmDragon1998 = {
     .update = halm_dragon_1998_update};
 
 HD98_Material *hd98_halm_dragon_1998_new(double lambda, double mu, double alpha,
-                                         double beta, double k0, double k1) {
+                                         double beta, double k0, double k1,
+                                         int stiffness_type) {
   HD98_HalmDragon1998Data *data = malloc(sizeof(HD98_HalmDragon1998Data));
   data->lambda = lambda;
   data->mu = mu;
@@ -102,6 +103,7 @@ HD98_Material *hd98_halm_dragon_1998_new(double lambda, double mu, double alpha,
   data->beta = beta;
   data->k0_sqrt2 = k0 * M_SQRT2;
   data->k1_sqrt2 = k1 * M_SQRT2;
+  data->stiffness_type = stiffness_type;
   HD98_Material *mat = malloc(sizeof(HD98_Material));
   mat->type = &HD98_HalmDragon1998;
   mat->data = data;
