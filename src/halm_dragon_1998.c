@@ -63,7 +63,7 @@ static void halm_dragon_1998_update(HD98_Material const *mat,
     double lambda_sec = data->lambda - 2. * omega2[0] * data->alpha;
     double two_mu_sec = 2. * (data->mu - 2. * omega2[0] * data->beta);
     double *C2_ij = C2;
-    if (f_tr > 0) {
+    if ((data->stiffness_type == HD98_TANGENT_STIFFNESS) && (f_tr > 0)) {
       for (size_t i = 0; i < HD98_SYM; i++) {
         double aux = -H_eps2[i] / data->k1_sqrt2;
         for (size_t j = 0; j < HD98_SYM; j++) {
