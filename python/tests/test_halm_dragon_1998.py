@@ -23,6 +23,7 @@ def test_halm_dragon_1998_data():
     assert mat.beta == β
     assert mat.k0_sqrt2 == k0 * np.sqrt(2)
     assert mat.k1_sqrt2 == k1 * np.sqrt(2)
+    assert mat.stiffness_type == 0
 
 
 @pytest.mark.parametrize(

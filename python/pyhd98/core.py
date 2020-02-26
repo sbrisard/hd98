@@ -12,7 +12,7 @@ hd98 = ctypes.cdll.LoadLibrary(path)
 
 
 class HD98_MaterialType(ctypes.Structure):
-    _fields_ = [("name", c_char_p), ("num_int_var", c_size_t), ("free", c_void_p), ("update", c_void_p)]
+    _fields_ = [("name", c_char_p), ("num_int_var", c_size_t), ("free", c_void_p), ("current_state", c_void_p), ("update", c_void_p)]
 
 
 HD98_MaterialType_p = ctypes.POINTER(HD98_MaterialType)
@@ -25,6 +25,7 @@ class HD98_Material(ctypes.Structure):
 HD98_Material_p = ctypes.POINTER(HD98_Material)
 
 hd98_material_free_t = ctypes.CFUNCTYPE(None, HD98_Material_p)
+hd98_material_current_state_t = ctypes.CFUNCTYPE(None, HD98_Material_p, c_double_p, c_double_p, c_double_p)
 hd98_material_update_t = ctypes.CFUNCTYPE(
     None,
     HD98_Material_p,
