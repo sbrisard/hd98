@@ -29,7 +29,7 @@ typedef void hd98_material_update_t(HD98_Material const *mat,
                                     double *iv2, double *C2);
 
 struct HD98_MaterialType_ {
-  char name[64];
+  char name[64]; /* Modify core.py if this length is altered. */
   size_t niv; /* Number of internal variables. */
   hd98_material_free_t *free;
   hd98_material_current_state_t *current_state;

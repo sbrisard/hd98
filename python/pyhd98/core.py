@@ -2,7 +2,7 @@
 
 import ctypes
 
-from ctypes import c_double, c_char_p, c_int, c_size_t, c_void_p
+from ctypes import c_double, c_char, c_int, c_size_t, c_void_p
 
 c_double_p = ctypes.POINTER(c_double)
 c_size_t_p = ctypes.POINTER(c_size_t)
@@ -12,7 +12,7 @@ hd98 = ctypes.cdll.LoadLibrary(path)
 
 
 class HD98_MaterialType(ctypes.Structure):
-    _fields_ = [("name", c_char_p), ("num_int_var", c_size_t), ("free", c_void_p), ("current_state", c_void_p), ("update", c_void_p)]
+    _fields_ = [("name", c_char * 64), ("num_int_var", c_size_t), ("free", c_void_p), ("current_state", c_void_p), ("update", c_void_p)]
 
 
 HD98_MaterialType_p = ctypes.POINTER(HD98_MaterialType)
