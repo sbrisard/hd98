@@ -9,7 +9,7 @@ typedef struct HD98_HookeData_ {
   double *C;
 } HD98_HookeData;
 
-HD98_MaterialType const HD98_Hooke;
+DllExport extern HD98_MaterialType const HD98_Hooke;
 
 DllExport HD98_Material *hd98_hooke_new(double lambda, double mu);
 

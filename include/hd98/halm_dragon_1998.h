@@ -13,7 +13,7 @@ typedef struct HD98_HalmDragon1998Data_ {
   int stiffness_type;
 } HD98_HalmDragon1998Data;
 
-HD98_MaterialType const HD98_HalmDragon1998;
+DllExport extern HD98_MaterialType const HD98_HalmDragon1998;
 
 DllExport HD98_Material *hd98_halm_dragon_1998_new(double lambda, double mu,
                                                    double alpha, double beta,
