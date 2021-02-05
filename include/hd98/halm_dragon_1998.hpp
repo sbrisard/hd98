@@ -1,5 +1,4 @@
-#ifndef __HALM_DRAGON_1998_H_20204117184143__
-#define __HALM_DRAGON_1998_H_20204117184143__
+#pragma once
 
 #include "hd98/hd98.hpp"
 
@@ -21,5 +20,3 @@ DllExport HD98_Material *hd98_halm_dragon_1998_new(double lambda, double mu,
                                                    int stiffness_type);
 
 DllExport HD98_Material *hd98_halm_dragon_1998_new_default();
-
-#endif
