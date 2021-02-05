@@ -1,25 +1,46 @@
-from setuptools import setup, find_packages
+import configparser
+import os.path
 
-setup(
-    author="Sébastien Brisard",
-    author_email='',
-    python_requires='>=3.5',
-    classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: ISC License (ISCL)',
-        'Natural Language :: English',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
-    ],
-    description="Python bindings to the hd98 library",
-    license="BSD-3",
-    keywords='pyhd98',
-    name='pyhd98',
-    packages=["pyhd98"],
-    test_suite="tests",
-    url="https://github.com/sbrisard/hd98",
-)
+import pybind11
+import setuptools
+
+
+def get_metadata(key):
+    with open(os.path.join("..", "metadata", key+".txt"), "r", encoding="utf8") as f:
+        return f.read().strip()
+
+
+if __name__ == "__main__":
+    metadata = {
+        "name": "hd98",
+        "version": get_metadata("version"),
+        "author": get_metadata("author"),
+        "author_email": "email",
+        "description": get_metadata("description"),
+        "url": get_metadata("repository"),
+    }
+
+    with open(os.path.join("..", "README.md"), "r") as f:
+        metadata["long_description"] = f.read()
+
+    config = configparser.ConfigParser()
+    config.read("setup.cfg")
+    hd98_include_dir = config["hd98"].get("include_dir", "")
+    hd98_library_dir = config["hd98"].get("library_dir", "")
+
+    hd98 = setuptools.Extension(
+        "hd98.hd98",
+        include_dirs=[pybind11.get_include(),
+                      hd98_include_dir],
+        sources=[os.path.join("hd98",
+                              "hd98.cpp")],
+        libraries=["hd98"],
+        library_dirs=[hd98_library_dir],
+    )
+
+    setuptools.setup(
+        long_description_content_type="text/markdown",
+        packages=setuptools.find_packages(),
+        ext_modules=[hd98],
+        **metadata
+    )

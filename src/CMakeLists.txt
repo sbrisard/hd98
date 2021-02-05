@@ -1,24 +1,45 @@
-find_library(MATH_LIBRARY m)
+add_compile_definitions(PROJECT_VERSION_QUOTED=\"${METADATA_VERSION}\")
+add_compile_definitions(PROJECT_AUTHOR_QUOTED=\"${METADATA_AUTHOR}\")
 
-add_library(hd98 SHARED
-  hd98.c
-  ../include/hd98/hd98.h
-  hooke.c
-  ../include/hd98/hooke.h
-  halm_dragon_1998.c
-  ../include/hd98/halm_dragon_1998.h)
+add_library(
+  ${PROJECT_NAME} SHARED
+  hd98.c halm_dragon_1998.c hooke.c)
 
-target_include_directories(hd98 PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}../include>
+target_include_directories(
+  ${PROJECT_NAME} PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
+  $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 
-target_include_directories(hd98 PUBLIC ../include)
+find_library(MATH_LIBRARY m)
 if (MATH_LIBRARY)
-  target_link_libraries(hd98 ${MATH_LIBRARY})
+  target_link_libraries(${PROJECT_NAME} ${MATH_LIBRARY})
 endif()
 
-include(FindGSL)
-target_link_libraries(hd98 GSL::gsl)
+install(
+  TARGETS ${PROJECT_NAME}
+  DESTINATION lib
+  EXPORT ${PROJECT_NAME}_targets)
 
-install(TARGETS hd98 LIBRARY DESTINATION lib)
-install(DIRECTORY ../include/hd98 DESTINATION include)
+install(
+  EXPORT ${PROJECT_NAME}_targets
+  FILE ${PROJECT_NAME}-targets.cmake
+  DESTINATION lib/cmake/${PROJECT_NAME})
+
+include(CMakePackageConfigHelpers)
+
+configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/config.cmake.in
+  "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake"
+  INSTALL_DESTINATION "lib/cmake/${PROJECT_NAME}"
+  NO_SET_AND_CHECK_MACRO
+  NO_CHECK_REQUIRED_COMPONENTS_MACRO)
+
+# write_basic_package_version_file(
+#   "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake"
+#   VERSION "${Tutorial_VERSION_MAJOR}.${Tutorial_VERSION_MINOR}"
+#   COMPATIBILITY AnyNewerVersion
+# )
+
+install(FILES
+  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake
+  DESTINATION lib/cmake/${PROJECT_NAME})

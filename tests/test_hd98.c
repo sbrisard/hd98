@@ -84,52 +84,53 @@ static void test_global_update() {
   assert_array_equal(n * HD98_SYM * HD98_SYM, C2_act, C2_exp, 1e-15, 1e-15);
 }
 
-static void test_solve_polarization_plus() {
-  double atol = 1e-15;
-  double rtol = 1e-15;
-
-  HD98_Material *mat = halm_dragon_1998_new_default();
-
-  double mu0 = 10000;
-  double nu0 = 0.3;
-  double lambda0 = 2 * mu0 * nu0 / (1 - 2 * nu0);
-
-  double eps1[] = {0., 0., 0., 0., 0., 1e-3};
-  double omega1[] = {0.3};
-
-  double O[] = {0., 0., 0., 0., 0., 0.};
-  double sig1[HD98_SYM];
-  double unused[1];
-  /* TODO this should be a call to a function `current_stress`. */
-  mat->type->update(mat, O, eps1, omega1, sig1, unused, NULL);
-
-  double delta_eps[] = {1e-4, -2e-4, 3e-4, -4e-4, 5e-4, -6e-4};
-  double sig2[HD98_SYM];
-  double omega2[1];
-  mat->type->update(mat, delta_eps, eps1, omega1, sig2, omega2, NULL);
-  double tr_delta_eps = 0.;
-  for (size_t i = 0; i < HD98_DIM; i++) {
-    tr_delta_eps += delta_eps[i];
-  }
-  double delta_tau[HD98_SYM];
-  for (size_t i = 0; i < HD98_SYM; i++) {
-    delta_tau[i] = sig2[i] - sig1[i] + 2 * mu0 * delta_eps[i];
-    if (i < HD98_DIM) {
-      delta_tau[i] += lambda0 * tr_delta_eps;
-    }
-  }
-
-  double delta_eps_act[HD98_SYM];
-  int status = hd98_solve_polarization_plus(mat, lambda0, mu0, delta_tau, eps1,
-                                            omega1, delta_eps_act);
-  g_assert_cmpint(status, ==, 0);
-  assert_array_equal(HD98_SYM, delta_eps_act, delta_eps, rtol, atol);
-}
+// static void test_solve_polarization_plus() {
+//  double atol = 1e-15;
+//  double rtol = 1e-15;
+//
+//  HD98_Material *mat = halm_dragon_1998_new_default();
+//
+//  double mu0 = 10000;
+//  double nu0 = 0.3;
+//  double lambda0 = 2 * mu0 * nu0 / (1 - 2 * nu0);
+//
+//  double eps1[] = {0., 0., 0., 0., 0., 1e-3};
+//  double omega1[] = {0.3};
+//
+//  double O[] = {0., 0., 0., 0., 0., 0.};
+//  double sig1[HD98_SYM];
+//  double unused[1];
+//  /* TODO this should be a call to a function `current_stress`. */
+//  mat->type->update(mat, O, eps1, omega1, sig1, unused, NULL);
+//
+//  double delta_eps[] = {1e-4, -2e-4, 3e-4, -4e-4, 5e-4, -6e-4};
+//  double sig2[HD98_SYM];
+//  double omega2[1];
+//  mat->type->update(mat, delta_eps, eps1, omega1, sig2, omega2, NULL);
+//  double tr_delta_eps = 0.;
+//  for (size_t i = 0; i < HD98_DIM; i++) {
+//    tr_delta_eps += delta_eps[i];
+//  }
+//  double delta_tau[HD98_SYM];
+//  for (size_t i = 0; i < HD98_SYM; i++) {
+//    delta_tau[i] = sig2[i] - sig1[i] + 2 * mu0 * delta_eps[i];
+//    if (i < HD98_DIM) {
+//      delta_tau[i] += lambda0 * tr_delta_eps;
+//    }
+//  }
+//
+//  double delta_eps_act[HD98_SYM];
+//  int status = hd98_solve_polarization_plus(mat, lambda0, mu0, delta_tau,
+//  eps1,
+//                                            omega1, delta_eps_act);
+//  g_assert_cmpint(status, ==, 0);
+//  assert_array_equal(HD98_SYM, delta_eps_act, delta_eps, rtol, atol);
+//}
 
 void setup_hd98_tests() {
   g_test_add_func("/hd98/hd98_global_update", test_global_update);
-  g_test_add_func("/hd98/hd98_solve_polarization_plus",
-                  test_solve_polarization_plus);
+//  g_test_add_func("/hd98/hd98_solve_polarization_plus",
+//                  test_solve_polarization_plus);
 }
 
 int main(int argc, char **argv) {
