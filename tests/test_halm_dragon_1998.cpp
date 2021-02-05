@@ -1,4 +1,3 @@
-#include <cmath>
 #include <cstdio>
 #include <vector>
 
@@ -6,78 +5,38 @@
 #include "hd98/hooke.hpp"
 #include "test_hd98.hpp"
 
-static void test_new() {
-  printf("HalmDragon1998/test_new...");
-  double kappa = 60700.;
-  double mu = 31300.;
-  double lambda = kappa - 2 * mu / HD98_DIM;
-  double alpha = 16000.;
-  double beta = 31000.;
-  double k0 = 0.11;
-  double k1 = 2.2;
-  HD98_Material *mat = hd98_halm_dragon_1998_new(lambda, mu, alpha, beta, k0,
-                                                 k1, HD98_TANGENT_STIFFNESS);
-  auto data = static_cast<HD98_HalmDragon1998Data *>(mat->data);
-  assert_true(data->lambda == lambda);
-  assert_true(data->mu == mu);
-  assert_true(data->alpha == alpha);
-  assert_true(data->beta == beta);
-  assert_true(data->k0_sqrt2 == k0 * M_SQRT2);
-  assert_true(data->k1_sqrt2 == k1 * M_SQRT2);
-  assert_true(data->stiffness_type == HD98_TANGENT_STIFFNESS);
-  printf(" OK\n");
-}
-
-static HD98_Material *halm_dragon_1998_new_default() {
-  double kappa = 60700.;
-  double mu = 31300.;
-  double lambda = kappa - 2 * mu / HD98_DIM;
-  double alpha = 16000.;
-  double beta = 31000.;
-  double k0 = 0.11;
-  double k1 = 2.2;
-
-  return hd98_halm_dragon_1998_new(lambda, mu, alpha, beta, k0, k1,
-                                   HD98_TANGENT_STIFFNESS);
-}
-
-static void test_current_state() {
+static void test_current_state(HalmDragon1998 const &mat) {
   printf("HalmDragon1998/test_current_state...");
-  HD98_Material *mat = halm_dragon_1998_new_default();
   double eps[] = {1.2, -3.4, 5.6, -7.8, 9., -10.11};
   double omega[] = {0.4};
   double sig_act[HD98_SYM], sig_exp[HD98_SYM];
-  mat->type->current_state(mat, eps, omega, sig_act);
+  mat.current_state(eps, omega, sig_act);
 
-  auto data = static_cast<HD98_HalmDragon1998Data *>(mat->data);
-  hd98::Hooke hooke{data->lambda - 2 * omega[0] * data->alpha,
-                    data->mu - 2 * omega[0] * data->beta};
+  hd98::Hooke hooke{mat.lambda - 2 * omega[0] * mat.alpha,
+                    mat.mu - 2 * omega[0] * mat.beta};
   hooke.current_state(eps, NULL, sig_exp);
   assert_array_equal(HD98_SYM, sig_act, sig_exp, 1e-15, 1e-15);
-  mat->type->free(mat);
   printf(" OK\n");
 }
 
-static void test_update_proportional_strain(double const *eps_dot) {
+static void test_update_proportional_strain(HalmDragon1998 const &mat,
+                                            double const *eps_dot) {
   printf("HalmDragon1998/test_update_proportional_strain...");
   double atol = 1e-15;
   double rtol = 1e-15;
-
-  HD98_Material *mat = halm_dragon_1998_new_default();
-  auto mat_data = static_cast<HD98_HalmDragon1998Data *>(mat->data);
 
   double tr_eps_dot = 0.;
   for (size_t i = 0; i < HD98_DIM; i++) {
     tr_eps_dot += eps_dot[i];
   }
-  double C_eps_dot_h = mat_data->lambda * tr_eps_dot;
-  double H_eps_dot_h = 2 * mat_data->alpha * tr_eps_dot;
+  double C_eps_dot_h = mat.lambda * tr_eps_dot;
+  double H_eps_dot_h = 2 * mat.alpha * tr_eps_dot;
   double C_eps_dot[HD98_SYM];
   double H_eps_dot[HD98_SYM];
   double eps_dot_H_eps_dot = 0.;
   for (size_t i = 0; i < HD98_SYM; i++) {
-    C_eps_dot[i] = 2 * mat_data->mu * eps_dot[i];
-    H_eps_dot[i] = 4 * mat_data->beta * eps_dot[i];
+    C_eps_dot[i] = 2 * mat.mu * eps_dot[i];
+    H_eps_dot[i] = 4 * mat.beta * eps_dot[i];
     if (i < HD98_DIM) {
       C_eps_dot[i] += C_eps_dot_h;
       H_eps_dot[i] += H_eps_dot_h;
@@ -85,7 +44,7 @@ static void test_update_proportional_strain(double const *eps_dot) {
     eps_dot_H_eps_dot += eps_dot[i] * H_eps_dot[i];
   }
 
-  double t_damage = sqrt(2 * mat_data->k0_sqrt2 / eps_dot_H_eps_dot);
+  double t_damage = sqrt(2 * mat.k0_sqrt2 / eps_dot_H_eps_dot);
   double t_max = 2 * t_damage;
   size_t num_increments = 10;
 
@@ -107,9 +66,7 @@ static void test_update_proportional_strain(double const *eps_dot) {
       if (i == increment) {
         double xi = increment * delta_xi;
         omega_exp[step] =
-            (xi <= 1.)
-                ? 0.
-                : ((xi * xi - 1.) * mat_data->k0_sqrt2 / mat_data->k1_sqrt2);
+            (xi <= 1.) ? 0. : ((xi * xi - 1.) * mat.k0_sqrt2 / mat.k1_sqrt2);
       } else {
         omega_exp[step] = omega_exp[step - 1];
       }
@@ -128,7 +85,7 @@ static void test_update_proportional_strain(double const *eps_dot) {
     t += sign[step] * delta_t;
     double *delta_eps = (sign[step] == 1) ? delta_eps_p : delta_eps_m;
     double omega_new;
-    mat->type->update(mat, delta_eps, eps, &omega, sig, &omega_new, NULL);
+    mat.update(delta_eps, eps, &omega, sig, &omega_new, NULL);
     for (size_t i = 0; i < HD98_SYM; i++) {
       eps[i] += delta_eps[i];
     }
@@ -139,12 +96,20 @@ static void test_update_proportional_strain(double const *eps_dot) {
     }
     assert_array_equal(HD98_SYM, sig, sig_exp, rtol, atol);
   }
-
-  mat->type->free(mat);
   printf(" OK\n");
 }
 
 void setup_halm_dragon_1998_tests() {
+  double const kappa = 60700.;
+  double const mu = 31300.;
+  double const lambda = kappa - 2 * mu / HD98_DIM;
+  double const alpha = 16000.;
+  double const beta = 31000.;
+  double const k0 = 0.11;
+  double const k1 = 2.2;
+
+  HalmDragon1998 mat{lambda, mu, alpha, beta, k0, k1, HD98_TANGENT_STIFFNESS};
+
   double eps1[HD98_SYM];
   double eps2[HD98_SYM];
   for (size_t i = 0; i < HD98_SYM; i++) {
@@ -152,8 +117,7 @@ void setup_halm_dragon_1998_tests() {
     eps2[i] = 0.;
   }
   eps2[HD98_SYM - 1] = 1.;
-  test_new();
-  test_current_state();
-  test_update_proportional_strain(eps1);
-  test_update_proportional_strain(eps2);
+  test_current_state(mat);
+  test_update_proportional_strain(mat, eps1);
+  test_update_proportional_strain(mat, eps2);
 }
