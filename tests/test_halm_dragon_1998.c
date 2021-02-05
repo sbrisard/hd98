@@ -1,16 +1,19 @@
-#include <glib.h>
 #include <math.h>
+#include <stdio.h>
 
 #include "hd98/halm_dragon_1998.h"
 #include "hd98/hooke.h"
 #include "test_hd98.h"
 
 static void test_material_type() {
-  g_assert_cmpstr(HD98_HalmDragon1998.name, ==, "HalmDragon1998");
-  g_assert_cmpuint(HD98_HalmDragon1998.niv, ==, 1);
+  printf("HalmDragon1998/test_material_type...");
+  //assert_true(HD98_HalmDragon1998.name == "HalmDragon1998");
+  assert_true(HD98_HalmDragon1998.niv == 1);
+  printf(" OK\n");
 }
 
 static void test_new() {
+  printf("HalmDragon1998/test_new...");
   double kappa = 60700.;
   double mu = 31300.;
   double lambda = kappa - 2 * mu / HD98_DIM;
@@ -20,15 +23,16 @@ static void test_new() {
   double k1 = 2.2;
   HD98_Material *mat = hd98_halm_dragon_1998_new(lambda, mu, alpha, beta, k0,
                                                  k1, HD98_TANGENT_STIFFNESS);
-  g_assert_true(mat->type == &HD98_HalmDragon1998);
+  assert_true(mat->type == &HD98_HalmDragon1998);
   HD98_HalmDragon1998Data *data = mat->data;
-  g_assert_cmpfloat(data->lambda, ==, lambda);
-  g_assert_cmpfloat(data->mu, ==, mu);
-  g_assert_cmpfloat(data->alpha, ==, alpha);
-  g_assert_cmpfloat(data->beta, ==, beta);
-  g_assert_cmpfloat(data->k0_sqrt2, ==, k0 * M_SQRT2);
-  g_assert_cmpfloat(data->k1_sqrt2, ==, k1 * M_SQRT2);
-  g_assert_cmpint(data->stiffness_type, ==, HD98_TANGENT_STIFFNESS);
+  assert_true(data->lambda== lambda);
+  assert_true(data->mu== mu);
+  assert_true(data->alpha== alpha);
+  assert_true(data->beta== beta);
+  assert_true(data->k0_sqrt2== k0 * M_SQRT2);
+  assert_true(data->k1_sqrt2== k1 * M_SQRT2);
+  assert_true(data->stiffness_type== HD98_TANGENT_STIFFNESS);
+  printf(" OK\n");
 }
 
 static HD98_Material *halm_dragon_1998_new_default() {
@@ -45,6 +49,7 @@ static HD98_Material *halm_dragon_1998_new_default() {
 }
 
 static void test_current_state() {
+  printf("HalmDragon1998/test_current_state...");
   HD98_Material *mat = halm_dragon_1998_new_default();
   double eps[] = {1.2, -3.4, 5.6, -7.8, 9., -10.11};
   double omega[] = {0.4};
@@ -59,10 +64,11 @@ static void test_current_state() {
   assert_array_equal(HD98_SYM, sig_act, sig_exp, 1e-15, 1e-15);
   mat->type->free(mat);
   hooke->type->free(hooke);
+  printf(" OK\n");
 }
 
-static void test_update_proportional_strain(gconstpointer data) {
-  double const *eps_dot = data;
+static void test_update_proportional_strain(double const *eps_dot) {
+  printf("HalmDragon1998/test_update_proportional_strain...");
   double atol = 1e-15;
   double rtol = 1e-15;
 
@@ -144,21 +150,20 @@ static void test_update_proportional_strain(gconstpointer data) {
   }
 
   mat->type->free(mat);
+  printf(" OK\n");
 }
 
 void setup_halm_dragon_1998_tests() {
-  double *eps1 = g_new(double, HD98_SYM);
-  double *eps2 = g_new(double, HD98_SYM);
+  double eps1[HD98_SYM];
+  double eps2[HD98_SYM];
   for (size_t i = 0; i < HD98_SYM; i++) {
     eps1[i] = i < HD98_DIM ? 1. : 0.;
     eps2[i] = 0.;
   }
   eps2[HD98_SYM - 1] = 1.;
-  g_test_add_func("/HalmDragon1998/HD98_MaterialType", test_material_type);
-  g_test_add_func("/HalmDragon1998/new", test_new);
-  g_test_add_func("/HalmDragon1998/current_state", test_current_state);
-  g_test_add_data_func_full("/HalmDragon1998/update/hydrostatic", eps1,
-                            test_update_proportional_strain, g_free);
-  g_test_add_data_func_full("/HalmDragon1998/update/deviatoric", eps2,
-                            test_update_proportional_strain, g_free);
+  test_material_type();
+  test_new();
+  test_current_state();
+  test_update_proportional_strain(eps1);
+  test_update_proportional_strain(eps2);
 }

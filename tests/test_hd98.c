@@ -1,4 +1,3 @@
-#include <glib.h>
 #include <math.h>
 #include <stdio.h>
 
@@ -6,16 +5,30 @@
 #include "hd98/hd98.h"
 #include "hd98/hooke.h"
 
+#include "test_hd98.h"
+
 void setup_hooke_tests();
 
 void setup_halm_dragon_1998_tests();
 
+void assert_true(bool predicate) {
+  if (!predicate) exit(-1);
+}
+
+void assert_false(bool predicate) {
+  if (predicate) exit(-1);
+}
+
+void assert_equal(double act, double exp, double rtol, double atol) {
+  if (fabs(act - exp) > rtol * fabs(exp) + atol) {
+    exit(-1);
+  }
+}
+
 void assert_array_equal(size_t size, double const *actual,
                         double const *expected, double rtol, double atol) {
   for (size_t i = 0; i < size; i++) {
-    double err = fabs(actual[i] - expected[i]);
-    double tol = atol + rtol * fabs(expected[i]);
-    g_assert_cmpfloat(err, <=, tol);
+    assert_equal(expected[i], actual[i], rtol, atol);
   }
 }
 
@@ -33,10 +46,12 @@ static HD98_Material *halm_dragon_1998_new_default() {
   double beta = 31000.;
   double k0 = 0.11;
   double k1 = 2.2;
-  return hd98_halm_dragon_1998_new(lambda, mu, alpha, beta, k0, k1, HD98_TANGENT_STIFFNESS);
+  return hd98_halm_dragon_1998_new(lambda, mu, alpha, beta, k0, k1,
+                                   HD98_TANGENT_STIFFNESS);
 }
 
 static void test_global_update() {
+  printf("test_global_update...");
   HD98_Material *mat[] = {halm_dragon_1998_new_default(), hooke_new_default()};
 
   size_t n = 10;
@@ -82,6 +97,7 @@ static void test_global_update() {
   assert_array_equal(n * HD98_SYM, sig2_act, sig2_exp, 1e-15, 1e-15);
   assert_array_equal(m, omega2_act, omega2_exp, 1e-15, 1e-15);
   assert_array_equal(n * HD98_SYM * HD98_SYM, C2_act, C2_exp, 1e-15, 1e-15);
+  printf(" OK\n");
 }
 
 // static void test_solve_polarization_plus() {
@@ -128,15 +144,14 @@ static void test_global_update() {
 //}
 
 void setup_hd98_tests() {
-  g_test_add_func("/hd98/hd98_global_update", test_global_update);
-//  g_test_add_func("/hd98/hd98_solve_polarization_plus",
-//                  test_solve_polarization_plus);
+  test_global_update();
+  //  g_test_add_func("/hd98/hd98_solve_polarization_plus",
+  //                  test_solve_polarization_plus);
 }
 
 int main(int argc, char **argv) {
-  g_test_init(&argc, &argv, NULL);
   setup_hooke_tests();
   setup_halm_dragon_1998_tests();
   setup_hd98_tests();
-  return g_test_run();
+  return 0;
 }

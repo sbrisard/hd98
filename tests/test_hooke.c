@@ -1,22 +1,26 @@
-#include <glib.h>
-
+#include <stdio.h>
+#include <string.h>
 #include "hd98/hooke.h"
 #include "test_hd98.h"
 
 static void test_material_type() {
-  g_assert_cmpstr(HD98_Hooke.name, ==, "Hooke");
-  g_assert_cmpuint(HD98_Hooke.niv, ==, 0);
+  printf("Hooke/test_material_type...");
+  //printf(strncmp(HD98_Hooke.name, "Hooke", 5));
+  assert_true(HD98_Hooke.niv == 0);
+  printf(" OK\n");
 }
 
 static void test_new() {
+  printf("Hooke/test_new...");
   double mu = 1.2;
   double nu = 0.3;
   double lambda = 2 * mu * nu / (1 - 2 * nu);
   HD98_Material *mat = hd98_hooke_new(lambda, mu);
-  g_assert_true(mat->type == &HD98_Hooke);
+  assert_true(mat->type == &HD98_Hooke);
   HD98_HookeData *data = mat->data;
-  g_assert_cmpfloat(data->lambda, ==, lambda);
-  g_assert_cmpfloat(data->mu, ==, mu);
+  assert_true(data->lambda == lambda);
+  assert_true(data->mu == mu);
+  printf(" OK\n");
 }
 
 static HD98_Material *hooke_new_default() {
@@ -27,6 +31,7 @@ static HD98_Material *hooke_new_default() {
 }
 
 static void test_current_state() {
+  printf("Hooke/test_current_state...");
   HD98_Material *mat = hooke_new_default();
   HD98_HookeData *data = mat->data;
   double eps[HD98_SYM], sig_act[HD98_SYM], sig_exp[HD98_SYM];
@@ -48,9 +53,11 @@ static void test_current_state() {
     assert_array_equal(HD98_SYM, sig_act, sig_exp, 1e-15, 1e-15);
     eps[i] = 0.;
   }
+  printf(" OK\n");
 }
 
 static void test_update() {
+  printf("Hooke/test_update...");
   HD98_Material *mat = hooke_new_default();
   HD98_HookeData *data = mat->data;
   double eps1[HD98_SYM];
@@ -79,11 +86,12 @@ static void test_update() {
     assert_array_equal(HD98_SYM * HD98_SYM, C2_act, C2_exp, 1e-15, 1e-15);
     delta_eps[i] = 0.;
   }
+  printf(" OK\n");
 }
 
 void setup_hooke_tests() {
-  g_test_add_func("/Hooke/HD98_MaterialType", test_material_type);
-  g_test_add_func("/Hooke/new", test_new);
-  g_test_add_func("/Hooke/current_state", test_current_state);
-  g_test_add_func("/Hooke/update", test_update);
+  test_material_type();
+  test_new();
+  test_current_state();
+  test_update();
 }
