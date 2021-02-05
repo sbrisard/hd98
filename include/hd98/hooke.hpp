@@ -1,24 +1,22 @@
 #pragma once
 
+#include <array>
 #include <cstring>
+
 #include "hd98/hd98.hpp"
 
 namespace hd98 {
+DllExport std::array<double, HD98_SYM * HD98_SYM> stiffness_matrix(
+    double lambda, double mu);
+
 class Hooke {
  public:
   double const lambda;
   double const mu;
-  double C[HD98_SYM * HD98_SYM];
+  std::array<double, HD98_SYM * HD98_SYM> const C;
 
-  Hooke(double lambda, double mu) : lambda(lambda), mu(mu) {
-    for (size_t i = 0, ij = 0; i < HD98_SYM; i++) {
-      for (size_t j = 0; j < HD98_SYM; j++, ij++) {
-        C[ij] = 0.0;
-        if (i == j) C[ij] += 2. * mu;
-        if ((i < HD98_DIM) && (j < HD98_DIM)) C[ij] += lambda;
-      }
-    }
-  }
+  Hooke(double lambda, double mu)
+      : lambda(lambda), mu(mu), C(stiffness_matrix(lambda, mu)) {}
 
   void current_state(double const *eps, double const *unused,
                      double *sig) const {
@@ -50,7 +48,7 @@ class Hooke {
     for (size_t i = 0; i < HD98_SYM; i++) sig2[i] = two_mu * eps2[i];
     for (size_t i = 0; i < HD98_DIM; i++) sig2[i] += lambda_tr_eps2;
     if (C2) {
-      std::memcpy(C2, C, HD98_SYM * HD98_SYM * sizeof(double));
+      std::memcpy(C2, C.data(), HD98_SYM * HD98_SYM * sizeof(double));
     }
   }
 };
