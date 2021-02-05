@@ -4,7 +4,7 @@ add_compile_definitions(_USE_MATH_DEFINES)
 
 add_library(
   ${PROJECT_NAME} SHARED
-        hd98.cpp halm_dragon_1998.cpp hooke.cpp)
+        hd98.cpp halm_dragon_1998.cpp)
 
 target_include_directories(
   ${PROJECT_NAME} PUBLIC
