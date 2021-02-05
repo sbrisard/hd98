@@ -1,14 +1,17 @@
 """Basic definitions."""
 
 import ctypes
+import os.path
 
 from ctypes import c_double, c_char, c_int, c_size_t, c_void_p
 
 c_double_p = ctypes.POINTER(c_double)
 c_size_t_p = ctypes.POINTER(c_size_t)
 
-path = "/home/sbrisard/.local/opt/hd98/lib/libhd98.so"
-hd98 = ctypes.cdll.LoadLibrary(path)
+# path = "/home/sbrisard/.local/opt/hd98/lib/libhd98.so"
+path = os.path.join("C:", "opt", "hd98", "bin", "libhd98.dll")
+print(path)
+hd98 = ctypes.cdll.LoadLibrary("libhd98.dll")
 
 
 class HD98_MaterialType(ctypes.Structure):
