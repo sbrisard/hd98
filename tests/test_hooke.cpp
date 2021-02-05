@@ -2,7 +2,7 @@
 #include "hd98/hooke.hpp"
 #include "test_hd98.hpp"
 
-static void test_current_state(Hooke const&mat) {
+static void test_current_state(hd98::Hooke const&mat) {
   printf("Hooke/test_current_state...");
   double eps[HD98_SYM], sig_act[HD98_SYM], sig_exp[HD98_SYM];
   for (size_t i = 0; i < HD98_SYM; i++) {
@@ -26,7 +26,7 @@ static void test_current_state(Hooke const&mat) {
   printf(" OK\n");
 }
 
-static void test_update(Hooke const& mat) {
+static void test_update(hd98::Hooke const& mat) {
   printf("Hooke/test_update...");
   double eps1[HD98_SYM];
   double delta_eps[HD98_SYM];
@@ -61,7 +61,7 @@ void setup_hooke_tests() {
   double const mu = 1.2;
   double const nu = 0.3;
   double const lambda = 2 * mu * nu / (1 - 2 * nu);
-  Hooke const mat{lambda, mu};
+  hd98::Hooke const mat{lambda, mu};
   test_current_state(mat);
   test_update(mat);
 }

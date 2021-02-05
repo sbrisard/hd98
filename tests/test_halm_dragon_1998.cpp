@@ -50,8 +50,8 @@ static void test_current_state() {
   mat->type->current_state(mat, eps, omega, sig_act);
 
   auto data = static_cast<HD98_HalmDragon1998Data *>(mat->data);
-  Hooke hooke{data->lambda - 2 * omega[0] * data->alpha,
-                     data->mu - 2 * omega[0] * data->beta};
+  hd98::Hooke hooke{data->lambda - 2 * omega[0] * data->alpha,
+                    data->mu - 2 * omega[0] * data->beta};
   hooke.current_state(eps, NULL, sig_exp);
   assert_array_equal(HD98_SYM, sig_act, sig_exp, 1e-15, 1e-15);
   mat->type->free(mat);

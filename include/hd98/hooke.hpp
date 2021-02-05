@@ -1,9 +1,9 @@
-#ifndef __HOOKE_H_20203317183340__
-#define __HOOKE_H_20203317183340__
+#pragma once
 
 #include <cstring>
 #include "hd98/hd98.hpp"
 
+namespace hd98 {
 class Hooke {
  public:
   double const lambda;
@@ -54,5 +54,4 @@ class Hooke {
     }
   }
 };
-
-#endif
+}  // namespace hd98
