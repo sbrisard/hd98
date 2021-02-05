@@ -1,10 +1,10 @@
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 
-#include "hd98/hooke.h"
+#include "hd98/hooke.hpp"
 
 static void hooke_free(HD98_Material *mat) {
-  HD98_HookeData *data = mat->data;
+  auto data = static_cast<HD98_HookeData *>(mat->data);
   free(data->C);
   free(data);
   free(mat);
@@ -12,7 +12,7 @@ static void hooke_free(HD98_Material *mat) {
 
 static void hooke_current_state(HD98_Material const *mat, double const *eps,
                                 double const *unused, double *sig) {
-  HD98_HookeData *data = mat->data;
+  auto data = static_cast<HD98_HookeData *>(mat->data);
   double lambda_tr_eps = 0.;
   for (size_t i = 0; i < HD98_DIM; i++) {
     lambda_tr_eps += eps[i];
@@ -30,7 +30,7 @@ static void hooke_current_state(HD98_Material const *mat, double const *eps,
 static void hooke_update(HD98_Material const *mat, double const *delta_eps,
                          double const *eps1, double const *unused1,
                          double *sig2, double *unused2, double *C2) {
-  HD98_HookeData *data = mat->data;
+  auto data = static_cast<HD98_HookeData *>(mat->data);
   double eps2[HD98_SYM];
   for (size_t i = 0; i < HD98_SYM; i++) eps2[i] = eps1[i] + delta_eps[i];
 
@@ -46,17 +46,14 @@ static void hooke_update(HD98_Material const *mat, double const *delta_eps,
   }
 }
 
-HD98_MaterialType const HD98_Hooke = {.name = "Hooke",
-                                      .niv = 0,
-                                      .free = hooke_free,
-                                      .current_state = hooke_current_state,
-                                      .update = hooke_update};
+HD98_MaterialType const HD98_Hooke{"Hooke", 0, hooke_free, hooke_current_state,
+                                   hooke_update};
 
 HD98_Material *hd98_hooke_new(double lambda, double mu) {
-  HD98_HookeData *data = malloc(sizeof(HD98_HookeData));
+  auto data = static_cast<HD98_HookeData *>(malloc(sizeof(HD98_HookeData)));
   data->lambda = lambda;
   data->mu = mu;
-  data->C = malloc(HD98_SYM * HD98_SYM * sizeof(double));
+  data->C = static_cast<double *>(malloc(HD98_SYM * HD98_SYM * sizeof(double)));
   double *C_ij = data->C;
   for (int i = 0; i < HD98_SYM; i++) {
     for (int j = 0; j < HD98_SYM; j++) {
@@ -66,7 +63,7 @@ HD98_Material *hd98_hooke_new(double lambda, double mu) {
       ++C_ij;
     }
   }
-  HD98_Material *hooke = malloc(sizeof(HD98_Material));
+  auto hooke = static_cast<HD98_Material *>(malloc(sizeof(HD98_Material)));
   hooke->type = &HD98_Hooke;
   hooke->data = data;
   return hooke;

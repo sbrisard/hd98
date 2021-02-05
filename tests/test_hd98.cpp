@@ -1,11 +1,13 @@
-#include <math.h>
-#include <stdio.h>
+#include <array>
+#include <cmath>
+#include <cstdio>
+#include <vector>
 
-#include "hd98/halm_dragon_1998.h"
-#include "hd98/hd98.h"
-#include "hd98/hooke.h"
+#include "hd98/halm_dragon_1998.hpp"
+#include "hd98/hd98.hpp"
+#include "hd98/hooke.hpp"
 
-#include "test_hd98.h"
+#include "test_hd98.hpp"
 
 void setup_hooke_tests();
 
@@ -13,10 +15,6 @@ void setup_halm_dragon_1998_tests();
 
 void assert_true(bool predicate) {
   if (!predicate) exit(-1);
-}
-
-void assert_false(bool predicate) {
-  if (predicate) exit(-1);
 }
 
 void assert_equal(double act, double exp, double rtol, double atol) {
@@ -51,10 +49,12 @@ static HD98_Material *halm_dragon_1998_new_default() {
 }
 
 static void test_global_update() {
+  // TODO This function is truly horrible
   printf("test_global_update...");
-  HD98_Material *mat[] = {halm_dragon_1998_new_default(), hooke_new_default()};
+  std::array<HD98_Material const *, 2> mat{halm_dragon_1998_new_default(),
+                                           hooke_new_default()};
 
-  size_t n = 10;
+  size_t const n = 10;
   size_t phase[n];
   size_t m = 0; /* Total number of internal variables */
   for (size_t i = 0; i < n; i++) {
@@ -71,8 +71,11 @@ static void test_global_update() {
     sig2_exp[i] = 0.;
   }
 
-  double omega1[m], omega2_act[m], omega2_exp[m];
-  double C2_act[n * HD98_SYM * HD98_SYM], C2_exp[n * HD98_SYM * HD98_SYM];
+  std::vector<double> omega1(m);
+  std::vector<double> omega2_act(m);
+  std::vector<double> omega2_exp(m);
+  std::vector<double> C2_act(n * HD98_SYM * HD98_SYM);
+  std::vector<double> C2_exp(n * HD98_SYM * HD98_SYM);
 
   for (size_t i = 0; i < n; i++) {
     eps1[HD98_SYM * i] = 1.e-4 * i;
@@ -81,22 +84,23 @@ static void test_global_update() {
     omega1[i] = ((double)i) / ((double)(m - 1)) * 0.4;
   }
 
-  hd98_global_update(n, phase, mat, delta_eps, eps1, omega1, sig2_act,
-                     omega2_act, C2_act);
-  double *omega1_i = omega1;
-  double *omega2_i = omega2_exp;
+  hd98_global_update(n, phase, mat.data(), delta_eps, eps1, omega1.data(), sig2_act,
+                     omega2_act.data(), C2_act.data());
+  double *omega1_i = omega1.data();
+  double *omega2_i = omega2_exp.data();
   for (size_t i = 0; i < n; i++) {
-    HD98_Material *mat_i = mat[phase[i]];
+    HD98_Material const *mat_i = mat[phase[i]];
     mat_i->type->update(mat_i, delta_eps + HD98_SYM * i, eps1 + HD98_SYM * i,
                         omega1_i, sig2_exp + HD98_SYM * i, omega2_i,
-                        C2_exp + HD98_SYM * HD98_SYM * i);
+                        C2_exp.data() + HD98_SYM * HD98_SYM * i);
     omega1_i += mat_i->type->niv;
     omega2_i += mat_i->type->niv;
   }
 
   assert_array_equal(n * HD98_SYM, sig2_act, sig2_exp, 1e-15, 1e-15);
-  assert_array_equal(m, omega2_act, omega2_exp, 1e-15, 1e-15);
-  assert_array_equal(n * HD98_SYM * HD98_SYM, C2_act, C2_exp, 1e-15, 1e-15);
+  assert_array_equal(m, omega2_act.data(), omega2_exp.data(), 1e-15, 1e-15);
+  assert_array_equal(n * HD98_SYM * HD98_SYM, C2_act.data(), C2_exp.data(),
+                     1e-15, 1e-15);
   printf(" OK\n");
 }
 
@@ -149,7 +153,7 @@ void setup_hd98_tests() {
   //                  test_solve_polarization_plus);
 }
 
-int main(int argc, char **argv) {
+int main() {
   setup_hooke_tests();
   setup_halm_dragon_1998_tests();
   setup_hd98_tests();

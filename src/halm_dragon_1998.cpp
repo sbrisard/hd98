@@ -1,7 +1,6 @@
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
 
-#include "hd98/halm_dragon_1998.h"
+#include "hd98/halm_dragon_1998.hpp"
 
 static void halm_dragon_1998_free(HD98_Material *mat) {
   free(mat->data);
@@ -11,7 +10,7 @@ static void halm_dragon_1998_free(HD98_Material *mat) {
 static void halm_dragon_1998_current_state(HD98_Material const *mat,
                                            double const *eps,
                                            double const *omega, double *sig) {
-  HD98_HalmDragon1998Data *data = mat->data;
+  auto *data = static_cast<HD98_HalmDragon1998Data *>(mat->data);
   double lambda = data->lambda - 2 * data->alpha * omega[0];
   double two_mu = 2 * data->mu - 4 * data->beta * omega[0];
   double lambda_tr_eps = 0.;
@@ -31,7 +30,7 @@ static void halm_dragon_1998_update(HD98_Material const *mat,
                                     double const *delta_eps, double const *eps1,
                                     double const *omega1, double *sig2,
                                     double *omega2, double *C2) {
-  HD98_HalmDragon1998Data *data = mat->data;
+  auto data = static_cast<HD98_HalmDragon1998Data *>(mat->data);
   double eps2[HD98_SYM];
   for (size_t i = 0; i < HD98_SYM; i++) eps2[i] = eps1[i] + delta_eps[i];
 
@@ -86,17 +85,15 @@ static void halm_dragon_1998_update(HD98_Material const *mat,
   }
 }
 
-HD98_MaterialType const HD98_HalmDragon1998 = {
-    .name = "HalmDragon1998",
-    .niv = 1,
-    .free = halm_dragon_1998_free,
-    .current_state = halm_dragon_1998_current_state,
-    .update = halm_dragon_1998_update};
+HD98_MaterialType const HD98_HalmDragon1998{
+    "HalmDragon1998", 1, halm_dragon_1998_free, halm_dragon_1998_current_state,
+    halm_dragon_1998_update};
 
 HD98_Material *hd98_halm_dragon_1998_new(double lambda, double mu, double alpha,
                                          double beta, double k0, double k1,
                                          int stiffness_type) {
-  HD98_HalmDragon1998Data *data = malloc(sizeof(HD98_HalmDragon1998Data));
+  auto data = static_cast<HD98_HalmDragon1998Data *>(
+      malloc(sizeof(HD98_HalmDragon1998Data)));
   data->lambda = lambda;
   data->mu = mu;
   data->alpha = alpha;
@@ -104,7 +101,7 @@ HD98_Material *hd98_halm_dragon_1998_new(double lambda, double mu, double alpha,
   data->k0_sqrt2 = k0 * M_SQRT2;
   data->k1_sqrt2 = k1 * M_SQRT2;
   data->stiffness_type = stiffness_type;
-  HD98_Material *mat = malloc(sizeof(HD98_Material));
+  auto mat = static_cast<HD98_Material *>(malloc(sizeof(HD98_Material)));
   mat->type = &HD98_HalmDragon1998;
   mat->data = data;
   return mat;

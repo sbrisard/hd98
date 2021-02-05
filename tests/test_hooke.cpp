@@ -1,14 +1,6 @@
-#include <stdio.h>
-#include <string.h>
-#include "hd98/hooke.h"
-#include "test_hd98.h"
-
-static void test_material_type() {
-  printf("Hooke/test_material_type...");
-  //printf(strncmp(HD98_Hooke.name, "Hooke", 5));
-  assert_true(HD98_Hooke.niv == 0);
-  printf(" OK\n");
-}
+#include <cstdio>
+#include "hd98/hooke.hpp"
+#include "test_hd98.hpp"
 
 static void test_new() {
   printf("Hooke/test_new...");
@@ -16,8 +8,7 @@ static void test_new() {
   double nu = 0.3;
   double lambda = 2 * mu * nu / (1 - 2 * nu);
   HD98_Material *mat = hd98_hooke_new(lambda, mu);
-  assert_true(mat->type == &HD98_Hooke);
-  HD98_HookeData *data = mat->data;
+  auto data = static_cast<HD98_HookeData *>(mat->data);
   assert_true(data->lambda == lambda);
   assert_true(data->mu == mu);
   printf(" OK\n");
@@ -33,7 +24,7 @@ static HD98_Material *hooke_new_default() {
 static void test_current_state() {
   printf("Hooke/test_current_state...");
   HD98_Material *mat = hooke_new_default();
-  HD98_HookeData *data = mat->data;
+  auto data = static_cast<HD98_HookeData *>(mat->data);
   double eps[HD98_SYM], sig_act[HD98_SYM], sig_exp[HD98_SYM];
   for (size_t i = 0; i < HD98_SYM; i++) {
     eps[i] = 0.;
@@ -59,7 +50,7 @@ static void test_current_state() {
 static void test_update() {
   printf("Hooke/test_update...");
   HD98_Material *mat = hooke_new_default();
-  HD98_HookeData *data = mat->data;
+  auto data = static_cast<HD98_HookeData *>(mat->data);
   double eps1[HD98_SYM];
   double delta_eps[HD98_SYM];
   double sig2_act[HD98_SYM];
@@ -90,7 +81,6 @@ static void test_update() {
 }
 
 void setup_hooke_tests() {
-  test_material_type();
   test_new();
   test_current_state();
   test_update();

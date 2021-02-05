@@ -1,7 +1,7 @@
 add_executable(test_hd98
-        test_hd98.c
-        test_hooke.c
-        test_halm_dragon_1998.c
+        test_hd98.cpp
+        test_hooke.cpp
+        test_halm_dragon_1998.cpp
         )
 
 target_include_directories(test_hd98 PUBLIC ../include)
@@ -10,6 +10,7 @@ find_library(MATH_LIBRARY m)
 if (MATH_LIBRARY)
     target_link_libraries(test_hd98 ${MATH_LIBRARY})
 endif ()
+add_compile_definitions(_USE_MATH_DEFINES)
 
 target_link_libraries(test_hd98 PRIVATE hd98)
 

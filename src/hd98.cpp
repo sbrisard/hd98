@@ -1,9 +1,8 @@
-#include <gsl/gsl_linalg.h>
 #include <math.h>
 #include <stdbool.h>
 #include <string.h>
 
-#include "hd98/hd98.h"
+#include "hd98/hd98.hpp"
 
 void hd98_global_update(size_t n,
                         size_t const *phase,

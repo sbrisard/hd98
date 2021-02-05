@@ -1,16 +1,10 @@
-#include <math.h>
-#include <stdio.h>
+#include <cmath>
+#include <cstdio>
+#include <vector>
 
-#include "hd98/halm_dragon_1998.h"
-#include "hd98/hooke.h"
-#include "test_hd98.h"
-
-static void test_material_type() {
-  printf("HalmDragon1998/test_material_type...");
-  //assert_true(HD98_HalmDragon1998.name == "HalmDragon1998");
-  assert_true(HD98_HalmDragon1998.niv == 1);
-  printf(" OK\n");
-}
+#include "hd98/halm_dragon_1998.hpp"
+#include "hd98/hooke.hpp"
+#include "test_hd98.hpp"
 
 static void test_new() {
   printf("HalmDragon1998/test_new...");
@@ -23,15 +17,14 @@ static void test_new() {
   double k1 = 2.2;
   HD98_Material *mat = hd98_halm_dragon_1998_new(lambda, mu, alpha, beta, k0,
                                                  k1, HD98_TANGENT_STIFFNESS);
-  assert_true(mat->type == &HD98_HalmDragon1998);
-  HD98_HalmDragon1998Data *data = mat->data;
-  assert_true(data->lambda== lambda);
-  assert_true(data->mu== mu);
-  assert_true(data->alpha== alpha);
-  assert_true(data->beta== beta);
-  assert_true(data->k0_sqrt2== k0 * M_SQRT2);
-  assert_true(data->k1_sqrt2== k1 * M_SQRT2);
-  assert_true(data->stiffness_type== HD98_TANGENT_STIFFNESS);
+  auto data = static_cast<HD98_HalmDragon1998Data *>(mat->data);
+  assert_true(data->lambda == lambda);
+  assert_true(data->mu == mu);
+  assert_true(data->alpha == alpha);
+  assert_true(data->beta == beta);
+  assert_true(data->k0_sqrt2 == k0 * M_SQRT2);
+  assert_true(data->k1_sqrt2 == k1 * M_SQRT2);
+  assert_true(data->stiffness_type == HD98_TANGENT_STIFFNESS);
   printf(" OK\n");
 }
 
@@ -56,7 +49,7 @@ static void test_current_state() {
   double sig_act[HD98_SYM], sig_exp[HD98_SYM];
   mat->type->current_state(mat, eps, omega, sig_act);
 
-  HD98_HalmDragon1998Data *data = mat->data;
+  auto data = static_cast<HD98_HalmDragon1998Data *>(mat->data);
   HD98_Material *hooke =
       hd98_hooke_new(data->lambda - 2 * omega[0] * data->alpha,
                      data->mu - 2 * omega[0] * data->beta);
@@ -73,7 +66,7 @@ static void test_update_proportional_strain(double const *eps_dot) {
   double rtol = 1e-15;
 
   HD98_Material *mat = halm_dragon_1998_new_default();
-  HD98_HalmDragon1998Data *mat_data = mat->data;
+  auto mat_data = static_cast<HD98_HalmDragon1998Data *>(mat->data);
 
   double tr_eps_dot = 0.;
   for (size_t i = 0; i < HD98_DIM; i++) {
@@ -107,8 +100,8 @@ static void test_update_proportional_strain(double const *eps_dot) {
   }
 
   size_t num_steps = num_increments * (num_increments + 1);
-  int sign[num_steps];
-  double omega_exp[num_steps];
+  std::vector<int> sign(num_steps);
+  std::vector<double> omega_exp(num_steps);
   for (size_t increment = 1, step = 0; increment <= num_increments;
        increment++) {
     for (size_t i = 1; i <= increment; i++, step++) {
@@ -161,7 +154,6 @@ void setup_halm_dragon_1998_tests() {
     eps2[i] = 0.;
   }
   eps2[HD98_SYM - 1] = 1.;
-  test_material_type();
   test_new();
   test_current_state();
   test_update_proportional_strain(eps1);

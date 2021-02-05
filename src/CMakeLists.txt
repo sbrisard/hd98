@@ -1,9 +1,10 @@
 add_compile_definitions(PROJECT_VERSION_QUOTED=\"${METADATA_VERSION}\")
 add_compile_definitions(PROJECT_AUTHOR_QUOTED=\"${METADATA_AUTHOR}\")
+add_compile_definitions(_USE_MATH_DEFINES)
 
 add_library(
   ${PROJECT_NAME} SHARED
-  hd98.c halm_dragon_1998.c hooke.c)
+        hd98.cpp halm_dragon_1998.cpp hooke.cpp)
 
 target_include_directories(
   ${PROJECT_NAME} PUBLIC
