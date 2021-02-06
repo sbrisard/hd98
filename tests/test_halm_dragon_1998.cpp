@@ -5,7 +5,7 @@
 #include "hd98/hooke.hpp"
 #include "test_hd98.hpp"
 
-static void test_current_state(HalmDragon1998 const &mat) {
+static void test_current_state(hd98::HalmDragon1998 const &mat) {
   printf("HalmDragon1998/test_current_state...");
   double eps[] = {1.2, -3.4, 5.6, -7.8, 9., -10.11};
   double omega[] = {0.4};
@@ -19,7 +19,7 @@ static void test_current_state(HalmDragon1998 const &mat) {
   printf(" OK\n");
 }
 
-static void test_update_proportional_strain(HalmDragon1998 const &mat,
+static void test_update_proportional_strain(hd98::HalmDragon1998 const &mat,
                                             double const *eps_dot) {
   printf("HalmDragon1998/test_update_proportional_strain...");
   double atol = 1e-15;
@@ -108,7 +108,7 @@ void setup_halm_dragon_1998_tests() {
   double const k0 = 0.11;
   double const k1 = 2.2;
 
-  HalmDragon1998 mat{lambda, mu, alpha, beta, k0, k1, HD98_TANGENT_STIFFNESS};
+  hd98::HalmDragon1998 mat{lambda, mu, alpha, beta, k0, k1, HD98_TANGENT_STIFFNESS};
 
   double eps1[HD98_SYM];
   double eps2[HD98_SYM];

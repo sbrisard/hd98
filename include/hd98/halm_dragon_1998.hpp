@@ -2,6 +2,7 @@
 
 #include "hd98/hd98.hpp"
 
+namespace hd98 {
 class HalmDragon1998 {
  public:
   double const lambda;
@@ -94,3 +95,4 @@ class HalmDragon1998 {
     }
   }
 };
+}  // namespace hd98
