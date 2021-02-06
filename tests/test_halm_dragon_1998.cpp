@@ -1,4 +1,4 @@
-#include <cstdio>
+#include <iostream>
 #include <vector>
 
 #include "hd98/halm_dragon_1998.hpp"
@@ -6,7 +6,7 @@
 #include "test_hd98.hpp"
 
 static void test_current_state(hd98::HalmDragon1998 const &mat) {
-  printf("HalmDragon1998/test_current_state...");
+  std::cout <<"HalmDragon1998/test_current_state...";
   double eps[] = {1.2, -3.4, 5.6, -7.8, 9., -10.11};
   double omega[] = {0.4};
   double sig_act[hd98::sym], sig_exp[hd98::sym];
@@ -16,12 +16,12 @@ static void test_current_state(hd98::HalmDragon1998 const &mat) {
                     mat.mu - 2 * omega[0] * mat.beta};
   hooke.current_state(eps, nullptr, sig_exp);
   assert_array_equal(hd98::sym, sig_act, sig_exp, 1e-15, 1e-15);
-  printf(" OK\n");
+  std::cout << " OK\n";
 }
 
 static void test_update_proportional_strain(hd98::HalmDragon1998 const &mat,
                                             double const *eps_dot) {
-  printf("HalmDragon1998/test_update_proportional_strain...");
+  std::cout << "HalmDragon1998/test_update_proportional_strain...";
   double atol = 1e-15;
   double rtol = 1e-15;
 
@@ -96,7 +96,7 @@ static void test_update_proportional_strain(hd98::HalmDragon1998 const &mat,
     }
     assert_array_equal(hd98::sym, sig, sig_exp, rtol, atol);
   }
-  printf(" OK\n");
+  std::cout << " OK\n";
 }
 
 void setup_halm_dragon_1998_tests() {
