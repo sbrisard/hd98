@@ -26,12 +26,12 @@ static void test_current_state(hd98::Hooke const& mat) {
 
 static void test_update(hd98::Hooke const& mat) {
   std::cout << "Hooke/test_update...";
-  Tensor2 eps1;
-  Tensor2 delta_eps;
-  Tensor2 sig2_act;
-  Tensor2 sig2_exp;
-  Tensor4 C2_act;
-  Tensor4 C2_exp;
+  Tensor2 eps1{};
+  Tensor2 delta_eps{};
+  Tensor2 sig2_act{};
+  Tensor2 sig2_exp{};
+  Tensor4 C2_act{};
+  Tensor4 C2_exp{};
   for (size_t i = 0, ij = 0; i < hd98::sym; i++) {
     for (size_t j = 0; j < hd98::sym; j++, ij++) {
       C2_exp[ij] = (i < hd98::dim) && (j < hd98::dim) ? mat.lambda : 0.;
