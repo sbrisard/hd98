@@ -1,5 +1,4 @@
-#ifndef __HD98_H_201910301551__
-#define __HD98_H_201910301551__
+#pragma once
 
 #if _WIN32
 #define DllExport __declspec(dllexport)
@@ -50,5 +49,3 @@ DllExport void hd98_global_update(size_t n,
                                   double *sig2,
                                   double *iv2,
                                   double *C2);
-
-#endif
