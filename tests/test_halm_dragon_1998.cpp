@@ -9,13 +9,13 @@ static void test_current_state(hd98::HalmDragon1998 const &mat) {
   printf("HalmDragon1998/test_current_state...");
   double eps[] = {1.2, -3.4, 5.6, -7.8, 9., -10.11};
   double omega[] = {0.4};
-  double sig_act[HD98_SYM], sig_exp[HD98_SYM];
+  double sig_act[hd98::HD98_SYM], sig_exp[hd98::HD98_SYM];
   mat.current_state(eps, omega, sig_act);
 
   hd98::Hooke hooke{mat.lambda - 2 * omega[0] * mat.alpha,
                     mat.mu - 2 * omega[0] * mat.beta};
   hooke.current_state(eps, NULL, sig_exp);
-  assert_array_equal(HD98_SYM, sig_act, sig_exp, 1e-15, 1e-15);
+  assert_array_equal(hd98::HD98_SYM, sig_act, sig_exp, 1e-15, 1e-15);
   printf(" OK\n");
 }
 
@@ -26,18 +26,18 @@ static void test_update_proportional_strain(hd98::HalmDragon1998 const &mat,
   double rtol = 1e-15;
 
   double tr_eps_dot = 0.;
-  for (size_t i = 0; i < HD98_DIM; i++) {
+  for (size_t i = 0; i < hd98::HD98_DIM; i++) {
     tr_eps_dot += eps_dot[i];
   }
   double C_eps_dot_h = mat.lambda * tr_eps_dot;
   double H_eps_dot_h = 2 * mat.alpha * tr_eps_dot;
-  double C_eps_dot[HD98_SYM];
-  double H_eps_dot[HD98_SYM];
+  double C_eps_dot[hd98::HD98_SYM];
+  double H_eps_dot[hd98::HD98_SYM];
   double eps_dot_H_eps_dot = 0.;
-  for (size_t i = 0; i < HD98_SYM; i++) {
+  for (size_t i = 0; i < hd98::HD98_SYM; i++) {
     C_eps_dot[i] = 2 * mat.mu * eps_dot[i];
     H_eps_dot[i] = 4 * mat.beta * eps_dot[i];
-    if (i < HD98_DIM) {
+    if (i < hd98::HD98_DIM) {
       C_eps_dot[i] += C_eps_dot_h;
       H_eps_dot[i] += H_eps_dot_h;
     }
@@ -50,8 +50,8 @@ static void test_update_proportional_strain(hd98::HalmDragon1998 const &mat,
 
   double delta_t = t_max / (double)num_increments;
   double delta_xi = delta_t / t_damage;
-  double delta_eps_p[HD98_SYM], delta_eps_m[HD98_SYM];
-  for (size_t i = 0; i < HD98_SYM; i++) {
+  double delta_eps_p[hd98::HD98_SYM], delta_eps_m[hd98::HD98_SYM];
+  for (size_t i = 0; i < hd98::HD98_SYM; i++) {
     delta_eps_p[i] = delta_t * eps_dot[i];
     delta_eps_m[i] = -delta_eps_p[i];
   }
@@ -80,21 +80,21 @@ static void test_update_proportional_strain(hd98::HalmDragon1998 const &mat,
   double t = 0.;
   double omega = 0.;
   double eps[] = {0., 0., 0., 0., 0., 0.};
-  double sig[HD98_SYM], sig_exp[HD98_SYM];
+  double sig[hd98::HD98_SYM], sig_exp[hd98::HD98_SYM];
   for (size_t step = 0; step < num_steps; step++) {
     t += sign[step] * delta_t;
     double *delta_eps = (sign[step] == 1) ? delta_eps_p : delta_eps_m;
     double omega_new;
     mat.update(delta_eps, eps, &omega, sig, &omega_new, NULL);
-    for (size_t i = 0; i < HD98_SYM; i++) {
+    for (size_t i = 0; i < hd98::HD98_SYM; i++) {
       eps[i] += delta_eps[i];
     }
     omega = omega_new;
 
-    for (size_t i = 0; i < HD98_SYM; i++) {
+    for (size_t i = 0; i < hd98::HD98_SYM; i++) {
       sig_exp[i] = t * (C_eps_dot[i] - omega_exp[step] * H_eps_dot[i]);
     }
-    assert_array_equal(HD98_SYM, sig, sig_exp, rtol, atol);
+    assert_array_equal(hd98::HD98_SYM, sig, sig_exp, rtol, atol);
   }
   printf(" OK\n");
 }
@@ -102,21 +102,21 @@ static void test_update_proportional_strain(hd98::HalmDragon1998 const &mat,
 void setup_halm_dragon_1998_tests() {
   double const kappa = 60700.;
   double const mu = 31300.;
-  double const lambda = kappa - 2 * mu / HD98_DIM;
+  double const lambda = kappa - 2 * mu / hd98::HD98_DIM;
   double const alpha = 16000.;
   double const beta = 31000.;
   double const k0 = 0.11;
   double const k1 = 2.2;
 
-  hd98::HalmDragon1998 mat{lambda, mu, alpha, beta, k0, k1, HD98_TANGENT_STIFFNESS};
+  hd98::HalmDragon1998 mat{lambda, mu, alpha, beta, k0, k1, hd98::HD98_TANGENT_STIFFNESS};
 
-  double eps1[HD98_SYM];
-  double eps2[HD98_SYM];
-  for (size_t i = 0; i < HD98_SYM; i++) {
-    eps1[i] = i < HD98_DIM ? 1. : 0.;
+  double eps1[hd98::HD98_SYM];
+  double eps2[hd98::HD98_SYM];
+  for (size_t i = 0; i < hd98::HD98_SYM; i++) {
+    eps1[i] = i < hd98::HD98_DIM ? 1. : 0.;
     eps2[i] = 0.;
   }
-  eps2[HD98_SYM - 1] = 1.;
+  eps2[hd98::HD98_SYM - 1] = 1.;
   test_current_state(mat);
   test_update_proportional_strain(mat, eps1);
   test_update_proportional_strain(mat, eps2);
