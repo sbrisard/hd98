@@ -21,12 +21,12 @@ void hd98_global_update(size_t n, size_t const *phase,
     mat_i = mat[phase[i]];
     mat_i->type->update(mat_i, delta_eps_i, eps1_i, iv1_i, sig2_i, iv2_i, C2_i);
 
-    delta_eps_i += HD98_SYM;
-    eps1_i += HD98_SYM;
+    delta_eps_i += sym;
+    eps1_i += sym;
     iv1_i += mat_i->type->niv;
-    sig2_i += HD98_SYM;
+    sig2_i += sym;
     iv2_i += mat_i->type->niv;
-    C2_i += HD98_SYM * HD98_SYM;
+    C2_i += sym * sym;
   }
 }
 
@@ -39,18 +39,18 @@ void hd98_global_update(size_t n, size_t const *phase,
 //  double rtol = 1e-15;
 //  size_t max_iter = 10;
 //
-//  double iv2[mat->type->niv], sig1[HD98_SYM], sig2[HD98_SYM],
-//      C2[HD98_SYM * HD98_SYM];
+//  double iv2[mat->type->niv], sig1[sym], sig2[sym],
+//      C2[sym * sym];
 //
 //  /* A: matrix of NR iterations; b: residual; x: correction to delta_eps */
-//  gsl_matrix *A = gsl_matrix_calloc(HD98_SYM, HD98_SYM);
-//  gsl_vector *x = gsl_vector_calloc(HD98_SYM);
-//  gsl_vector *b = gsl_vector_calloc(HD98_SYM);
-//  gsl_permutation *p = gsl_permutation_alloc(HD98_SYM);
+//  gsl_matrix *A = gsl_matrix_calloc(sym, sym);
+//  gsl_vector *x = gsl_vector_calloc(sym);
+//  gsl_vector *b = gsl_vector_calloc(sym);
+//  gsl_permutation *p = gsl_permutation_alloc(sym);
 //
 //  /* Compute initial stress */
 //  /* TODO this should be a call to a function `current_stress`. */
-//  for (size_t i = 0; i < HD98_SYM; i++) delta_eps[i] = 0.;
+//  for (size_t i = 0; i < sym; i++) delta_eps[i] = 0.;
 //  mat->type->update(mat, delta_eps, eps1, iv1, sig1, iv2, NULL);
 //
 //  /* Define iter outside the loop in order to be able to return an
@@ -59,21 +59,21 @@ void hd98_global_update(size_t n, size_t const *phase,
 //  for (; iter <= max_iter; iter++) {
 //    mat->type->update(mat, delta_eps, eps1, iv1, sig2, iv2, C2);
 //    /* Compute matrix */
-//    for (size_t i = 0, ij = 0; i < HD98_SYM; i++) {
-//      for (size_t j = 0; j < HD98_SYM; j++, ij++) {
+//    for (size_t i = 0, ij = 0; i < sym; i++) {
+//      for (size_t j = 0; j < sym; j++, ij++) {
 //        double A_ij = C2[ij];
 //        if (i == j) A_ij += 2 * mu0;
-//        if ((i < HD98_DIM) && (j < HD98_DIM)) A_ij += lambda0;
+//        if ((i < dim) && (j < dim)) A_ij += lambda0;
 //        gsl_matrix_set(A, i, j, A_ij);
 //      }
 //    }
 //    /* Compute residual */
 //    double tr_delta_eps = 0;
-//    for (size_t i = 0; i < HD98_DIM; i++) tr_delta_eps += delta_eps[i];
+//    for (size_t i = 0; i < dim; i++) tr_delta_eps += delta_eps[i];
 //    bool converged = true;
-//    for (size_t i = 0; i < HD98_SYM; i++) {
+//    for (size_t i = 0; i < sym; i++) {
 //      double b_i = delta_tau[i] - (sig2[i] - sig1[i]) - 2 * mu0 *
-//      delta_eps[i]; if (i < HD98_DIM) b_i -= lambda0 * tr_delta_eps; converged
+//      delta_eps[i]; if (i < dim) b_i -= lambda0 * tr_delta_eps; converged
 //      = converged && (fabs(b_i) <= rtol * fabs(delta_tau[i]) + atol);
 //      gsl_vector_set(b, i, b_i);
 //    }
@@ -83,7 +83,7 @@ void hd98_global_update(size_t n, size_t const *phase,
 //    gsl_linalg_LU_decomp(A, p, &s);
 //    gsl_linalg_LU_solve(A, p, b, x);
 //    /* Apply correction */
-//    for (size_t i = 0; i < HD98_SYM; i++) {
+//    for (size_t i = 0; i < sym; i++) {
 //      delta_eps[i] += gsl_vector_get(x, i);
 //    }
 //  }
@@ -114,10 +114,10 @@ void hd98_global_update(size_t n, size_t const *phase,
 //    if (err) {
 //        return i;
 //    }
-//    delta_tau_i += HD98_SYM;
-//    eps1_i += HD98_SYM;
+//    delta_tau_i += sym;
+//    eps1_i += sym;
 //    iv1_i += mat_i->type->niv;
-//    delta_eps_i += HD98_SYM;
+//    delta_eps_i += sym;
 //  }
 //  return 0;
 //}

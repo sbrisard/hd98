@@ -10,11 +10,11 @@
 
 
 namespace hd98 {
-constexpr size_t HD98_DIM = 3;
-constexpr size_t HD98_SYM = 6;
+constexpr size_t dim = 3;
+constexpr size_t sym = 6;
 
-constexpr int HD98_TANGENT_STIFFNESS = 0;
-constexpr int HD98_SECANT_STIFFNESS = 1;
+constexpr int tangent_stiffness = 0;
+constexpr int secant_stiffness = 1;
 
 typedef struct HD98_MaterialType_ HD98_MaterialType;
 typedef struct HD98_Material_ HD98_Material;
