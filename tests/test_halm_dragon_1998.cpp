@@ -14,7 +14,7 @@ static void test_current_state(hd98::HalmDragon1998 const &mat) {
 
   hd98::Hooke hooke{mat.lambda - 2 * omega[0] * mat.alpha,
                     mat.mu - 2 * omega[0] * mat.beta};
-  hooke.current_state(eps, NULL, sig_exp);
+  hooke.current_state(eps, nullptr, sig_exp);
   assert_array_equal(hd98::sym, sig_act, sig_exp, 1e-15, 1e-15);
   printf(" OK\n");
 }
@@ -85,7 +85,7 @@ static void test_update_proportional_strain(hd98::HalmDragon1998 const &mat,
     t += sign[step] * delta_t;
     double *delta_eps = (sign[step] == 1) ? delta_eps_p : delta_eps_m;
     double omega_new;
-    mat.update(delta_eps, eps, &omega, sig, &omega_new, NULL);
+    mat.update(delta_eps, eps, &omega, sig, &omega_new, nullptr);
     for (size_t i = 0; i < hd98::sym; i++) {
       eps[i] += delta_eps[i];
     }
