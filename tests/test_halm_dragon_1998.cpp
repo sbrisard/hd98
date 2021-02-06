@@ -1,4 +1,5 @@
 #include <iostream>
+#include <numeric>
 #include <vector>
 
 #include "hd98/halm_dragon_1998.hpp"
@@ -6,29 +7,29 @@
 #include "test_hd98.hpp"
 
 static void test_current_state(hd98::HalmDragon1998 const &mat) {
-  std::cout <<"HalmDragon1998/test_current_state...";
-  double eps[] = {1.2, -3.4, 5.6, -7.8, 9., -10.11};
-  double omega[] = {0.4};
-  double sig_act[hd98::sym], sig_exp[hd98::sym];
-  mat.current_state(eps, omega, sig_act);
+  std::cout << "HalmDragon1998/test_current_state...";
+  Tensor2 eps{1.2, -3.4, 5.6, -7.8, 9., -10.11};
+  std::array<double, 1> omega{0.4};
+  Tensor2 sig_act{};
+  Tensor2 sig_exp{};
+  mat.current_state(eps.data(), omega.data(), sig_act.data());
 
   hd98::Hooke hooke{mat.lambda - 2 * omega[0] * mat.alpha,
                     mat.mu - 2 * omega[0] * mat.beta};
-  hooke.current_state(eps, nullptr, sig_exp);
-  assert_array_equal(hd98::sym, sig_act, sig_exp, 1e-15, 1e-15);
+  hooke.current_state(eps.data(), nullptr, sig_exp.data());
+  assert_array_equal(hd98::sym, sig_act.data(), sig_exp.data(), 1e-15, 1e-15);
   std::cout << " OK\n";
 }
 
 static void test_update_proportional_strain(hd98::HalmDragon1998 const &mat,
-                                            double const *eps_dot) {
+                                            Tensor2 const eps_dot) {
   std::cout << "HalmDragon1998/test_update_proportional_strain...";
   double atol = 1e-15;
   double rtol = 1e-15;
 
-  double tr_eps_dot = 0.;
-  for (size_t i = 0; i < hd98::dim; i++) {
-    tr_eps_dot += eps_dot[i];
-  }
+  auto tr_eps_dot =
+      std::accumulate(eps_dot.cbegin(), eps_dot.cbegin() + hd98::dim, 0.0);
+
   double C_eps_dot_h = mat.lambda * tr_eps_dot;
   double H_eps_dot_h = 2 * mat.alpha * tr_eps_dot;
   double C_eps_dot[hd98::sym];
@@ -108,14 +109,12 @@ void setup_halm_dragon_1998_tests() {
   double const k0 = 0.11;
   double const k1 = 2.2;
 
-  hd98::HalmDragon1998 mat{lambda, mu, alpha, beta, k0, k1, hd98::tangent_stiffness};
+  hd98::HalmDragon1998 mat{
+      lambda, mu, alpha, beta, k0, k1, hd98::tangent_stiffness};
 
-  double eps1[hd98::sym];
-  double eps2[hd98::sym];
-  for (size_t i = 0; i < hd98::sym; i++) {
-    eps1[i] = i < hd98::dim ? 1. : 0.;
-    eps2[i] = 0.;
-  }
+  Tensor2 eps1{};
+  Tensor2 eps2{};
+  std::fill(eps1.begin(), eps1.begin()+hd98::dim, 1.);
   eps2[hd98::sym - 1] = 1.;
   test_current_state(mat);
   test_update_proportional_strain(mat, eps1);
