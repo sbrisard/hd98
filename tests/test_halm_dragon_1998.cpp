@@ -1,3 +1,4 @@
+#include <functional>
 #include <iostream>
 #include <numeric>
 #include <vector>
@@ -5,6 +6,16 @@
 #include "hd98/halm_dragon_1998.hpp"
 #include "hd98/hooke.hpp"
 #include "test_hd98.hpp"
+
+template <typename T>
+auto scale(T value) {
+  return [value](T x) { return value * x; };
+}
+
+template <typename T>
+auto increment(T value) {
+  return [value](T x) { return x + value; };
+}
 
 static void test_current_state(hd98::HalmDragon1998 const &mat) {
   std::cout << "HalmDragon1998/test_current_state...";
@@ -30,20 +41,17 @@ static void test_update_proportional_strain(hd98::HalmDragon1998 const &mat,
   auto tr_eps_dot =
       std::accumulate(eps_dot.cbegin(), eps_dot.cbegin() + hd98::dim, 0.0);
 
-  double C_eps_dot_h = mat.lambda * tr_eps_dot;
-  double H_eps_dot_h = 2 * mat.alpha * tr_eps_dot;
-  double C_eps_dot[hd98::sym];
-  double H_eps_dot[hd98::sym];
-  double eps_dot_H_eps_dot = 0.;
-  for (size_t i = 0; i < hd98::sym; i++) {
-    C_eps_dot[i] = 2 * mat.mu * eps_dot[i];
-    H_eps_dot[i] = 4 * mat.beta * eps_dot[i];
-    if (i < hd98::dim) {
-      C_eps_dot[i] += C_eps_dot_h;
-      H_eps_dot[i] += H_eps_dot_h;
-    }
-    eps_dot_H_eps_dot += eps_dot[i] * H_eps_dot[i];
-  }
+  Tensor2 C_eps_dot, H_eps_dot;
+  std::transform(eps_dot.cbegin(), eps_dot.cend(), C_eps_dot.begin(),
+                 scale(2 * mat.mu));
+  std::transform(eps_dot.cbegin(), eps_dot.cend(), H_eps_dot.begin(),
+                 scale(4 * mat.beta));
+  std::transform(C_eps_dot.cbegin(), C_eps_dot.cbegin() + hd98::dim,
+                 C_eps_dot.begin(), increment(mat.lambda * tr_eps_dot));
+  std::transform(H_eps_dot.cbegin(), H_eps_dot.cbegin() + hd98::dim,
+                 H_eps_dot.begin(), increment(2 * mat.alpha * tr_eps_dot));
+  auto eps_dot_H_eps_dot = std::inner_product(eps_dot.cbegin(), eps_dot.cend(),
+                                              H_eps_dot.cbegin(), 0.0);
 
   double t_damage = sqrt(2 * mat.k0_sqrt2 / eps_dot_H_eps_dot);
   double t_max = 2 * t_damage;
@@ -51,11 +59,11 @@ static void test_update_proportional_strain(hd98::HalmDragon1998 const &mat,
 
   double delta_t = t_max / (double)num_increments;
   double delta_xi = delta_t / t_damage;
-  double delta_eps_p[hd98::sym], delta_eps_m[hd98::sym];
-  for (size_t i = 0; i < hd98::sym; i++) {
-    delta_eps_p[i] = delta_t * eps_dot[i];
-    delta_eps_m[i] = -delta_eps_p[i];
-  }
+  Tensor2 delta_eps_p, delta_eps_m;
+  std::transform(eps_dot.cbegin(), eps_dot.cend(), delta_eps_p.begin(),
+                 scale(delta_t));
+  std::transform(eps_dot.cbegin(), eps_dot.cend(), delta_eps_m.begin(),
+                 scale(-delta_t));
 
   size_t num_steps = num_increments * (num_increments + 1);
   std::vector<int> sign(num_steps);
@@ -80,22 +88,21 @@ static void test_update_proportional_strain(hd98::HalmDragon1998 const &mat,
 
   double t = 0.;
   double omega = 0.;
-  double eps[] = {0., 0., 0., 0., 0., 0.};
-  double sig[hd98::sym], sig_exp[hd98::sym];
+  Tensor2 eps{}, sig, sig_exp;
   for (size_t step = 0; step < num_steps; step++) {
     t += sign[step] * delta_t;
-    double *delta_eps = (sign[step] == 1) ? delta_eps_p : delta_eps_m;
+    auto delta_eps = (sign[step] == 1) ? delta_eps_p : delta_eps_m;
     double omega_new;
-    mat.update(delta_eps, eps, &omega, sig, &omega_new, nullptr);
-    for (size_t i = 0; i < hd98::sym; i++) {
-      eps[i] += delta_eps[i];
-    }
+    mat.update(delta_eps.data(), eps.data(), &omega, sig.data(), &omega_new,
+               nullptr);
+    std::transform(eps.cbegin(), eps.cend(), delta_eps.cbegin(), eps.begin(),
+                   std::plus());
     omega = omega_new;
 
     for (size_t i = 0; i < hd98::sym; i++) {
       sig_exp[i] = t * (C_eps_dot[i] - omega_exp[step] * H_eps_dot[i]);
     }
-    assert_array_equal(hd98::sym, sig, sig_exp, rtol, atol);
+    assert_array_equal(hd98::sym, sig.data(), sig_exp.data(), rtol, atol);
   }
   std::cout << " OK\n";
 }
@@ -114,7 +121,7 @@ void setup_halm_dragon_1998_tests() {
 
   Tensor2 eps1{};
   Tensor2 eps2{};
-  std::fill(eps1.begin(), eps1.begin()+hd98::dim, 1.);
+  std::fill(eps1.begin(), eps1.begin() + hd98::dim, 1.);
   eps2[hd98::sym - 1] = 1.;
   test_current_state(mat);
   test_update_proportional_strain(mat, eps1);
