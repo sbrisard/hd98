@@ -8,11 +8,11 @@
 
 #include <stdint.h>
 
-#define HD98_DIM 3
-#define HD98_SYM 6
+constexpr size_t HD98_DIM = 3;
+constexpr size_t HD98_SYM = 6;
 
-#define HD98_TANGENT_STIFFNESS 0
-#define HD98_SECANT_STIFFNESS 1
+constexpr int HD98_TANGENT_STIFFNESS = 0;
+constexpr int HD98_SECANT_STIFFNESS = 1;
 
 namespace hd98 {
 typedef struct HD98_MaterialType_ HD98_MaterialType;
