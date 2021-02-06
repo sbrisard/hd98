@@ -6,9 +6,6 @@
 #include "hd98/hd98.hpp"
 
 namespace hd98 {
-DllExport std::array<double, sym * sym> stiffness_matrix(
-    double lambda, double mu);
-
 class Hooke {
  public:
   double const lambda;

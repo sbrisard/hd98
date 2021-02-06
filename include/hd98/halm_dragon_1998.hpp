@@ -8,7 +8,7 @@ class HalmDragon1998 {
   double const lambda;
   double const mu;
   double const
-      alpha; /* Should be > 0 (opposite convention to Xianda's paper. */
+      alpha; /* Should be > 0 (opposite convention to the paper of Xianda. */
   double const beta;
   double const k0_sqrt2;
   double const k1_sqrt2;
@@ -68,7 +68,7 @@ class HalmDragon1998 {
       sig2[i] = two_mu * eps2[i] - omega2[0] * H_eps2[i];
     for (size_t i = 0; i < dim; i++) sig2[i] += lambda_tr_eps2;
 
-    if (C2 != NULL) {
+    if (C2 != nullptr) {
       double lambda_sec = lambda - 2. * omega2[0] * alpha;
       double two_mu_sec = 2. * (mu - 2. * omega2[0] * beta);
       double *C2_ij = C2;
