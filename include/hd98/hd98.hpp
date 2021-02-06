@@ -6,9 +6,6 @@
 #define DllExport
 #endif
 
-#include <stdint.h>
-
-
 namespace hd98 {
 constexpr size_t dim = 3;
 constexpr size_t sym = 6;
