@@ -4,15 +4,11 @@
 
 #include "hd98/hd98.hpp"
 
-void hd98_global_update(size_t n,
-                        size_t const *phase,
-                        HD98_Material const **mat,
-                        double const *delta_eps,
-                        double const *eps1,
-                        double const *iv1,
-                        double *sig2,
-                        double *iv2,
-                        double *C2) {
+namespace hd98 {
+void hd98_global_update(size_t n, size_t const *phase,
+                        HD98_Material const **mat, double const *delta_eps,
+                        double const *eps1, double const *iv1, double *sig2,
+                        double *iv2, double *C2) {
   double const *delta_eps_i = delta_eps;
   double const *eps1_i = eps1;
   double const *iv1_i = iv1;
@@ -34,7 +30,7 @@ void hd98_global_update(size_t n,
   }
 }
 
-//int hd98_solve_polarization_plus(HD98_Material const *mat, double lambda0,
+// int hd98_solve_polarization_plus(HD98_Material const *mat, double lambda0,
 //                                 double mu0, double const *delta_tau,
 //                                 double const *eps1, double const *iv1,
 //                                 double *delta_eps) {
@@ -76,9 +72,9 @@ void hd98_global_update(size_t n,
 //    for (size_t i = 0; i < HD98_DIM; i++) tr_delta_eps += delta_eps[i];
 //    bool converged = true;
 //    for (size_t i = 0; i < HD98_SYM; i++) {
-//      double b_i = delta_tau[i] - (sig2[i] - sig1[i]) - 2 * mu0 * delta_eps[i];
-//      if (i < HD98_DIM) b_i -= lambda0 * tr_delta_eps;
-//      converged = converged && (fabs(b_i) <= rtol * fabs(delta_tau[i]) + atol);
+//      double b_i = delta_tau[i] - (sig2[i] - sig1[i]) - 2 * mu0 *
+//      delta_eps[i]; if (i < HD98_DIM) b_i -= lambda0 * tr_delta_eps; converged
+//      = converged && (fabs(b_i) <= rtol * fabs(delta_tau[i]) + atol);
 //      gsl_vector_set(b, i, b_i);
 //    }
 //    if (converged) break;
@@ -100,7 +96,7 @@ void hd98_global_update(size_t n,
 //  return iter > max_iter;
 //}
 //
-//int hd98_solve_polarizations_plus(size_t n, size_t const *phase,
+// int hd98_solve_polarizations_plus(size_t n, size_t const *phase,
 //                                  HD98_Material const **mat, double lambda0,
 //                                  double mu0, double const *delta_tau,
 //                                  double const *eps1, double const *iv1,
@@ -125,3 +121,4 @@ void hd98_global_update(size_t n,
 //  }
 //  return 0;
 //}
+}  // namespace hd98
