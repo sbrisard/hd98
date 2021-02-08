@@ -1,4 +1,3 @@
-#include <array>
 #include <cmath>
 #include <cstdio>
 
@@ -134,7 +133,3 @@ void assert_array_equal(size_t size, double const *actual,
 //  g_assert_cmpint(status, ==, 0);
 //  assert_array_equal(sym, delta_eps_act, delta_eps, rtol, atol);
 //}
-
-void setup_hd98_tests() {
-  //  test_global_update();
-}
