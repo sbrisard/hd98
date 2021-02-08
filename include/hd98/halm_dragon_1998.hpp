@@ -1,5 +1,6 @@
 #pragma once
 
+#include <sstream>
 #include "hd98/hd98.hpp"
 
 namespace hd98 {
@@ -23,6 +24,15 @@ class HalmDragon1998 {
         k0_sqrt2(k0 * M_SQRT2),
         k1_sqrt2(k1 * M_SQRT2),
         stiffness_type(stiffness_type) {}
+
+  std::string repr() const {
+    std::ostringstream stream;
+    stream << "Hooke"
+           << "{lambda=" << lambda << ",mu=" << mu << ",alpha=" << alpha
+           << ",beta=" << beta << ",k0=" << k0_sqrt2 / M_SQRT2
+           << ",k1=" << k1_sqrt2 / M_SQRT2 << "}";
+    return stream.str();
+  }
 
   void current_state(double const *eps, double const *omega,
                      double *sig) const {
@@ -95,4 +105,8 @@ class HalmDragon1998 {
     }
   }
 };
+
+std::ostream &operator<<(std::ostream &os, const HalmDragon1998 mat) {
+  return os << mat.repr();
+}
 }  // namespace hd98

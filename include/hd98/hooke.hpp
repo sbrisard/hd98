@@ -2,6 +2,7 @@
 
 #include <array>
 #include <cstring>
+#include <sstream>
 
 #include "hd98/hd98.hpp"
 
@@ -14,6 +15,14 @@ class Hooke {
 
   Hooke(double lambda, double mu)
       : lambda(lambda), mu(mu), C(stiffness_matrix(lambda, mu)) {}
+
+  std::string repr() const {
+    std::ostringstream stream;
+    stream << "Hooke"
+           << "{lambda=" << lambda << ","
+           << "mu=" << mu << "}";
+    return stream.str();
+  }
 
   void current_state(double const *eps, double const *unused,
                      double *sig) const {
@@ -51,7 +60,7 @@ class Hooke {
 
  private:
   static std::array<double, sym * sym> stiffness_matrix(double lambda,
-                                                                  double mu) {
+                                                        double mu) {
     std::array<double, sym * sym> C{};
     for (size_t i = 0, ij = 0; i < sym; i++) {
       for (size_t j = 0; j < sym; j++, ij++) {
@@ -63,4 +72,8 @@ class Hooke {
     return C;
   }
 };
+
+std::ostream &operator<<(std::ostream &os, const Hooke hooke) {
+  return os << hooke.repr();
+}
 }  // namespace hd98
