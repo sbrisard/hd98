@@ -19,7 +19,8 @@ static void test_current_state(hd98::Hooke const& mat) {
         sig_exp[j] += mat.lambda;
       }
     }
-    assert_array_equal(hd98::sym, sig_act.data(), sig_exp.data(), 1e-15, 1e-15);
+    assert_approx_equal(sig_act.cbegin(), sig_act.cend(), sig_exp.cbegin(),
+                        1e-15, 1e-15);
     eps[i] = 0.;
   }
 }
@@ -44,10 +45,10 @@ static void test_update(hd98::Hooke const& mat) {
     mat.update(delta_eps.data(), eps1.data(), nullptr, sig2_act.data(), nullptr,
                C2_act.data());
     mat.current_state(delta_eps.data(), nullptr, sig2_exp.data());
-    assert_array_equal(hd98::sym, sig2_act.data(), sig2_exp.data(), 1e-15,
-                       1e-15);
-    assert_array_equal(hd98::sym * hd98::sym, C2_act.data(), C2_exp.data(),
-                       1e-15, 1e-15);
+    assert_approx_equal(sig2_act.cbegin(), sig2_act.cend(), sig2_exp.cbegin(),
+                        1e-15, 1e-15);
+    assert_approx_equal(C2_act.cbegin(), C2_act.cend(), C2_exp.cbegin(), 1e-15,
+                        1e-15);
     delta_eps[i] = 0.;
   }
 }

@@ -5,18 +5,6 @@
 
 #include "test_hd98.hpp"
 
-void assert_equal(double act, double exp, double rtol, double atol) {
-  INFO("exp = " << exp << ", act = " << act);
-  REQUIRE(abs(act - exp) <= rtol * abs(exp) + atol);
-}
-
-void assert_array_equal(size_t size, double const *actual,
-                        double const *expected, double rtol, double atol) {
-  for (size_t i = 0; i < size; i++) {
-    assert_equal(actual[i], expected[i], rtol, atol);
-  }
-}
-
 // static HD98_Material *hooke_new_default() {
 //  double kappa = 76700.;
 //  double mu = 41600.;

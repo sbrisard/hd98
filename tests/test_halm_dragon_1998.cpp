@@ -27,7 +27,8 @@ static void test_current_state(hd98::HalmDragon1998 const &mat) {
   hd98::Hooke hooke{mat.lambda - 2 * omega[0] * mat.alpha,
                     mat.mu - 2 * omega[0] * mat.beta};
   hooke.current_state(eps.data(), nullptr, sig_exp.data());
-  assert_array_equal(hd98::sym, sig_act.data(), sig_exp.data(), 1e-15, 1e-15);
+  assert_approx_equal(sig_act.cbegin(), sig_act.cend(), sig_exp.cbegin(), 1e-15,
+                      1e-15);
 }
 
 static void test_update_proportional_strain(hd98::HalmDragon1998 const &mat,
@@ -99,7 +100,7 @@ static void test_update_proportional_strain(hd98::HalmDragon1998 const &mat,
     for (size_t i = 0; i < hd98::sym; i++) {
       sig_exp[i] = t * (C_eps_dot[i] - omega_exp[step] * H_eps_dot[i]);
     }
-    assert_array_equal(hd98::sym, sig.data(), sig_exp.data(), rtol, atol);
+    assert_approx_equal(sig.cbegin(), sig.cend(), sig_exp.cbegin(), rtol, atol);
   }
 }
 
@@ -117,7 +118,7 @@ TEST_CASE("HalmDragon1998") {
 
   SECTION("current_state") { test_current_state(mat); }
 
-  SECTION("update 1"){
+  SECTION("update 1") {
     Tensor2 eps1{};
     std::fill(eps1.begin(), eps1.begin() + hd98::dim, 1.);
     test_update_proportional_strain(mat, eps1);
