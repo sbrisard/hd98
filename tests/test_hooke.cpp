@@ -1,10 +1,12 @@
 #include <array>
 #include <iostream>
+
+#include <catch2/catch.hpp>
+
 #include "hd98/hooke.hpp"
 #include "test_hd98.hpp"
 
 static void test_current_state(hd98::Hooke const& mat) {
-  std::cout << "Hooke/test_current_state...";
   Tensor2 eps{};
   Tensor2 sig_act{};
   Tensor2 sig_exp{};
@@ -21,11 +23,9 @@ static void test_current_state(hd98::Hooke const& mat) {
     assert_array_equal(hd98::sym, sig_act.data(), sig_exp.data(), 1e-15, 1e-15);
     eps[i] = 0.;
   }
-  std::cout << " OK\n";
 }
 
 static void test_update(hd98::Hooke const& mat) {
-  std::cout << "Hooke/test_update...";
   Tensor2 eps1{};
   Tensor2 delta_eps{};
   Tensor2 sig2_act{};
@@ -51,14 +51,14 @@ static void test_update(hd98::Hooke const& mat) {
                        1e-15, 1e-15);
     delta_eps[i] = 0.;
   }
-  std::cout << " OK\n";
 }
 
-void setup_hooke_tests() {
+TEST_CASE("Hooke") {
   double const mu = 1.2;
   double const nu = 0.3;
   double const lambda = 2 * mu * nu / (1 - 2 * nu);
   hd98::Hooke const mat{lambda, mu};
-  test_current_state(mat);
-  test_update(mat);
+
+  SECTION("current_state") { test_current_state(mat); }
+  SECTION("Update") { test_update(mat); }
 }

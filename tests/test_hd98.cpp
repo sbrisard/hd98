@@ -1,42 +1,30 @@
 #include <array>
 #include <cmath>
 #include <cstdio>
-#include <vector>
 
-#include "hd98/halm_dragon_1998.hpp"
-#include "hd98/hd98.hpp"
-#include "hd98/hooke.hpp"
+#include <catch2/catch.hpp>
 
 #include "test_hd98.hpp"
 
-void setup_hooke_tests();
-
-void setup_halm_dragon_1998_tests();
-
-void assert_true(bool predicate) {
-  if (!predicate) exit(-1);
-}
-
 void assert_equal(double act, double exp, double rtol, double atol) {
-  if (fabs(act - exp) > rtol * fabs(exp) + atol) {
-    exit(-1);
-  }
+  INFO("exp = " << exp << ", act = " << act);
+  REQUIRE(abs(act - exp) <= rtol * abs(exp) + atol);
 }
 
 void assert_array_equal(size_t size, double const *actual,
                         double const *expected, double rtol, double atol) {
   for (size_t i = 0; i < size; i++) {
-    assert_equal(expected[i], actual[i], rtol, atol);
+    assert_equal(actual[i], expected[i], rtol, atol);
   }
 }
 
-//static HD98_Material *hooke_new_default() {
+// static HD98_Material *hooke_new_default() {
 //  double kappa = 76700.;
 //  double mu = 41600.;
 //  return hd98_hooke_new(kappa - 2 * mu / dim, mu);
 //}
 //
-//static HD98_Material *halm_dragon_1998_new_default() {
+// static HD98_Material *halm_dragon_1998_new_default() {
 //  double kappa = 60700.;
 //  double mu = 31300.;
 //  double lambda = kappa - 2 * mu / dim;
@@ -48,7 +36,7 @@ void assert_array_equal(size_t size, double const *actual,
 //                                   tangent_stiffness);
 //}
 //
-//static void test_global_update() {
+// static void test_global_update() {
 //  // TODO This function is truly horrible
 //  printf("test_global_update...");
 //  std::array<HD98_Material const *, 2> mat{halm_dragon_1998_new_default(),
@@ -149,11 +137,4 @@ void assert_array_equal(size_t size, double const *actual,
 
 void setup_hd98_tests() {
   //  test_global_update();
-}
-
-int main() {
-  setup_hooke_tests();
-  setup_halm_dragon_1998_tests();
-  //  setup_hd98_tests();
-  return 0;
 }

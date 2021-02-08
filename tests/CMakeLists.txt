@@ -1,4 +1,5 @@
 add_executable(test_hd98
+        test_hd98_main.cpp
         test_hd98.cpp
         test_hooke.cpp
         test_halm_dragon_1998.cpp
@@ -14,7 +15,7 @@ add_compile_definitions(_USE_MATH_DEFINES)
 
 target_link_libraries(test_hd98 PRIVATE hd98)
 
-#find_package(Catch2 REQUIRED)
-#target_link_libraries(test_hd98 PRIVATE hd98 Catch2::Catch2)
+find_package(Catch2 REQUIRED)
+target_link_libraries(test_hd98 PRIVATE hd98 Catch2::Catch2)
 
 add_test(NAME test_hd98 COMMAND test_hd98)

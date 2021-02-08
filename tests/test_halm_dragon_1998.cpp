@@ -3,6 +3,8 @@
 #include <numeric>
 #include <vector>
 
+#include <catch2/catch.hpp>
+
 #include "hd98/halm_dragon_1998.hpp"
 #include "hd98/hooke.hpp"
 #include "test_hd98.hpp"
@@ -18,7 +20,6 @@ auto increment(T value) {
 }
 
 static void test_current_state(hd98::HalmDragon1998 const &mat) {
-  std::cout << "HalmDragon1998/test_current_state...";
   Tensor2 eps{1.2, -3.4, 5.6, -7.8, 9., -10.11};
   std::array<double, 1> omega{0.4};
   Tensor2 sig_act{};
@@ -29,12 +30,10 @@ static void test_current_state(hd98::HalmDragon1998 const &mat) {
                     mat.mu - 2 * omega[0] * mat.beta};
   hooke.current_state(eps.data(), nullptr, sig_exp.data());
   assert_array_equal(hd98::sym, sig_act.data(), sig_exp.data(), 1e-15, 1e-15);
-  std::cout << " OK\n";
 }
 
 static void test_update_proportional_strain(hd98::HalmDragon1998 const &mat,
                                             Tensor2 const eps_dot) {
-  std::cout << "HalmDragon1998/test_update_proportional_strain...";
   double atol = 1e-15;
   double rtol = 1e-15;
 
@@ -104,10 +103,9 @@ static void test_update_proportional_strain(hd98::HalmDragon1998 const &mat,
     }
     assert_array_equal(hd98::sym, sig.data(), sig_exp.data(), rtol, atol);
   }
-  std::cout << " OK\n";
 }
 
-void setup_halm_dragon_1998_tests() {
+TEST_CASE("HalmDragon1998") {
   double const kappa = 60700.;
   double const mu = 31300.;
   double const lambda = kappa - 2 * mu / hd98::dim;
@@ -119,11 +117,17 @@ void setup_halm_dragon_1998_tests() {
   hd98::HalmDragon1998 mat{
       lambda, mu, alpha, beta, k0, k1, hd98::tangent_stiffness};
 
-  Tensor2 eps1{};
-  Tensor2 eps2{};
-  std::fill(eps1.begin(), eps1.begin() + hd98::dim, 1.);
-  eps2[hd98::sym - 1] = 1.;
-  test_current_state(mat);
-  test_update_proportional_strain(mat, eps1);
-  test_update_proportional_strain(mat, eps2);
+  SECTION("current_state") { test_current_state(mat); }
+
+  SECTION("update 1"){
+    Tensor2 eps1{};
+    std::fill(eps1.begin(), eps1.begin() + hd98::dim, 1.);
+    test_update_proportional_strain(mat, eps1);
+  }
+
+  SECTION("update 2") {
+    Tensor2 eps2{};
+    eps2[hd98::sym - 1] = 1.;
+    test_update_proportional_strain(mat, eps2);
+  }
 }
