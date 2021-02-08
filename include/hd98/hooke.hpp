@@ -73,7 +73,5 @@ class Hooke {
   }
 };
 
-std::ostream &operator<<(std::ostream &os, const Hooke hooke) {
-  return os << hooke.repr();
-}
+std::ostream &operator<<(std::ostream &os, const Hooke mat);
 }  // namespace hd98

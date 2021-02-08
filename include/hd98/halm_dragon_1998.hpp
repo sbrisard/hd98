@@ -1,5 +1,7 @@
 #pragma once
 
+#include <numbers>
+#include <ostream>
 #include <sstream>
 #include "hd98/hd98.hpp"
 
@@ -21,16 +23,16 @@ class HalmDragon1998 {
         mu(mu),
         alpha(alpha),
         beta(beta),
-        k0_sqrt2(k0 * M_SQRT2),
-        k1_sqrt2(k1 * M_SQRT2),
+        k0_sqrt2(k0 * std::numbers::sqrt2),
+        k1_sqrt2(k1 * std::numbers::sqrt2),
         stiffness_type(stiffness_type) {}
 
   std::string repr() const {
     std::ostringstream stream;
     stream << "Hooke"
            << "{lambda=" << lambda << ",mu=" << mu << ",alpha=" << alpha
-           << ",beta=" << beta << ",k0=" << k0_sqrt2 / M_SQRT2
-           << ",k1=" << k1_sqrt2 / M_SQRT2 << "}";
+           << ",beta=" << beta << ",k0=" << 0.5 * k0_sqrt2 * std::numbers::sqrt2
+           << ",k1=" << 0.5 * k1_sqrt2 * std::numbers::sqrt2 << "}";
     return stream.str();
   }
 
@@ -106,7 +108,5 @@ class HalmDragon1998 {
   }
 };
 
-std::ostream &operator<<(std::ostream &os, const HalmDragon1998 mat) {
-  return os << mat.repr();
-}
+std::ostream &operator<<(std::ostream &os, const HalmDragon1998 mat);
 }  // namespace hd98
