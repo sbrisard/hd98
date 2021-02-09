@@ -32,8 +32,7 @@ if __name__ == "__main__":
         "pyhd98",
         include_dirs=[pybind11.get_include(),
                       hd98_include_dir],
-        sources=[os.path.join("pyhd98",
-                              "pyhd98.cpp")],
+        sources=["pyhd98.cpp"],
         libraries=["hd98"],
         library_dirs=[hd98_library_dir],
         define_macros=[
