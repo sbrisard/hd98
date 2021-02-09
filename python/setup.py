@@ -12,7 +12,7 @@ def get_metadata(key):
 
 if __name__ == "__main__":
     metadata = {
-        "name": "hd98",
+        "name": "pyhd98",
         "version": get_metadata("version"),
         "author": get_metadata("author"),
         "author_email": "email",
@@ -28,19 +28,24 @@ if __name__ == "__main__":
     hd98_include_dir = config["hd98"].get("include_dir", "")
     hd98_library_dir = config["hd98"].get("library_dir", "")
 
-    hd98 = setuptools.Extension(
-        "hd98.hd98",
+    pyhd98 = setuptools.Extension(
+        "pyhd98",
         include_dirs=[pybind11.get_include(),
                       hd98_include_dir],
-        sources=[os.path.join("hd98",
-                              "hd98.cpp")],
+        sources=[os.path.join("pyhd98",
+                              "pyhd98.cpp")],
         libraries=["hd98"],
         library_dirs=[hd98_library_dir],
+        define_macros=[
+            ("__HD98_VERSION__", r"\"" + metadata["version"] + r"\""),
+            ("__HD98_AUTHOR__", r"\"" + metadata["author"] + r"\""),
+        ],
+        extra_compile_args = ["/std:c++latest"],
     )
 
     setuptools.setup(
         long_description_content_type="text/markdown",
         packages=setuptools.find_packages(),
-        ext_modules=[hd98],
+        ext_modules=[pyhd98],
         **metadata
     )

@@ -14,9 +14,7 @@ def test_halm_dragon_1998_data():
     k0 = 0.11
     k1 = 2.2
     λ = κ - 2 * μ / 3
-    mat = HalmDragon1998(λ, μ, α, β, k0, k1)
-    assert mat.name == b"HalmDragon1998"
-    assert mat.num_int_var == 1
+    mat = HalmDragon1998(λ, μ, α, β, k0, k1, 0)
     assert mat.lambda_ == λ
     assert mat.mu == μ
     assert mat.alpha == α
@@ -35,7 +33,7 @@ def test_halm_dragon_1998_proportional_strain(ε_dot, atol=1e-15, rtol=1e-15):
     κ, μ = 60700.0, 31300.0
     α, β = 16000.0, 31000.0
     k0, k1 = 0.11, 2.2
-    mat = HalmDragon1998(κ - 2 * μ / 3, μ, α, β, k0, k1)
+    mat = HalmDragon1998(κ - 2 * μ / 3, μ, α, β, k0, k1, 0)
 
     I2 = np.zeros((sym,), dtype=np.float64)
     I2[:dim] = 1.0
