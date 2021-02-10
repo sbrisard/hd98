@@ -1,4 +1,6 @@
 #pragma once
+#include <ostream>
+#include <string>
 
 #if _WIN32
 #define DllExport __declspec(dllexport)
@@ -25,6 +27,18 @@ typedef void hd98_material_update_t(HD98_Material const *mat,
                                     double const *iv1, double *sig2,
                                     double *iv2, double *C2);
 
+class Material {
+ public:
+  [[nodiscard]] virtual std::string repr() const = 0;
+  virtual void current_state(double const *eps, double const *omega,
+                             double *sig) const = 0;
+  virtual void update(double const *delta_eps, double const *eps1,
+                      double const *omega1, double *sig2, double *omega2,
+                      double *C2) const = 0;
+};
+
+std::ostream &operator<<(std::ostream &os, const Material &mat);
+
 struct HD98_MaterialType_ {
   char name[64]; /* Modify core.py if this length is altered. */
   size_t niv;    /* Number of internal variables. */
@@ -43,4 +57,5 @@ DllExport void hd98_global_update(size_t n, size_t const *phase,
                                   double const *delta_eps, double const *eps1,
                                   double const *iv1, double *sig2, double *iv2,
                                   double *C2);
+
 }  // namespace hd98

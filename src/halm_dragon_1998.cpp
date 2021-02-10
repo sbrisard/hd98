@@ -2,8 +2,5 @@
 
 #include "hd98/halm_dragon_1998.hpp"
 
-namespace hd98{
-std::ostream &operator<<(std::ostream &os, const HalmDragon1998 mat) {
-  return os << mat.repr();
-}
-}
+namespace hd98 {
+}  // namespace hd98

@@ -5,6 +5,11 @@
 #include "hd98/hd98.hpp"
 
 namespace hd98 {
+
+std::ostream &operator<<(std::ostream &os, const Material &mat){
+  return os << mat.repr();
+}
+
 void hd98_global_update(size_t n, size_t const *phase,
                         HD98_Material const **mat, double const *delta_eps,
                         double const *eps1, double const *iv1, double *sig2,
