@@ -59,6 +59,7 @@ class Hooke {
   }
 
  private:
+
   static std::array<double, sym * sym> stiffness_matrix(double lambda,
                                                         double mu) {
     std::array<double, sym * sym> C{};
