@@ -1,3 +1,5 @@
+#pragma once
+
 #include <array>
 
 #include <catch2/catch.hpp>
@@ -5,6 +7,7 @@
 #include "hd98/hooke.hpp"
 #include "test_hd98.hpp"
 
+namespace test_hooke {
 static void test_current_state(hd98::Hooke const& mat) {
   Tensor2 eps{};
   Tensor2 sig_act{};
@@ -52,13 +55,4 @@ static void test_update(hd98::Hooke const& mat) {
     delta_eps[i] = 0.;
   }
 }
-
-TEST_CASE("Hooke") {
-  double const mu = 1.2;
-  double const nu = 0.3;
-  double const lambda = 2 * mu * nu / (1 - 2 * nu);
-  hd98::Hooke const mat{lambda, mu};
-
-  SECTION("current_state") { test_current_state(mat); }
-  SECTION("Update") { test_update(mat); }
-}
+}  // namespace test_hooke

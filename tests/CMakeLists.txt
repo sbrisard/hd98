@@ -1,8 +1,6 @@
 add_executable(test_hd98
         test_hd98_main.cpp
         test_hd98.cpp
-        test_hooke.cpp
-        test_halm_dragon_1998.cpp
         )
 
 target_include_directories(test_hd98 PUBLIC ../include)

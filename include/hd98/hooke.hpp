@@ -7,7 +7,7 @@
 #include "hd98/hd98.hpp"
 
 namespace hd98 {
-class Hooke : Material {
+class Hooke {
  public:
   double const lambda;
   double const mu;
@@ -16,7 +16,7 @@ class Hooke : Material {
   Hooke(double lambda, double mu)
       : lambda(lambda), mu(mu), C(stiffness_matrix(lambda, mu)) {}
 
-  [[nodiscard]] std::string repr() const override {
+  [[nodiscard]] std::string repr() const {
     std::ostringstream stream;
     stream << "Hooke"
            << "{lambda=" << lambda << ","
@@ -25,7 +25,7 @@ class Hooke : Material {
   }
 
   void current_state(double const *eps, double const *unused,
-                     double *sig) const override {
+                     double *sig) const {
     double lambda_tr_eps = 0.;
     for (size_t i = 0; i < dim; i++) {
       lambda_tr_eps += eps[i];
@@ -42,7 +42,7 @@ class Hooke : Material {
 
   void update(double const *delta_eps, double const *eps1,
               double const *unused1, double *sig2, double *unused2,
-              double *C2) const override {
+              double *C2) const {
     double eps2[sym];
     for (size_t i = 0; i < sym; i++) eps2[i] = eps1[i] + delta_eps[i];
 
@@ -72,4 +72,9 @@ class Hooke : Material {
     return C;
   }
 };
+
+std::ostream &operator<<(std::ostream &os, const Hooke &mat) {
+  return os << mat.repr();
+}
+
 }  // namespace hd98

@@ -1,39 +1,6 @@
-#include <math.h>
-#include <stdbool.h>
-#include <string.h>
-
 #include "hd98/hd98.hpp"
 
 namespace hd98 {
-
-std::ostream &operator<<(std::ostream &os, const Material &mat){
-  return os << mat.repr();
-}
-
-void hd98_global_update(size_t n, size_t const *phase,
-                        HD98_Material const **mat, double const *delta_eps,
-                        double const *eps1, double const *iv1, double *sig2,
-                        double *iv2, double *C2) {
-  double const *delta_eps_i = delta_eps;
-  double const *eps1_i = eps1;
-  double const *iv1_i = iv1;
-  HD98_Material const *mat_i;
-  double *sig2_i = sig2;
-  double *iv2_i = iv2;
-  double *C2_i = C2;
-
-  for (size_t i = 0; i < n; i++) {
-    mat_i = mat[phase[i]];
-    mat_i->type->update(mat_i, delta_eps_i, eps1_i, iv1_i, sig2_i, iv2_i, C2_i);
-
-    delta_eps_i += sym;
-    eps1_i += sym;
-    iv1_i += mat_i->type->niv;
-    sig2_i += sym;
-    iv2_i += mat_i->type->niv;
-    C2_i += sym * sym;
-  }
-}
 
 // int hd98_solve_polarization_plus(HD98_Material const *mat, double lambda0,
 //                                 double mu0, double const *delta_tau,

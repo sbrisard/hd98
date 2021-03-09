@@ -5,7 +5,7 @@
 #include "hd98/hd98.hpp"
 
 namespace hd98 {
-class HalmDragon1998 : Material {
+class HalmDragon1998 {
  public:
   double const lambda;
   double const mu;
@@ -26,7 +26,7 @@ class HalmDragon1998 : Material {
         k1_sqrt2(k1 * std::numbers::sqrt2),
         stiffness_type(stiffness_type) {}
 
-  [[nodiscard]] std::string repr() const override {
+  [[nodiscard]] std::string repr() const {
     std::ostringstream stream;
     stream << "Hooke"
            << "{lambda=" << lambda << ",mu=" << mu << ",alpha=" << alpha
@@ -36,7 +36,7 @@ class HalmDragon1998 : Material {
   }
 
   void current_state(double const *eps, double const *omega,
-                     double *sig) const override {
+                     double *sig) const {
     double two_mu = 2 * mu - 4 * beta * omega[0];
     double lambda_tr_eps = 0.;
     for (size_t i = 0; i < dim; i++) {
@@ -52,7 +52,7 @@ class HalmDragon1998 : Material {
   }
 
   void update(double const *delta_eps, double const *eps1, double const *omega1,
-              double *sig2, double *omega2, double *C2) const override{
+              double *sig2, double *omega2, double *C2) const {
     double eps2[sym];
     for (size_t i = 0; i < sym; i++) eps2[i] = eps1[i] + delta_eps[i];
 
@@ -106,4 +106,9 @@ class HalmDragon1998 : Material {
     }
   }
 };
+
+std::ostream &operator<<(std::ostream &os, const HalmDragon1998 &mat) {
+  return os << mat.repr();
+}
+
 }  // namespace hd98
