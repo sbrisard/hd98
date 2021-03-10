@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classhd98_1_1_halm_dragon1998" kind="class" language="C++" prot="public">
+    <compoundname>hd98::HalmDragon1998</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classhd98_1_1_halm_dragon1998_1a84174ecac7d6f5bf1188823f87cd924b" prot="public" static="no" mutable="no">
+        <type>double const</type>
+        <definition>double const hd98::HalmDragon1998::lambda</definition>
+        <argsstring></argsstring>
+        <name>lambda</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" line="10" column="16" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" bodystart="10" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classhd98_1_1_halm_dragon1998_1a4946c7c102fdb1b0609e22ce2230f9b2" prot="public" static="no" mutable="no">
+        <type>double const</type>
+        <definition>double const hd98::HalmDragon1998::mu</definition>
+        <argsstring></argsstring>
+        <name>mu</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" line="11" column="16" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" bodystart="11" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classhd98_1_1_halm_dragon1998_1a2926bd4f8f527832e640b3721bfbfae2" prot="public" static="no" mutable="no">
+        <type>double const</type>
+        <definition>double const hd98::HalmDragon1998::alpha</definition>
+        <argsstring></argsstring>
+        <name>alpha</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" line="13" column="7" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" bodystart="13" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classhd98_1_1_halm_dragon1998_1a37a66ce4a7c0dcc166dae2521d1e5280" prot="public" static="no" mutable="no">
+        <type>double const</type>
+        <definition>double const hd98::HalmDragon1998::beta</definition>
+        <argsstring></argsstring>
+        <name>beta</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" line="14" column="16" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classhd98_1_1_halm_dragon1998_1af667b725298f15389cafb52725f76973" prot="public" static="no" mutable="no">
+        <type>double const</type>
+        <definition>double const hd98::HalmDragon1998::k0_sqrt2</definition>
+        <argsstring></argsstring>
+        <name>k0_sqrt2</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" line="15" column="16" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classhd98_1_1_halm_dragon1998_1aec8e46ea072f30aed4dc47ef6975d142" prot="public" static="no" mutable="no">
+        <type>double const</type>
+        <definition>double const hd98::HalmDragon1998::k1_sqrt2</definition>
+        <argsstring></argsstring>
+        <name>k1_sqrt2</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" line="16" column="16" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classhd98_1_1_halm_dragon1998_1ab49a29bbe58c1c33945fb23b521638fb" prot="public" static="no" mutable="no">
+        <type>int const</type>
+        <definition>int const hd98::HalmDragon1998::stiffness_type</definition>
+        <argsstring></argsstring>
+        <name>stiffness_type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" line="17" column="13" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classhd98_1_1_halm_dragon1998_1a5d0274a2e8d50182a020e14b62c21f8c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>hd98::HalmDragon1998::HalmDragon1998</definition>
+        <argsstring>(double lambda, double mu, double alpha, double beta, double k0, double k1, int stiffness_type)</argsstring>
+        <name>HalmDragon1998</name>
+        <param>
+          <type>double</type>
+          <declname>lambda</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>mu</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>alpha</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>beta</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>k0</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>k1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>stiffness_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" line="19" column="3" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" bodystart="19" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classhd98_1_1_halm_dragon1998_1a7f65c917a0fdacc5091f843f6be20a56" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string hd98::HalmDragon1998::repr</definition>
+        <argsstring>() const</argsstring>
+        <name>repr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" line="29" column="16" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" bodystart="29" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classhd98_1_1_halm_dragon1998_1af00e855c25215ec1e5747e5a841d3962" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void hd98::HalmDragon1998::current_state</definition>
+        <argsstring>(double const *eps, double const *omega, double *sig) const</argsstring>
+        <name>current_state</name>
+        <param>
+          <type>double const *</type>
+          <declname>eps</declname>
+        </param>
+        <param>
+          <type>double const *</type>
+          <declname>omega</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>sig</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" line="38" column="8" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" bodystart="38" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classhd98_1_1_halm_dragon1998_1a735b668988510723ff5f6c149645706f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void hd98::HalmDragon1998::update</definition>
+        <argsstring>(double const *delta_eps, double const *eps1, double const *omega1, double *sig2, double *omega2, double *C2) const</argsstring>
+        <name>update</name>
+        <param>
+          <type>double const *</type>
+          <declname>delta_eps</declname>
+        </param>
+        <param>
+          <type>double const *</type>
+          <declname>eps1</declname>
+        </param>
+        <param>
+          <type>double const *</type>
+          <declname>omega1</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>sig2</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>omega2</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>C2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" line="54" column="8" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" bodystart="54" bodyend="107"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" line="8" column="1" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" bodystart="8" bodyend="108"/>
+    <listofallmembers>
+      <member refid="classhd98_1_1_halm_dragon1998_1a2926bd4f8f527832e640b3721bfbfae2" prot="public" virt="non-virtual"><scope>hd98::HalmDragon1998</scope><name>alpha</name></member>
+      <member refid="classhd98_1_1_halm_dragon1998_1a37a66ce4a7c0dcc166dae2521d1e5280" prot="public" virt="non-virtual"><scope>hd98::HalmDragon1998</scope><name>beta</name></member>
+      <member refid="classhd98_1_1_halm_dragon1998_1af00e855c25215ec1e5747e5a841d3962" prot="public" virt="non-virtual"><scope>hd98::HalmDragon1998</scope><name>current_state</name></member>
+      <member refid="classhd98_1_1_halm_dragon1998_1a5d0274a2e8d50182a020e14b62c21f8c" prot="public" virt="non-virtual"><scope>hd98::HalmDragon1998</scope><name>HalmDragon1998</name></member>
+      <member refid="classhd98_1_1_halm_dragon1998_1af667b725298f15389cafb52725f76973" prot="public" virt="non-virtual"><scope>hd98::HalmDragon1998</scope><name>k0_sqrt2</name></member>
+      <member refid="classhd98_1_1_halm_dragon1998_1aec8e46ea072f30aed4dc47ef6975d142" prot="public" virt="non-virtual"><scope>hd98::HalmDragon1998</scope><name>k1_sqrt2</name></member>
+      <member refid="classhd98_1_1_halm_dragon1998_1a84174ecac7d6f5bf1188823f87cd924b" prot="public" virt="non-virtual"><scope>hd98::HalmDragon1998</scope><name>lambda</name></member>
+      <member refid="classhd98_1_1_halm_dragon1998_1a4946c7c102fdb1b0609e22ce2230f9b2" prot="public" virt="non-virtual"><scope>hd98::HalmDragon1998</scope><name>mu</name></member>
+      <member refid="classhd98_1_1_halm_dragon1998_1a7f65c917a0fdacc5091f843f6be20a56" prot="public" virt="non-virtual"><scope>hd98::HalmDragon1998</scope><name>repr</name></member>
+      <member refid="classhd98_1_1_halm_dragon1998_1ab49a29bbe58c1c33945fb23b521638fb" prot="public" virt="non-virtual"><scope>hd98::HalmDragon1998</scope><name>stiffness_type</name></member>
+      <member refid="classhd98_1_1_halm_dragon1998_1a735b668988510723ff5f6c149645706f" prot="public" virt="non-virtual"><scope>hd98::HalmDragon1998</scope><name>update</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

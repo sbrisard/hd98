@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dir_f68b81ffb4581ae30fb9ca1eee071683" kind="dir">
+    <compoundname>C:/Users/sbrisard/Git/programmes/hd98/include/hd98</compoundname>
+    <innerfile refid="composite_8hpp">composite.hpp</innerfile>
+    <innerfile refid="halm__dragon__1998_8hpp">halm_dragon_1998.hpp</innerfile>
+    <innerfile refid="hd98_8hpp">hd98.hpp</innerfile>
+    <innerfile refid="hooke_8hpp">hooke.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/"/>
+  </compounddef>
+</doxygen>

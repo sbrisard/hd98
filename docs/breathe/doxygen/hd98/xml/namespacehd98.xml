@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="namespacehd98" kind="namespace" language="C++">
+    <compoundname>hd98</compoundname>
+    <innerclass refid="classhd98_1_1_hooke" prot="public">hd98::Hooke</innerclass>
+    <innerclass refid="classhd98_1_1_halm_dragon1998" prot="public">hd98::HalmDragon1998</innerclass>
+    <innerclass refid="classhd98_1_1_composite" prot="public">hd98::Composite</innerclass>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="hd98_8hpp_1a8dd9ff28f52f0df7fb5dfa5fd9cf3af0" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr size_t</type>
+        <definition>constexpr size_t hd98::dim</definition>
+        <argsstring></argsstring>
+        <name>dim</name>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hd98.hpp" line="9" column="18" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hd98.hpp" bodystart="9" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="hd98_8hpp_1a4c5314ba5c23e4fc15b2d3f423728909" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr size_t</type>
+        <definition>constexpr size_t hd98::sym</definition>
+        <argsstring></argsstring>
+        <name>sym</name>
+        <initializer>= 6</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hd98.hpp" line="10" column="18" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hd98.hpp" bodystart="10" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="hd98_8hpp_1a7d7a3ff40f2cfa5abe4f6df200baac04" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr int</type>
+        <definition>constexpr int hd98::tangent_stiffness</definition>
+        <argsstring></argsstring>
+        <name>tangent_stiffness</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hd98.hpp" line="12" column="15" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hd98.hpp" bodystart="12" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="hd98_8hpp_1a0168eb02dc46bd5b3a7d3106aab281e3" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr int</type>
+        <definition>constexpr int hd98::secant_stiffness</definition>
+        <argsstring></argsstring>
+        <name>secant_stiffness</name>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hd98.hpp" line="13" column="15" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hd98.hpp" bodystart="13" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="hooke_8hpp_1a358ac0a18ae54623df7d74445029ef0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; hd98::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;os, const Hooke &amp;mat)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>os</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classhd98_1_1_hooke" kindref="compound">Hooke</ref> &amp;</type>
+          <declname>mat</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hooke.hpp" line="77" column="1" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hooke.hpp" bodystart="77" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="halm__dragon__1998_8hpp_1aca1cc482ce58c39beb2ac3dfda8a117e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; hd98::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;os, const HalmDragon1998 &amp;mat)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>os</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classhd98_1_1_halm_dragon1998" kindref="compound">HalmDragon1998</ref> &amp;</type>
+          <declname>mat</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" line="110" column="1" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp" bodystart="110" bodyend="112"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hd98.hpp" line="8" column="1"/>
+  </compounddef>
+</doxygen>

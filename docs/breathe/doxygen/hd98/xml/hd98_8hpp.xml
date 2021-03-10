@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="hd98_8hpp" kind="file" language="C++">
+    <compoundname>hd98.hpp</compoundname>
+    <includes local="no">ostream</includes>
+    <includes local="no">span</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="hooke_8hpp" local="yes">C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hooke.hpp</includedby>
+    <includedby refid="halm__dragon__1998_8hpp" local="yes">C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp</includedby>
+    <includedby refid="composite_8hpp" local="no">C:/Users/sbrisard/Git/programmes/hd98/include/hd98/composite.hpp</includedby>
+    <incdepgraph>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>ostream</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+      <node id="1">
+        <label>C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hd98.hpp</label>
+        <link refid="hd98_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>span</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="4">
+        <label>C:/Users/sbrisard/Git/programmes/hd98/include/hd98/halm_dragon_1998.hpp</label>
+        <link refid="halm__dragon__1998_8hpp_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hooke.hpp</label>
+        <link refid="hooke_8hpp_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hd98.hpp</label>
+        <link refid="hd98_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>C:/Users/sbrisard/Git/programmes/hd98/include/hd98/composite.hpp</label>
+        <link refid="composite_8hpp_source"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacehd98">hd98</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;ostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;span&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">hd98<sp/>{</highlight></codeline>
+<codeline lineno="9"><highlight class="normal">constexpr<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal">constexpr<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>sym<sp/>=<sp/>6;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal">constexpr<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>tangent_stiffness<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal">constexpr<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>secant_stiffness<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>hd98</highlight></codeline>
+    </programlisting>
+    <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hd98.hpp"/>
+  </compounddef>
+</doxygen>

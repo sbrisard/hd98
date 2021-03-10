@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classhd98_1_1_composite" kind="class" language="C++" prot="public">
+    <compoundname>hd98::Composite</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classhd98_1_1_composite_1ada63981b5041711f2ca45747df37048b" prot="public" static="no" mutable="no">
+        <type><ref refid="classhd98_1_1_hooke" kindref="compound">Hooke</ref> const</type>
+        <definition>Hooke const hd98::Composite::hooke</definition>
+        <argsstring></argsstring>
+        <name>hooke</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/composite.hpp" line="13" column="15" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/composite.hpp" bodystart="13" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classhd98_1_1_composite_1a489732153945ccb6810f91c73b704cf4" prot="public" static="no" mutable="no">
+        <type><ref refid="classhd98_1_1_halm_dragon1998" kindref="compound">HalmDragon1998</ref> const</type>
+        <definition>HalmDragon1998 const hd98::Composite::halm_dragon_1998</definition>
+        <argsstring></argsstring>
+        <name>halm_dragon_1998</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/composite.hpp" line="14" column="24" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/composite.hpp" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classhd98_1_1_composite_1a181ce3ec05e16c89261453962499fc17" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>hd98::Composite::Composite</definition>
+        <argsstring>(Hooke const &amp;hooke, HalmDragon1998 const &amp;halm_dragon_1998)</argsstring>
+        <name>Composite</name>
+        <param>
+          <type><ref refid="classhd98_1_1_hooke" kindref="compound">Hooke</ref> const &amp;</type>
+          <declname>hooke</declname>
+        </param>
+        <param>
+          <type><ref refid="classhd98_1_1_halm_dragon1998" kindref="compound">HalmDragon1998</ref> const &amp;</type>
+          <declname>halm_dragon_1998</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/composite.hpp" line="16" column="3" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/composite.hpp" bodystart="16" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classhd98_1_1_composite_1ac66a6d03d7e60d489d598bc08d9155e9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void hd98::Composite::update</definition>
+        <argsstring>(int num_phases, int const *phase, double const *delta_eps, double const *eps1, double const *omega1, double *sig2, double *omega2, double *C2)</argsstring>
+        <name>update</name>
+        <param>
+          <type>int</type>
+          <declname>num_phases</declname>
+        </param>
+        <param>
+          <type>int const *</type>
+          <declname>phase</declname>
+        </param>
+        <param>
+          <type>double const *</type>
+          <declname>delta_eps</declname>
+        </param>
+        <param>
+          <type>double const *</type>
+          <declname>eps1</declname>
+        </param>
+        <param>
+          <type>double const *</type>
+          <declname>omega1</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>sig2</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>omega2</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>C2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/composite.hpp" line="19" column="8" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/composite.hpp" bodystart="19" bodyend="45"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>hd98::Composite</label>
+        <link refid="classhd98_1_1_composite"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>halm_dragon_1998</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>hooke</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>hd98::HalmDragon1998</label>
+        <link refid="classhd98_1_1_halm_dragon1998"/>
+      </node>
+      <node id="3">
+        <label>hd98::Hooke</label>
+        <link refid="classhd98_1_1_hooke"/>
+      </node>
+    </collaborationgraph>
+    <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/composite.hpp" line="8" column="1" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/composite.hpp" bodystart="8" bodyend="46"/>
+    <listofallmembers>
+      <member refid="classhd98_1_1_composite_1a181ce3ec05e16c89261453962499fc17" prot="public" virt="non-virtual"><scope>hd98::Composite</scope><name>Composite</name></member>
+      <member refid="classhd98_1_1_composite_1a489732153945ccb6810f91c73b704cf4" prot="public" virt="non-virtual"><scope>hd98::Composite</scope><name>halm_dragon_1998</name></member>
+      <member refid="classhd98_1_1_composite_1ada63981b5041711f2ca45747df37048b" prot="public" virt="non-virtual"><scope>hd98::Composite</scope><name>hooke</name></member>
+      <member refid="classhd98_1_1_composite_1ac66a6d03d7e60d489d598bc08d9155e9" prot="public" virt="non-virtual"><scope>hd98::Composite</scope><name>update</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

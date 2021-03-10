@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.9.1" xml:lang="en-US">
+  <compound refid="classhd98_1_1_composite" kind="class"><name>hd98::Composite</name>
+    <member refid="classhd98_1_1_composite_1ada63981b5041711f2ca45747df37048b" kind="variable"><name>hooke</name></member>
+    <member refid="classhd98_1_1_composite_1a489732153945ccb6810f91c73b704cf4" kind="variable"><name>halm_dragon_1998</name></member>
+    <member refid="classhd98_1_1_composite_1a181ce3ec05e16c89261453962499fc17" kind="function"><name>Composite</name></member>
+    <member refid="classhd98_1_1_composite_1ac66a6d03d7e60d489d598bc08d9155e9" kind="function"><name>update</name></member>
+  </compound>
+  <compound refid="classhd98_1_1_halm_dragon1998" kind="class"><name>hd98::HalmDragon1998</name>
+    <member refid="classhd98_1_1_halm_dragon1998_1a84174ecac7d6f5bf1188823f87cd924b" kind="variable"><name>lambda</name></member>
+    <member refid="classhd98_1_1_halm_dragon1998_1a4946c7c102fdb1b0609e22ce2230f9b2" kind="variable"><name>mu</name></member>
+    <member refid="classhd98_1_1_halm_dragon1998_1a2926bd4f8f527832e640b3721bfbfae2" kind="variable"><name>alpha</name></member>
+    <member refid="classhd98_1_1_halm_dragon1998_1a37a66ce4a7c0dcc166dae2521d1e5280" kind="variable"><name>beta</name></member>
+    <member refid="classhd98_1_1_halm_dragon1998_1af667b725298f15389cafb52725f76973" kind="variable"><name>k0_sqrt2</name></member>
+    <member refid="classhd98_1_1_halm_dragon1998_1aec8e46ea072f30aed4dc47ef6975d142" kind="variable"><name>k1_sqrt2</name></member>
+    <member refid="classhd98_1_1_halm_dragon1998_1ab49a29bbe58c1c33945fb23b521638fb" kind="variable"><name>stiffness_type</name></member>
+    <member refid="classhd98_1_1_halm_dragon1998_1a5d0274a2e8d50182a020e14b62c21f8c" kind="function"><name>HalmDragon1998</name></member>
+    <member refid="classhd98_1_1_halm_dragon1998_1a7f65c917a0fdacc5091f843f6be20a56" kind="function"><name>repr</name></member>
+    <member refid="classhd98_1_1_halm_dragon1998_1af00e855c25215ec1e5747e5a841d3962" kind="function"><name>current_state</name></member>
+    <member refid="classhd98_1_1_halm_dragon1998_1a735b668988510723ff5f6c149645706f" kind="function"><name>update</name></member>
+  </compound>
+  <compound refid="classhd98_1_1_hooke" kind="class"><name>hd98::Hooke</name>
+    <member refid="classhd98_1_1_hooke_1a0132de99ad322aca7c5f90a4ee231137" kind="variable"><name>lambda</name></member>
+    <member refid="classhd98_1_1_hooke_1ae00e6d2cf4ac6d58dded544d0fdcc050" kind="variable"><name>mu</name></member>
+    <member refid="classhd98_1_1_hooke_1a90c6c1f2e3185b52f80a8ae7c01b041d" kind="variable"><name>C</name></member>
+    <member refid="classhd98_1_1_hooke_1a2f97f8e3cbeb1ba16db863bd63a98d55" kind="function"><name>Hooke</name></member>
+    <member refid="classhd98_1_1_hooke_1a602763858113da67696b5b3b11f2f146" kind="function"><name>repr</name></member>
+    <member refid="classhd98_1_1_hooke_1a23351884c775c6ed3a97b0ecc406efee" kind="function"><name>current_state</name></member>
+    <member refid="classhd98_1_1_hooke_1a36f2e326560840f239dcebc3afa346dc" kind="function"><name>update</name></member>
+    <member refid="classhd98_1_1_hooke_1a5196147b40c33d92f782f1b514313f08" kind="function"><name>stiffness_matrix</name></member>
+  </compound>
+  <compound refid="namespacehd98" kind="namespace"><name>hd98</name>
+    <member refid="hd98_8hpp_1a8dd9ff28f52f0df7fb5dfa5fd9cf3af0" kind="variable"><name>dim</name></member>
+    <member refid="hd98_8hpp_1a4c5314ba5c23e4fc15b2d3f423728909" kind="variable"><name>sym</name></member>
+    <member refid="hd98_8hpp_1a7d7a3ff40f2cfa5abe4f6df200baac04" kind="variable"><name>tangent_stiffness</name></member>
+    <member refid="hd98_8hpp_1a0168eb02dc46bd5b3a7d3106aab281e3" kind="variable"><name>secant_stiffness</name></member>
+    <member refid="hooke_8hpp_1a358ac0a18ae54623df7d74445029ef0c" kind="function"><name>operator&lt;&lt;</name></member>
+    <member refid="halm__dragon__1998_8hpp_1aca1cc482ce58c39beb2ac3dfda8a117e" kind="function"><name>operator&lt;&lt;</name></member>
+  </compound>
+  <compound refid="composite_8hpp" kind="file"><name>composite.hpp</name>
+  </compound>
+  <compound refid="halm__dragon__1998_8hpp" kind="file"><name>halm_dragon_1998.hpp</name>
+  </compound>
+  <compound refid="hd98_8hpp" kind="file"><name>hd98.hpp</name>
+  </compound>
+  <compound refid="hooke_8hpp" kind="file"><name>hooke.hpp</name>
+  </compound>
+  <compound refid="dir_f68b81ffb4581ae30fb9ca1eee071683" kind="dir"><name>C:/Users/sbrisard/Git/programmes/hd98/include/hd98</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>C:/Users/sbrisard/Git/programmes/hd98/include</name>
+  </compound>
+</doxygenindex>

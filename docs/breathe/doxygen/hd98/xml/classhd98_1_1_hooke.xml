@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="classhd98_1_1_hooke" kind="class" language="C++" prot="public">
+    <compoundname>hd98::Hooke</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classhd98_1_1_hooke_1a0132de99ad322aca7c5f90a4ee231137" prot="public" static="no" mutable="no">
+        <type>double const</type>
+        <definition>double const hd98::Hooke::lambda</definition>
+        <argsstring></argsstring>
+        <name>lambda</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hooke.hpp" line="12" column="16" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hooke.hpp" bodystart="12" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classhd98_1_1_hooke_1ae00e6d2cf4ac6d58dded544d0fdcc050" prot="public" static="no" mutable="no">
+        <type>double const</type>
+        <definition>double const hd98::Hooke::mu</definition>
+        <argsstring></argsstring>
+        <name>mu</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hooke.hpp" line="13" column="16" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hooke.hpp" bodystart="13" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classhd98_1_1_hooke_1a90c6c1f2e3185b52f80a8ae7c01b041d" prot="public" static="no" mutable="no">
+        <type>std::array&lt; double, sym *sym &gt; const</type>
+        <definition>std::array&lt;double, sym * sym&gt; const hd98::Hooke::C</definition>
+        <argsstring></argsstring>
+        <name>C</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hooke.hpp" line="14" column="20" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hooke.hpp" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classhd98_1_1_hooke_1a2f97f8e3cbeb1ba16db863bd63a98d55" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>hd98::Hooke::Hooke</definition>
+        <argsstring>(double lambda, double mu)</argsstring>
+        <name>Hooke</name>
+        <param>
+          <type>double</type>
+          <declname>lambda</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>mu</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hooke.hpp" line="16" column="3" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hooke.hpp" bodystart="16" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classhd98_1_1_hooke_1a602763858113da67696b5b3b11f2f146" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string hd98::Hooke::repr</definition>
+        <argsstring>() const</argsstring>
+        <name>repr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hooke.hpp" line="19" column="16" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hooke.hpp" bodystart="19" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classhd98_1_1_hooke_1a23351884c775c6ed3a97b0ecc406efee" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void hd98::Hooke::current_state</definition>
+        <argsstring>(double const *eps, double const *unused, double *sig) const</argsstring>
+        <name>current_state</name>
+        <param>
+          <type>double const *</type>
+          <declname>eps</declname>
+        </param>
+        <param>
+          <type>double const *</type>
+          <declname>unused</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>sig</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hooke.hpp" line="27" column="8" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hooke.hpp" bodystart="27" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classhd98_1_1_hooke_1a36f2e326560840f239dcebc3afa346dc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void hd98::Hooke::update</definition>
+        <argsstring>(double const *delta_eps, double const *eps1, double const *unused1, double *sig2, double *unused2, double *C2) const</argsstring>
+        <name>update</name>
+        <param>
+          <type>double const *</type>
+          <declname>delta_eps</declname>
+        </param>
+        <param>
+          <type>double const *</type>
+          <declname>eps1</declname>
+        </param>
+        <param>
+          <type>double const *</type>
+          <declname>unused1</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>sig2</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>unused2</declname>
+        </param>
+        <param>
+          <type>double *</type>
+          <declname>C2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hooke.hpp" line="43" column="8" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hooke.hpp" bodystart="43" bodyend="59"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classhd98_1_1_hooke_1a5196147b40c33d92f782f1b514313f08" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::array&lt; double, sym *sym &gt;</type>
+        <definition>static std::array&lt;double, sym * sym&gt; hd98::Hooke::stiffness_matrix</definition>
+        <argsstring>(double lambda, double mu)</argsstring>
+        <name>stiffness_matrix</name>
+        <param>
+          <type>double</type>
+          <declname>lambda</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>mu</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hooke.hpp" line="63" column="21" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hooke.hpp" bodystart="63" bodyend="74"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hooke.hpp" line="10" column="1" bodyfile="C:/Users/sbrisard/Git/programmes/hd98/include/hd98/hooke.hpp" bodystart="10" bodyend="75"/>
+    <listofallmembers>
+      <member refid="classhd98_1_1_hooke_1a90c6c1f2e3185b52f80a8ae7c01b041d" prot="public" virt="non-virtual"><scope>hd98::Hooke</scope><name>C</name></member>
+      <member refid="classhd98_1_1_hooke_1a23351884c775c6ed3a97b0ecc406efee" prot="public" virt="non-virtual"><scope>hd98::Hooke</scope><name>current_state</name></member>
+      <member refid="classhd98_1_1_hooke_1a2f97f8e3cbeb1ba16db863bd63a98d55" prot="public" virt="non-virtual"><scope>hd98::Hooke</scope><name>Hooke</name></member>
+      <member refid="classhd98_1_1_hooke_1a0132de99ad322aca7c5f90a4ee231137" prot="public" virt="non-virtual"><scope>hd98::Hooke</scope><name>lambda</name></member>
+      <member refid="classhd98_1_1_hooke_1ae00e6d2cf4ac6d58dded544d0fdcc050" prot="public" virt="non-virtual"><scope>hd98::Hooke</scope><name>mu</name></member>
+      <member refid="classhd98_1_1_hooke_1a602763858113da67696b5b3b11f2f146" prot="public" virt="non-virtual"><scope>hd98::Hooke</scope><name>repr</name></member>
+      <member refid="classhd98_1_1_hooke_1a5196147b40c33d92f782f1b514313f08" prot="private" virt="non-virtual"><scope>hd98::Hooke</scope><name>stiffness_matrix</name></member>
+      <member refid="classhd98_1_1_hooke_1a36f2e326560840f239dcebc3afa346dc" prot="public" virt="non-virtual"><scope>hd98::Hooke</scope><name>update</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
