@@ -16,7 +16,7 @@ class Composite {
   Composite(Hooke const &hooke, HalmDragon1998 const &halm_dragon_1998)
       : hooke{hooke}, halm_dragon_1998{halm_dragon_1998} {}
 
-  void update(std::span<size_t> phase, double const *delta_eps,
+  void update(std::span<int> phase, double const *delta_eps,
               double const *eps1, double const *omega1, double *sig2,
               double *omega2, double *C2) {
     double const *delta_eps_i = delta_eps;
