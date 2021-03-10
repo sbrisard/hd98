@@ -1,17 +1,17 @@
 #include <array>
 #include <cmath>
-#include <cstdio>
 #include <concepts>
+#include <cstdio>
 #include <iterator>
 #include <memory>
 #include <numeric>
 
 #include <catch2/catch.hpp>
 
+#include "hd98/composite.hpp"
+#include "hd98/halm_dragon_1998.hpp"
 #include "hd98/hd98.hpp"
 #include "hd98/hooke.hpp"
-#include "hd98/halm_dragon_1998.hpp"
-#include "hd98/composite.hpp"
 
 using Tensor2 = std::array<double, hd98::sym>;
 using Tensor4 = std::array<double, hd98::sym * hd98::sym>;
@@ -34,9 +34,9 @@ inline void assert_approx_equal(double act, double exp, double rtol,
 
 template <typename It>
 requires std::input_iterator<It>&&
-         std::same_as<std::iter_value_t<It>, double> void
-assert_approx_equal(It act_start, It act_end, It exp_start, double rtol,
-                    double atol) {
+    std::same_as<std::iter_value_t<It>, double> void
+    assert_approx_equal(It act_start, It act_end, It exp_start, double rtol,
+                        double atol) {
   for (auto act = act_start, exp = exp_start; act != act_end; ++act, ++exp) {
     assert_approx_equal(*act, *exp, rtol, atol);
   }
@@ -107,7 +107,7 @@ static void test_hooke_update(hd98::Hooke const& mat) {
     delta_eps[i] = 0.;
   }
 }
-void test_halm_dragon_1998_current_state(hd98::HalmDragon1998 const &mat) {
+void test_halm_dragon_1998_current_state(hd98::HalmDragon1998 const& mat) {
   Tensor2 eps{1.2, -3.4, 5.6, -7.8, 9., -10.11};
   std::array<double, 1> omega{0.4};
   Tensor2 sig_act{};
@@ -122,7 +122,7 @@ void test_halm_dragon_1998_current_state(hd98::HalmDragon1998 const &mat) {
 }
 
 void test_halm_dragon_1998_update_proportional_strain(
-    hd98::HalmDragon1998 const &mat, Tensor2 const eps_dot) {
+    hd98::HalmDragon1998 const& mat, Tensor2 const eps_dot) {
   double atol = 1e-15;
   double rtol = 1e-15;
 
@@ -214,8 +214,9 @@ void test_composite_update() {
     omega1[i] = ((double)i) / (n - 1.0) * 0.4;
   }
 
-  composite.update(phase, delta_eps.data(), eps1.data(), omega1.data(),
-                   sig2_act.data(), omega2_act.data(), C2_act.data());
+  composite.update(phase.size(), phase.data(), delta_eps.data(), eps1.data(),
+                   omega1.data(), sig2_act.data(), omega2_act.data(),
+                   C2_act.data());
   for (size_t i = 0; i < n; i++) {
     if (phase[i] == 0) {
       composite.hooke.update(
@@ -260,8 +261,7 @@ TEST_CASE("HalmDragon1998") {
   hd98::HalmDragon1998 mat{
       lambda, mu, alpha, beta, k0, k1, hd98::tangent_stiffness};
 
-  SECTION("Current state") {
-    test_halm_dragon_1998_current_state(mat); }
+  SECTION("Current state") { test_halm_dragon_1998_current_state(mat); }
 
   SECTION("Update 1") {
     Tensor2 eps1{};

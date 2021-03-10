@@ -1,8 +1,8 @@
 #pragma once
 
+#include <hd98/halm_dragon_1998.hpp>
 #include <hd98/hd98.hpp>
 #include <hd98/hooke.hpp>
-#include <hd98/halm_dragon_1998.hpp>
 
 namespace hd98 {
 class Composite {
@@ -16,9 +16,10 @@ class Composite {
   Composite(Hooke const &hooke, HalmDragon1998 const &halm_dragon_1998)
       : hooke{hooke}, halm_dragon_1998{halm_dragon_1998} {}
 
-  void update(std::span<int> phase, double const *delta_eps,
+  void update(int num_phases, int const *phase, double const *delta_eps,
               double const *eps1, double const *omega1, double *sig2,
               double *omega2, double *C2) {
+    int const *phase_i = phase;
     double const *delta_eps_i = delta_eps;
     double const *eps1_i = eps1;
     double const *omega1_i = omega1;
@@ -26,13 +27,14 @@ class Composite {
     double *omega2_i = omega2;
     double *C2_i = C2;
 
-    for (auto phase_i : phase) {
-      if (phase_i == 0) {
+    for (int i = 0; i < num_phases; i++) {
+      if (*phase_i == 0) {
         hooke.update(delta_eps_i, eps1_i, omega1_i, sig2_i, omega2_i, C2_i);
       } else {
         halm_dragon_1998.update(delta_eps_i, eps1_i, omega1_i, sig2_i, omega2_i,
                                 C2_i);
       }
+      phase_i += 1;
       delta_eps_i += sym;
       eps1_i += sym;
       omega1_i += 1;
@@ -42,4 +44,4 @@ class Composite {
     }
   }
 };
-}
+}  // namespace hd98
