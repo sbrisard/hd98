@@ -26,7 +26,7 @@ todo_include_todos = True
 breathe_projects_source = {
     "hd98": (
         str(project_root / "include" / "hd98"),
-        ["hd98.hpp"],
+        ["hd98.hpp", "hooke.hpp", "halm_dragon_1998.hpp", "composite.hpp"],
     )
 }
 

@@ -2,7 +2,7 @@
 API documentation of the Python bindings
 ****************************************
 
-.. automodule:: hd98.hd98
+.. automodule:: pyhd98
    :members:
    :private-members:
    :undoc-members:
