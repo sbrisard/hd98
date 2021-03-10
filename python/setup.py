@@ -26,15 +26,15 @@ if __name__ == "__main__":
     config = configparser.ConfigParser()
     config.read("setup.cfg")
     hd98_include_dir = config["hd98"].get("include_dir", "")
-    hd98_library_dir = config["hd98"].get("library_dir", "")
+    #hd98_library_dir = config["hd98"].get("library_dir", "")
 
     pyhd98 = setuptools.Extension(
         "pyhd98",
         include_dirs=[pybind11.get_include(),
                       hd98_include_dir],
         sources=["pyhd98.cpp"],
-        libraries=["hd98"],
-        library_dirs=[hd98_library_dir],
+        # libraries=["hd98"],
+        # library_dirs=[hd98_library_dir],
         define_macros=[
             ("__HD98_VERSION__", r"\"" + metadata["version"] + r"\""),
             ("__HD98_AUTHOR__", r"\"" + metadata["author"] + r"\""),

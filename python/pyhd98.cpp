@@ -1,12 +1,14 @@
 #include <pybind11/numpy.h>
 #include <pybind11/pybind11.h>
 
+#include "hd98/composite.hpp"
 #include "hd98/halm_dragon_1998.hpp"
 #include "hd98/hd98.hpp"
 #include "hd98/hooke.hpp"
 
 namespace py = pybind11;
 
+using array1i = py::array_t<int>;
 using array1d = py::array_t<double>;
 
 PYBIND11_MODULE(pyhd98, m) {
@@ -43,7 +45,8 @@ PYBIND11_MODULE(pyhd98, m) {
       .def("current_state",
            [](hd98::HalmDragon1998& self, array1d eps, array1d omega,
               array1d sig) {
-             return self.current_state(eps.data(), omega.data(), sig.mutable_data());
+             return self.current_state(eps.data(), omega.data(),
+                                       sig.mutable_data());
            })
       .def("update",
            [](hd98::HalmDragon1998& self, array1d delta_eps, array1d eps1,
@@ -52,4 +55,14 @@ PYBIND11_MODULE(pyhd98, m) {
                                 sig2.mutable_data(), omega2.mutable_data(),
                                 C2.mutable_data());
            });
+
+  py::class_<hd98::Composite>(m, "Composite")
+      .def(py::init<hd98::Hooke, hd98::HalmDragon1998>())
+      .def("update", [](hd98::Composite& self, array1i phase, array1d delta_eps,
+                        array1d eps1, array1d omega1, array1d sig2,
+                        array1d omega2, array1d C2) {
+        return self.update(phase.size(), phase.data(), delta_eps.data(),
+                           eps1.data(), omega1.data(), sig2.mutable_data(),
+                           omega2.mutable_data(), C2.mutable_data());
+      });
 }
