@@ -51,7 +51,6 @@ def test_hooke_update():
     C2_act = np.zeros((sym, sym), dtype=np.float64)
     hooke.update(delta_eps, eps1, np.array(0.0), sig2_act, np.array(0.0), C2_act)
 
-    sig2_exp = np.zeros_like(I)
     tr_eps = delta_eps[:dim].sum()
     sig2_exp = lambda_ * tr_eps * I + 2 * mu * delta_eps
 
